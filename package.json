@@ -1,0 +1,39 @@
+{
+  "name": "cc.monopoly",
+  "version": "1.0.0",
+  "description": "Monopoly Board Game",
+  "main": "index.js",
+  "scripts": {
+    "start": "webpack --config webpack.config.js --mode=development --watch",
+    "build": "webpack --config webpack.config.js --mode=production"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lokers778/CC.Monopoly.git"
+  },
+  "keywords": [
+    "es6",
+    "Monopoly",
+    "coderscamp"
+  ],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/lokers778/CC.Monopoly/issues"
+  },
+  "homepage": "https://github.com/lokers778/CC.Monopoly#readme",
+  "devDependencies": {
+    "@babel/cli": "^7.5.5",
+    "@babel/core": "^7.5.5",
+    "babel-loader": "^8.0.6",
+    "css-loader": "^0.28.11",
+    "mini-css-extract-plugin": "^0.8.0",
+    "node-sass": "^4.12.0",
+    "npm": "^6.11.2",
+    "perm": "^1.0.0",
+    "sass-loader": "^6.0.7",
+    "style-loader": "^0.23.1",
+    "webpack": "^4.39.2",
+    "webpack-cli": "^3.3.7"
+  }
+}
