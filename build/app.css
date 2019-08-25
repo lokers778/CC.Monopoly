@@ -1,3 +1,65 @@
-body {
-  background-color: blue; }
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box; }
+
+.game {
+  margin: 0 auto;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center; }
+
+.newGame {
+  position: fixed;
+  z-index: 1;
+  height: 100vh;
+  width: 100vw;
+  top: 0;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center; }
+  .newGame .mainPanel {
+    width: 60vh;
+    background-color: royalblue;
+    height: 40vh;
+    display: flex;
+    flex-direction: row; }
+    .newGame .mainPanel div {
+      width: 50%; }
+
+.controlPanel {
+  width: 20%;
+  height: 100%;
+  background-color: gold; }
+
+.board {
+  width: 80%;
+  background-color: lightblue;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center; }
+  .board .firstRow, .board .thirdRow {
+    display: flex; }
+    .board .firstRow div, .board .thirdRow div {
+      width: 6.92308vh;
+      height: 13.84615vh;
+      border: 1px solid black; }
+      .board .firstRow div:nth-child(1), .board .firstRow div:last-child, .board .thirdRow div:nth-child(1), .board .thirdRow div:last-child {
+        width: 13.84615vh; }
+  .board .secondRow {
+    display: flex; }
+    .board .secondRow div {
+      width: 13.84615vh;
+      height: 62.30769vh;
+      border: 1px solid black;
+      display: flex;
+      flex-direction: column; }
+    .board .secondRow .middle {
+      width: 62.30769vh;
+      height: 62.30769vh; }
 
