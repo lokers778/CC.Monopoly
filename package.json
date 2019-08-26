@@ -4,8 +4,8 @@
   "description": "Monopoly Board Game",
   "main": "index.js",
   "scripts": {
-    "start": "webpack --config webpack.config.js --mode=development --watch",
-    "build": "webpack --config webpack.config.js --mode=production"
+    "start": "webpack-dev-server --watch",
+    "build": "webpack --mode production"
   },
   "repository": {
     "type": "git",
@@ -34,6 +34,9 @@
     "sass-loader": "^6.0.7",
     "style-loader": "^0.23.1",
     "webpack": "^4.39.2",
-    "webpack-cli": "^3.3.7"
+    "webpack-cli": "^3.3.7",
+    "webpack-dev-server": "^3.8.0",
+    "eslint": "^6.1.0",
+    "prettier": "1.18.2"
   }
 }

@@ -1,32 +1,34 @@
-.board{
-width: 80%;
+.board {
+  width: 80%;
   background-color: $backgroundColor;
   height: 100%;
   display: flex;
   flex-direction: column;
- align-items: center;
+  align-items: center;
   justify-content: center;
-.firstRow, .thirdRow{
-  display: flex;
-  div{
-    width:$sizeFraction;
-    height: 2* $sizeFraction;
-    border: 1px solid black;
-    &:nth-child(1), &:last-child{
-      width:2* $sizeFraction;
+  .firstRow,
+  .thirdRow {
+    display: flex;
+    div {
+      width: $sizeFraction;
+      height: 2 * $sizeFraction;
+      border: 1px solid black;
+      &:nth-child(1),
+      &:last-child {
+        width: 2 * $sizeFraction;
+      }
     }
   }
-}
-  .secondRow{
+  .secondRow {
     display: flex;
-    div{
+    div {
       width: 2 * $sizeFraction;
       height: 9 * $sizeFraction;
       border: 1px solid black;
       display: flex;
       flex-direction: column;
     }
-    .middle{
+    .middle {
       width: 9 * $sizeFraction;
       height: 9 * $sizeFraction;
     }
