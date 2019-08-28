@@ -526,3 +526,4 @@ MigrationBackup/
 
 # User defined
 [Bb]uild/
+.idea/
