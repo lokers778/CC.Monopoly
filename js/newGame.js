@@ -33,12 +33,12 @@ function makeHTML(regions) {
     html = `
         <h3>Lokalizacje:</h3>
         <form name='searchCitiesForm'>
-            <select name='regionsList'>`;
+            <select name='regionsList' id='regionsList'>`;
     regions.forEach( (val) => {
         if (val) {
             html += `
                 <option value="${val}">${val}</option>`;
-        };
+        }
     });
     html += `
             </select>
@@ -47,15 +47,16 @@ function makeHTML(regions) {
             </ul>
         </form>`;
     el.innerHTML = html;
-    el.addEventListener('change', chooseRegion);    // to chyba nie jest dobrze, ale działa (źle podczepiony EveLis)...
     parentElement.insertBefore(el, parentElement.childNodes[0]);
+    document.getElementById('regionsList').addEventListener('change', regionChanged);
     document.querySelector('#search').addEventListener('change', searchChanged);
     document.querySelector('#search').addEventListener('keyup', searchChanged);
-    getCountriesByRegion( document.getElementsByName('regionsList')[0].value, document.querySelector('#search').value );
+    getCountriesByRegion( document.querySelector('#regionsList').value, document.querySelector('#search').value );
 }
 
-function chooseRegion(e) {  // reakcja na zmianę 'region' (kontynent)
-    getCountriesByRegion( document.getElementsByName('regionsList')[0].value, document.querySelector('#search').value );
+function regionChanged() {  // reakcja na zmianę/wybór 'region' (kontynent)
+    document.querySelector('#search').value = '';
+    searchChanged();
 }
 
 function getCountriesByRegion(region, search) { // dostosowuje listę krajów w podpowiedzi do 'region' i wpisanego kryterium wyszukiwania
@@ -76,28 +77,50 @@ function getCountriesByRegion(region, search) { // dostosowuje listę krajów w 
     return arr;
 }
 
-function searchChanged(e) { // reaguje na zmiany w polu 'search'
-    let res = getCountriesByRegion( document.getElementsByName('regionsList')[0].value, document.querySelector('#search').value );
+function searchChanged() { // reaguje na zmiany w polu 'search' (wybór kraju)
+    let res = getCountriesByRegion( document.querySelector('#regionsList').value, document.querySelector('#search').value );
     let el = document.querySelector('#citiesInitSection');
     if (res.length === 1) { // kiedy na liście podpowiedzi jest tylko jedna pozycja, udaje wybór
         document.querySelector('#search').value = res[0].name;
+        let countryCode = geoData.filter( (val) => { return (val.name === res[0].name); } )[0].alpha2Code.toLowerCase();
         if (el.lastElementChild.name !== 'countryFlag') {   // jeśli dla wyboru nie ma flagi - pobiera grafikę
-            let countryCode = geoData.filter( (val) => { return (val.name === res[0].name); } )[0].alpha2Code.toLowerCase();
             const img = document.createElement('img');
             img.src = `https://www.countryflags.io/${countryCode}/shiny/64.png`;
             img.alt = 'country flag';
             img.name = 'countryFlag';
-            el.appendChild(img);
-        };
-    } else {    // jeśli wybór znów nie jest jednoznaczny, usuwa flagę
-        let cf = document.getElementsByName('countryFlag')[0];
-        if (cf) {
-            cf.parentElement.removeChild(document.getElementsByName('countryFlag')[0]);
+            img.id = 'countryFlag';
+            // el.appendChild(img);
+            el.insertBefore(img, el.lastElementChild);
         }
-    };
+
+        fetchCities(countryCode.toUpperCase()); // pobranie miast
+
+    } else {    // jeśli wybór znów nie jest jednoznaczny, usuwa flagę
+        let cf = document.querySelector('#countryFlag');
+        if (cf) {
+            cf.parentElement.removeChild(cf);
+        }
+    }
 }
 
 function suggestionClicked(e) { // po kliknięciu w podpowiedź wstawia wybraną wartość w 'search' i odświeża korzystając z funkcji reagującej na zmiany w 'serach'
     document.querySelector('#search').value = e.target.innerText;
     searchChanged();
+}
+
+function fetchCities(country) {
+    let url = `http://api.geonames.org/search?country=${country}&type=json&username=MarKust71`;
+    let cities = [];
+    fetch(url, { "method": "GET", })
+    .then(res => res.json() )
+    .then(res => {
+        res.geonames.map( (val) => { 
+            if (val.fcl === 'P') {
+                cities.push( { name: val.name, population: val.population } );
+            }
+        });
+        cities.sort( (a, b) => { return b.population - a.population; } );
+        console.log(cities);
+    })
+    .catch(err => console.log(err));
 }

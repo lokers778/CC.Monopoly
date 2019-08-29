@@ -1,4 +1,4 @@
-import {citiesInit} from './newGame.js'
+import {citiesInit} from './newGame';
 citiesInit();
 
 console.log('heeeeeelllloooo World');
