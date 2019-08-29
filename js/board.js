@@ -1,4 +1,5 @@
 import Property from './Fields/property';
+import Tax from './Fields/tax';
 import colors from './colors';
 import Field from './field';
 
@@ -28,7 +29,7 @@ function getDefaultSchema() {
     [Field, '', 'east-train'],
     [Field, '', 'specialOne--1'],
     [Property, '', 'black-property--0', colors.BLACK, false],
-    [Field, '', 'specialPayTwo'],
+    [Tax, '', 'specialPayTwo'],
     [Property, '', 'black-property--1', colors.BLACK, true],
   ];
   const bottomRow = [
@@ -36,7 +37,7 @@ function getDefaultSchema() {
     [Property, '', 'brown-property--1', colors.BROWN, true],
     [Field, '', 'specialTwo--2'],
     [Property, '', 'brown-property--0', colors.BROWN, false],
-    [Field, '', 'specialPayOne'],
+    [Tax, '', 'specialPayOne'],
     [Field, '', 'south-train'],
     [Property, '', 'blue-property--2', colors.BLUE, true],
     [Field, '', 'specialOne--2'],
