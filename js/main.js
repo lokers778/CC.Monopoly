@@ -1,7 +1,10 @@
 import Board from './board';
 import colors from './colors';
+import newGame from './newGame'
 
 console.log('Monopoly is running');
+
+newGame();
 
 const board = new Board();
 console.log(board);
