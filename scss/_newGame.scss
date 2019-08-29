@@ -5,6 +5,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  background-color: $backgroundColor;
 }
 
 .newGame {
@@ -19,13 +20,43 @@
   align-items: center;
 
   .mainPanel {
-    width: 60vh;
-    background-color: royalblue;
-    height: 40vh;
     display: flex;
     flex-direction: row;
-    div {
+    width: 70vh;
+    height: 40vh;
+    background-color: royalblue;
+    border: 4px solid black;
+    border-radius: 30px;
+    .options,
+    .players {
       width: 50%;
+      text-align: center;
+      margin: 15px;
+      border: 2px solid black;
+      border-radius: 20px;
     }
+    .options{
+      .addPlayer{
+        margin: 10px 0;
+      }
+    }
+    .players{
+      h2{
+        margin: 10px 0;
+      }
+      ul{
+        list-style: none;
+        font-size: 20px;
+      }
+    }
+  }
+  button{
+    background-color: black;
+    color:white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 10px;
+    margin: 5px;
+    cursor: pointer;
   }
 }

@@ -1,87 +1,91 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <title>Monopoly</title>
-    <meta name="keywords" content="Monopoly, board game, es6, codersCamp" />
-    <meta name="description" content="Monopoly game in vanilla JS" />
-    <link rel="stylesheet" type="text/css" href="app.css" />
-  </head>
-  <body>
-    <section class="game">
-      <section class="controlPanel">Panel Kontrolny</section>
-      <section class="board">
-        <div class="firstRow">
-          <div class="parking"></div>
-          <div class="red property"></div>
-          <div class="specialOne"></div>
-          <div class="red property"></div>
-          <div class="red property"></div>
-          <div class="north train"></div>
-          <div class="yellow property"></div>
-          <div class="yellow property"></div>
-          <div class="specialThird"></div>
-          <div class="yellow property"></div>
-          <div class="goToJail"></div>
-        </div>
-        <div class="secondRow">
-          <div class="leftRow">
-            <div class="orange property"></div>
-            <div class="orange property"></div>
-            <div class="specialTwo"></div>
-            <div class="orange property"></div>
-            <div class="west train"></div>
-            <div class="pink property"></div>
-            <div class="pink property"></div>
-            <div class="specialThird"></div>
-            <div class="pink property"></div>
-          </div>
-          <div class="middle"></div>
-          <div class="rightRow">
-            <div class="green property"></div>
-            <div class="green property"></div>
-            <div class="specialTwo"></div>
-            <div class="green property"></div>
-            <div class="east train"></div>
-            <div class="specialOne"></div>
-            <div class="black property"></div>
-            <div class="specialPayTwo"></div>
-            <div class="black property"></div>
-          </div>
-        </div>
-        <div class="thirdRow">
-          <div class="jail"></div>
-          <div class="blue property"></div>
-          <div class="blue property"></div>
-          <div class="specialOne"></div>
-          <div class="blue property"></div>
-          <div class="south train"></div>
-          <div class="specialPayOne"></div>
-          <div class="brown property"></div>
+
+<head>
+  <meta charset="UTF-8" />
+  <title>Monopoly</title>
+  <meta name="keywords" content="Monopoly, board game, es6, codersCamp" />
+  <meta name="description" content="Monopoly game in vanilla JS" />
+  <link rel="stylesheet" type="text/css" href="app.css" />
+</head>
+
+<body>
+  <section class="game">
+    <section class="controlPanel">
+      <h2>Panel Kontrolny</h2>
+    </section>
+    <section class="board">
+      <div class="firstRow">
+        <div class="parking"></div>
+        <div class="red property"></div>
+        <div class="specialOne"></div>
+        <div class="red property"></div>
+        <div class="red property"></div>
+        <div class="north train"></div>
+        <div class="yellow property"></div>
+        <div class="yellow property"></div>
+        <div class="specialThird"></div>
+        <div class="yellow property"></div>
+        <div class="goToJail"></div>
+      </div>
+      <div class="secondRow">
+        <div class="leftRow">
+          <div class="orange property"></div>
+          <div class="orange property"></div>
           <div class="specialTwo"></div>
-          <div class="brown property"></div>
-          <div class="go"></div>
+          <div class="orange property"></div>
+          <div class="west train"></div>
+          <div class="pink property"></div>
+          <div class="pink property"></div>
+          <div class="specialThird"></div>
+          <div class="pink property"></div>
         </div>
-      </section>
+        <div class="middle"></div>
+        <div class="rightRow">
+          <div class="green property"></div>
+          <div class="green property"></div>
+          <div class="specialTwo"></div>
+          <div class="green property"></div>
+          <div class="east train"></div>
+          <div class="specialOne"></div>
+          <div class="black property"></div>
+          <div class="specialPayTwo"></div>
+          <div class="black property"></div>
+        </div>
+      </div>
+      <div class="thirdRow">
+        <div class="jail"></div>
+        <div class="blue property"></div>
+        <div class="blue property"></div>
+        <div class="specialOne"></div>
+        <div class="blue property"></div>
+        <div class="south train"></div>
+        <div class="specialPayOne"></div>
+        <div class="brown property"></div>
+        <div class="specialTwo"></div>
+        <div class="brown property"></div>
+        <div class="go"></div>
+      </div>
     </section>
-    <section class="newGame">
-      <section class="mainPanel">
-        <div class="players">
-          <ul>
-            <li>Przykładowy Gracz1</li>
-            <li>Przykładowy Gracz2</li>
-          </ul>
+  </section>
+  <section class="newGame">
+    <section class="mainPanel">
+      <div class="options">
+        <div class="addPlayer">
+          <input type="text" name="playerName" placeholder="Player Name" class="inputText">
+          <button class="addPlayerSubmit">Dodaj Gracza</button>
         </div>
-        <div class="options">
-          <div>Kolor</div>
-          <div>
-            <input type="text" name="playerName" placeholder="Player Name" />
-            <button>Dodaj Gracza</button>
-            <button>Zacznij Gre</button>
-          </div>
-        </div>
-      </section>
+      </div>
+      <div class="players">
+        <h2>Lista graczy:</h2>
+        <ul class="playersList">
+          <li class="playersListItem">Gracz 1<button class="btnDelete">X</button></li>
+          <li class="playersListItem">Gracz 2<button class="btnDelete">X</button></li>
+        </ul>
+      </div>
     </section>
-    <script src="index.js"></script>
-  </body>
+  </section>
+  <script src="index.js"></script>
+</body>
+
 </html>
