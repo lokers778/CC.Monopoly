@@ -37,4 +37,14 @@
   background-color: royalblue;
   margin-right: 2px;
 }
+
+.citiesInitSection li {
+  display: block;
+  cursor: inherit;
+}
+
+.citiesInitSection li:hover {
+  background-color: skyblue;
+  cursor: pointer; 
+}
 // ======================

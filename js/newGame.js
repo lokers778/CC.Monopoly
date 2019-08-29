@@ -14,7 +14,7 @@ export function citiesInit() {
     .then(res => {
         geoData.push(...res);
         let regions = geoData.map(collectRegions);
-        regions = [...new Set(regions)];
+        regions = [...new Set(regions)];    // pozostawia w 'regions' tylko unikalne wartości
         makeHTML(regions);
     })
     .catch(err => console.log(err));
@@ -32,7 +32,7 @@ function makeHTML(regions) {
     el.className = 'citiesInitSection';
     html = `
         <h3>Lokalizacje:</h3>
-        <form>
+        <form name='searchCitiesForm'>
             <select name='regionsList'>`;
     regions.forEach( (val) => {
         if (val) {
@@ -47,18 +47,18 @@ function makeHTML(regions) {
             </ul>
         </form>`;
     el.innerHTML = html;
-    el.addEventListener('change', chooseRegion);
+    el.addEventListener('change', chooseRegion);    // to chyba nie jest dobrze, ale działa (źle podczepiony EveLis)...
     parentElement.insertBefore(el, parentElement.childNodes[0]);
     document.querySelector('#search').addEventListener('change', searchChanged);
     document.querySelector('#search').addEventListener('keyup', searchChanged);
     getCountriesByRegion( document.getElementsByName('regionsList')[0].value, document.querySelector('#search').value );
 }
 
-function chooseRegion(e) {
+function chooseRegion(e) {  // reakcja na zmianę 'region' (kontynent)
     getCountriesByRegion( document.getElementsByName('regionsList')[0].value, document.querySelector('#search').value );
 }
 
-function getCountriesByRegion(region, search) {
+function getCountriesByRegion(region, search) { // dostosowuje listę krajów w podpowiedzi do 'region' i wpisanego kryterium wyszukiwania
     const arr = geoData.filter( (val) => { 
         const re = new RegExp(search, 'gi');
         let ret = ( (val.region === region) && val.name.match(re) );
@@ -73,13 +73,31 @@ function getCountriesByRegion(region, search) {
         el.addEventListener('click', suggestionClicked);
         parentElement.appendChild(el);
     } );
+    return arr;
 }
 
-function searchChanged(e) {
-    getCountriesByRegion( document.getElementsByName('regionsList')[0].value, document.querySelector('#search').value );
+function searchChanged(e) { // reaguje na zmiany w polu 'search'
+    let res = getCountriesByRegion( document.getElementsByName('regionsList')[0].value, document.querySelector('#search').value );
+    let el = document.querySelector('#citiesInitSection');
+    if (res.length === 1) { // kiedy na liście podpowiedzi jest tylko jedna pozycja, udaje wybór
+        document.querySelector('#search').value = res[0].name;
+        if (el.lastElementChild.name !== 'countryFlag') {   // jeśli dla wyboru nie ma flagi - pobiera grafikę
+            let countryCode = geoData.filter( (val) => { return (val.name === res[0].name); } )[0].alpha2Code.toLowerCase();
+            const img = document.createElement('img');
+            img.src = `https://www.countryflags.io/${countryCode}/shiny/64.png`;
+            img.alt = 'country flag';
+            img.name = 'countryFlag';
+            el.appendChild(img);
+        };
+    } else {    // jeśli wybór znów nie jest jednoznaczny, usuwa flagę
+        let cf = document.getElementsByName('countryFlag')[0];
+        if (cf) {
+            cf.parentElement.removeChild(document.getElementsByName('countryFlag')[0]);
+        }
+    };
 }
 
-function suggestionClicked(e) {
+function suggestionClicked(e) { // po kliknięciu w podpowiedź wstawia wybraną wartość w 'search' i odświeża korzystając z funkcji reagującej na zmiany w 'serach'
     document.querySelector('#search').value = e.target.innerText;
     searchChanged();
 }
