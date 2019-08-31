@@ -1,10 +1,6 @@
-import board from './main'
-import Property from './Fields/property'
+import board from './main';
+import Board from './board';
 
-const signalToBoard = (oldPos, newPos, data) => {
-  board[oldPos].playerOutMe(); //odpina się od pola, na którym stoi
-  board[newPos].playerOnMe(data); //dopina się do pola zwracając playerData
-}
 
 class Player {
   constructor(name, icon) {
@@ -14,7 +10,7 @@ class Player {
     this.properties = [];
     this.position = 0;
     this.prisonEscapeCard = 0;
-    this.bancrupt = false;
+    this.isBancrupt = false;
 
   }
   updateMoney(amount) {
@@ -31,13 +27,7 @@ class Player {
     const oldPosition = this.position;
     const tempPosition = this.position + move;
     this.position =  tempPosition >= 40 ? tempPosition - 40 : tempPosition ;
-    const playerData = {
-      name: this.name,
-      icon: this.icon,
-      lastMove: move
-    }
-    signalToBoard(oldPosition, this.position, playerData);
-
+    return [oldPosition,this.position]
   }
 
   currentPosition() {
@@ -48,12 +38,7 @@ class Player {
   setPosition(fieldID) {
     const oldPosition = this.position;
     this.position = fieldID;
-    const playerData = {
-      name: this.name,
-      icon: this.icon,
-      lastMove: null
-    }
-    signalToBoard(oldPosition, this.position, playerData);
+    return [oldPosition,this.position]
   }
 
   addProperty(property) {
@@ -73,18 +58,24 @@ class Player {
     this.prisonEscapeCard -= 1;
   }
 
-  isBuncrupt() {
-    return this.isBuncrupt;
+  isBancrupt() {
+    return this.isBancrupt;
   }
 
-  goBuncrupt() {
-    this.isBuncrupt = true;
+  goBancrupt() {
+    this.isBancrupt = true;
     this.properties.map(field => field.loseOwner());
     this.properties = [];
     this.money = 0;
     return alert(`Gracz ${this.name} zbankrutował!`);
   }
+
+  getIcon() {
+    return this.icon;
+  }
 }
+
+
 
 
 
