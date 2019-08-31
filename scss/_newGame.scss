@@ -1,3 +1,8 @@
+:root {
+  --main-panel-width: 60vh;
+  --main-panel-height: 40vh;
+}
+
 .game {
   margin: 0 auto;
   width: 100vw;
@@ -19,9 +24,11 @@
   align-items: center;
 
   .mainPanel {
-    width: 60vh;
+    // width: 60vh;
+    width: var(--main-panel-width);
+    // height: 40vh;
+    height: var(--main-panel-height);
     background-color: royalblue;
-    height: 40vh;
     display: flex;
     flex-direction: row;
     div {
@@ -32,10 +39,31 @@
 
 // cities initioalisation
 .citiesInitSection {
-  width: 200px;
-  height: 40vh;
+  width: var(--main-panel-width);
+  height: var(--main-panel-height);
   background-color: royalblue;
   margin-right: 2px;
+}
+
+.citiesInitSectionContainer {
+  display: flex;
+}
+
+.citiesInitSectionLeft {
+  width: calc(var(--main-panel-width)/2);
+  height: var(--main-panel-height);
+}
+
+.citiesInitSectionRight {
+  width: calc(var(--main-panel-width)/2);
+  height: var(--main-panel-height);
+}
+
+.citiesInitSection h3 {
+  display: inline;
+  // display: block;
+  // width: 100%;
+  // min-width: 100%;
 }
 
 .citiesInitSection li {
@@ -46,5 +74,25 @@
 .citiesInitSection li:hover {
   background-color: skyblue;
   cursor: pointer; 
+}
+
+.citiesInitSection #suggestions {
+  min-height: 250px;
+  max-height: 250px;
+  overflow-y: scroll;
+}
+
+.removeGameCity {
+  display: block;
+}
+
+.removeGameCity:hover {
+  cursor: pointer;
+}
+
+.tabGameCities {
+  min-height: 250px;
+  max-height: 250px;
+  overflow-y: scroll;
 }
 // ======================

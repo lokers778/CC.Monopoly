@@ -1,5 +1,5 @@
-import {citiesInit} from './newGame';
-citiesInit();
+import {geoInit} from './newGame';
+geoInit();
 
 console.log('heeeeeelllloooo World');
 var pola = document.querySelectorAll('.red');
