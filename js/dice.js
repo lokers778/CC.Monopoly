@@ -14,6 +14,10 @@ class Dices {
         document.querySelector(".dice1").innerHTML = `${this.firstDice}`;
         document.querySelector(".dice2").innerHTML = `${this.secondDice}`;
     }
+
+    getMove() {
+        return this.move;
+    }
 }
 
 
