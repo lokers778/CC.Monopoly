@@ -9,7 +9,7 @@ const signalToBoard = (oldPos, newPos, data) => {
 class Player {
   constructor(name, icon) {
     this.name = name;
-    this.money = 200;
+    this.money = 1500;
     this.icon = icon;
     this.properties = [];
     this.position = 0;
@@ -82,6 +82,7 @@ class Player {
     this.properties.map(field => field.loseOwner());
     this.properties = [];
     this.money = 0;
+    return alert(`Gracz ${this.name} zbankrutował!`);
   }
 }
 

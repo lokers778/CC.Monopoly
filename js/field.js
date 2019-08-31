@@ -3,6 +3,24 @@ class Field {
     this.name = name;
     this.truename = truename;
     this.setNode();
+    this.players = [];
+  }
+
+  playerOnMe(player) {
+    this.players.push(player);
+    //rysowanie gracza na polu
+    const me = this.nodeRef;
+    const draw = player.icon;
+    const li = document.createElement('li');
+    li.className = `player ${player.name}`;
+    li.appendChild(document.createTextNode(draw));
+    me.appendChild(li);
+  }
+
+  playerOutMe(player) {
+    this.players.splice(this.players.indexOf(player), 1);
+    //wywalenie gracza z pola
+    document.querySelector(`.${player.name}`).remove();
   }
 
   get nodeRef() {

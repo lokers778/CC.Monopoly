@@ -2,6 +2,7 @@ import Board from './board';
 import colors from './colors';
 import newGame from './newGame';
 import Dices from './dice';
+import Player from './player';
 
 console.log('Monopoly is running');
 
@@ -21,3 +22,8 @@ const dices = new Dices;
 // listen for clicking "throw dice" button
 document.querySelector("#throwDice").addEventListener('click', ()=> dices.throwDices());
 
+//Wstępne ustawienie graczy na starcie
+const player1 = new Player('John', '🧑');
+const player2 = new Player('Paul', '👱‍');
+board.fields[20].playerOnMe(player1);
+board.fields[20].playerOnMe(player2);
