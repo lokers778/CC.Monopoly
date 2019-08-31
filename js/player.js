@@ -1,5 +1,4 @@
-import board from './main';
-import Board from './board';
+import players  from './main';
 
 
 class Player {
@@ -67,6 +66,7 @@ class Player {
     this.properties.map(field => field.loseOwner());
     this.properties = [];
     this.money = 0;
+    players.splice(players.indexOf(this), 1);
     return alert(`Gracz ${this.name} zbankrutował!`);
   }
 

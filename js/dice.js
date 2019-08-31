@@ -18,6 +18,10 @@ class Dices {
     getMove() {
         return this.move;
     }
+
+    isDouble() {
+        return this.isDouble;
+    }
 }
 
 

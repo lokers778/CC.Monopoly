@@ -20,12 +20,11 @@ for (let key in colors) {
 
 const startingPoint = 20;
 const starters = [ ['krzysiu', '🧑'],['misiu', '👱‍']];
-const players = [];
-starters.forEach( (item) => {
+const players = starters.map( (item) => {
   const player = new Player(item[0], item[1]);
   player.setPosition(startingPoint);
   board.fields[startingPoint].playerOnMe(player);
-  players.push(player);
+  return player;
 });
 
 let playerIndex = 0;
@@ -40,7 +39,11 @@ document.querySelector("#throwDice").addEventListener('click', ()=> {
   board.fields[moved[1]].playerOnMe(players[playerIndex]);
 
   // następny gracz - do przeniesienia w miejsce, gdzie skończą się operacje gracza w danej turze.
-  playerIndex = playerIndex + 1 < players.length ? playerIndex +1 : 0 ;
+  if (!dices.isDouble) {
+    playerIndex = playerIndex + 1 < players.length ? playerIndex +1 : 0;
+  }
 });
 
-export default board;
+
+
+export default players;
