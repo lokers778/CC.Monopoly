@@ -16,7 +16,7 @@ class Tax extends Field {
         else if (this.truename === 'specialPayTwo') player.updateMoney(-100);
 
         if (player.currentMoneyAmount() < 0) {
-            player.goBuncrupt();
+            player.goBancrupt();
         }
     }
 }
