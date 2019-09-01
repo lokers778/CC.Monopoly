@@ -1,5 +1,4 @@
-import players  from './main';
-
+import players from './main';
 
 class Player {
   constructor(name, icon) {
@@ -10,7 +9,6 @@ class Player {
     this.position = 0;
     this.prisonEscapeCard = 0;
     this.isBancrupt = false;
-
   }
   updateMoney(amount) {
     this.money += amount;
@@ -20,13 +18,11 @@ class Player {
     return this.money;
   }
 
-  
   // przesuń pozycję o liczbę pol z losowania
   updatePosition(move) {
     const oldPosition = this.position;
-    const tempPosition = this.position + move;
-    this.position =  tempPosition >= 40 ? tempPosition - 40 : tempPosition ;
-    return [oldPosition,this.position]
+    this.position = (this.position + move) % 40;
+    return [oldPosition, this.position];
   }
 
   currentPosition() {
@@ -37,7 +33,7 @@ class Player {
   setPosition(fieldID) {
     const oldPosition = this.position;
     this.position = fieldID;
-    return [oldPosition,this.position]
+    return [oldPosition, this.position];
   }
 
   addProperty(property) {
@@ -74,9 +70,5 @@ class Player {
     return this.icon;
   }
 }
-
-
-
-
 
 export default Player;

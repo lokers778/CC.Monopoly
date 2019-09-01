@@ -15,9 +15,9 @@ class Property extends Field {
 
   playerOnMe(player) {
     super.playerOnMe(player);
-    
+
     this.payRent(player);
-}
+  }
 
   buyProperty(player) {
     if (!this.owner) {
@@ -42,15 +42,13 @@ class Property extends Field {
     if (player === this.owner) {
       if (this.numberOfHotels === 0 && this.numberOfHouses === 0) {
         if (this.isActive && player.currentMoneyAmount() >= this.costs.price / 2) {
-          player.updateMoney(this.costs.price / 2); 
+          player.updateMoney(this.costs.price / 2);
         } else {
           player.updateMoney(-this.costs.price);
         }
         this.isActive = !this.isActive;
-      }
-      else return alert('Aby zastawić posiadłość, należy najpierw sprzedać budynki');
-    }
-    else return alert('Ta posiadłość nie należy do Ciebie');
+      } else return alert('Aby zastawić posiadłość, należy najpierw sprzedać budynki');
+    } else return alert('Ta posiadłość nie należy do Ciebie');
   }
 
   buyBuilding(player) {
@@ -67,8 +65,7 @@ class Property extends Field {
         this.numberOfHotels = 1;
         return;
       }
-    }
-    else return alert('Ta posiadłość nie należy do Ciebie');
+    } else return alert('Ta posiadłość nie należy do Ciebie');
   }
 
   sellBuilding(player) {
@@ -85,8 +82,7 @@ class Property extends Field {
         this.numberOfHouses--;
         return;
       }
-    }
-    else return alert('Ta posiadłość nie należy do Ciebie');
+    } else return alert('Ta posiadłość nie należy do Ciebie');
   }
 
   payRent(player) {

@@ -1,6 +1,13 @@
-const addPlayer = document.querySelector(".addPlayerSubmit");
+const addPlayer = document.querySelector('.addPlayerSubmit');
 const playersList = document.querySelector('.playersList');
 const inputText = document.querySelector('.inputText');
+
+const clearNode = node => {
+  while (node.firstChild) {
+    node.removeChild(node.firstChild);
+  }
+  return node;
+};
 
 // const newPlayers = [['krzysiu', '🧑'], ['misiu', '👱‍']];
 const newPlayers = [];
@@ -9,8 +16,8 @@ function addNewPlayer() {
   newPlayer[0] = inputText.value;
   inputText.value = '';
   newPlayers[newPlayers.length] = newPlayer;
-  playersList = '';
-  newPlayers.forEach((Item) => {
+  clearNode(playersList);
+  newPlayers.forEach(Item => {
     // Create new li element
     const li = document.createElement('li');
     li.className = 'playersListItem';
@@ -24,9 +31,8 @@ function addNewPlayer() {
 
     //Add li element to list
     playersList.appendChild(li);
-  })
+  });
 }
-
 
 addPlayer.addEventListener('click', addNewPlayer);
 
@@ -35,7 +41,3 @@ function returnNewPlayers() {
 }
 
 export default returnNewPlayers;
-
-
-
-
