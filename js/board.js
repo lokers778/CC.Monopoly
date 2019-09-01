@@ -2,6 +2,7 @@ import Property from './Fields/property';
 import Tax from './Fields/tax';
 import colors from './colors';
 import Field from './field';
+import Start from './Fields/start';
 
 function createObject(constructor, ...params) {
   return new constructor(...params);
@@ -33,7 +34,7 @@ function getDefaultSchema() {
     [Property, '', 'black-property--1', colors.BLACK, true],
   ];
   const bottomRow = [
-    [Field, '', 'go'],
+    [Start, '', 'go'],
     [Property, '', 'brown-property--1', colors.BROWN, true],
     [CommunityChest, 'specialTwo--2'],
     [Property, '', 'brown-property--0', colors.BROWN, false],
