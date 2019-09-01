@@ -9,8 +9,9 @@
 }
 
 .newGame {
+  // background-color: black;
   position: fixed;
-  z-index: -1;
+  // z-index: -1;
   height: 100vh;
   width: 100vw;
   top: 0;
@@ -22,8 +23,8 @@
   .mainPanel {
     display: flex;
     flex-direction: row;
-    width: 70vh;
-    height: 40vh;
+    width: 80vh;
+    height: 60vh;
     background-color: royalblue;
     border: 4px solid black;
     border-radius: 30px;
