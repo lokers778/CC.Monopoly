@@ -2,6 +2,7 @@ import Property from './Fields/property';
 import Tax from './Fields/tax';
 import colors from './colors';
 import Field from './field';
+import Start from './Fields/start';
 
 function createObject(constructor, ...params) {
   return new constructor(...params);
@@ -11,7 +12,7 @@ function getDefaultSchema() {
   const topRow = [
     [Field, '', 'parking'],
     [Property, '', 'red-property--0', colors.RED, false],
-    [Chance, 'specialOne--0'],
+    [Field, '', 'specialOne--0'],
     [Property, '', 'red-property--1', colors.RED, false],
     [Property, '', 'red-property--2', colors.RED, true],
     [Field, '', 'north-train'],
@@ -24,23 +25,23 @@ function getDefaultSchema() {
   const rightColumn = [
     [Property, '', 'green-property--0', colors.GREEN, false],
     [Property, '', 'green-property--1', colors.GREEN, false],
-    [CommunityChest, 'specialTwo--1'],
+    [Field, '', 'specialTwo--1'],
     [Property, '', 'green-property--2', colors.GREEN, true],
     [Field, '', 'east-train'],
-    [Chance, 'specialOne--1'],
+    [Field, '', 'specialOne--1'],
     [Property, '', 'black-property--0', colors.BLACK, false],
     [Tax, '', 'specialPayTwo'],
     [Property, '', 'black-property--1', colors.BLACK, true],
   ];
   const bottomRow = [
-    [Field, '', 'go'],
+    [Start, '', 'go'],
     [Property, '', 'brown-property--1', colors.BROWN, true],
-    [CommunityChest, 'specialTwo--2'],
+    [Field, '', 'specialTwo--2'],
     [Property, '', 'brown-property--0', colors.BROWN, false],
     [Tax, '', 'specialPayOne'],
     [Field, '', 'south-train'],
     [Property, '', 'blue-property--2', colors.BLUE, true],
-    [Chance, 'specialOne--2'],
+    [Field, '', 'specialOne--2'],
     [Property, '', 'blue-property--1', colors.BLUE, false],
     [Property, '', 'blue-property--0', colors.BLUE, false],
     [Field, '', 'jail'],

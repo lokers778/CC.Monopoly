@@ -24,7 +24,7 @@ class Property extends Field {
       if (player.currentMoneyAmount() >= this.costs.price) {
         this.owner = player;
         player.updateMoney(-this.costs.price);
-        player.properties.push(this);
+        player.addProperty(this);
         this.isActive = true;
       } else {
         return alert('Masz za mało pieniędzy');
@@ -98,7 +98,7 @@ class Property extends Field {
           this.owner.updateMoney(rentToPay);
         } else {
           this.owner.updateMoney(player.currentMoneyAmount());
-          player.goBuncrupt();
+          player.goBancrupt();
         }
       }
     }

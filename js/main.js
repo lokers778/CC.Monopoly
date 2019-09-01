@@ -42,6 +42,7 @@ document.querySelector("#throwDice").addEventListener('click', () => {
   if (!dices.isDouble) {
     playerIndex = playerIndex + 1 < players.length ? playerIndex + 1 : 0;
   }
+  console.log(players);
 });
 
 
