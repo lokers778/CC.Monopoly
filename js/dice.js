@@ -7,21 +7,32 @@ class Dices {
   }
 
   throwDices() {
-    this.firstDice = Math.floor(Math.random() * 6) + 1;
-    this.secondDice = Math.floor(Math.random() * 6) + 1;
+    this.firstDice = throwDice('dice1');
+    this.secondDice = throwDice('dice2');
     this.move = this.firstDice + this.secondDice;
     this.isDouble = this.firstDice === this.secondDice ? true : false;
-    document.querySelector('.dice1').innerHTML = `${this.firstDice}`;
-    document.querySelector('.dice2').innerHTML = `${this.secondDice}`;
+    return this.move;
   }
 
   getMove() {
     return this.move;
   }
 
-  isDouble() {
+  getDouble() {
     return this.isDouble;
   }
 }
+
+const throwDice = string => {
+  const temp = Math.floor(Math.random() * 6) + 1;
+  const diceIcons = ['fa-dice-one', 'fa-dice-two', 'fa-dice-three', 'fa-dice-four', 'fa-dice-five', 'fa-dice-six'];
+  const element = document.querySelector(`.${string}`).firstElementChild;
+  const iconClass = element.classList.item(1);
+  element.classList.remove(iconClass);
+  element.classList.add(diceIcons[temp - 1]);
+  document.getElementById('throwDice').style.visibility = 'hidden';
+  document.getElementById('endRound').style.visibility = 'visible';
+  return temp;
+};
 
 export default Dices;

@@ -71,4 +71,14 @@ class Player {
   }
 }
 
-export default Player;
+const initializePlayers = (starters, board) => {
+  const startingPoint = 20;
+  return starters.map(item => {
+    const player = new Player(item[0], item[1]);
+    player.setPosition(startingPoint);
+    board.fields[startingPoint].playerOnMe(player);
+    return player;
+  });
+};
+
+export { initializePlayers, Player };
