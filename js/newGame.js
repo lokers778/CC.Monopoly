@@ -41,3 +41,19 @@ function returnNewPlayers() {
 }
 
 export default returnNewPlayers;
+
+
+
+
+// =========== inicjalizacja miast ===========
+// initGeo(); // wywołanie inicjalizacji miast
+
+export function initGeo(fields) {
+  let cs = document.querySelector('.mainPanel');
+  cs.style.display = 'none';                          // ukrywa (tymczasowo) panel dodawania playerów
+  cs = document.querySelector('#citiesPanel');
+  cs.style.display = 'flex';
+  // let props = document.querySelectorAll('div[class*="property"]');
+  fields = fields.filter( (val) => { return !!val.color; } );
+  console.log(fields);
+}
