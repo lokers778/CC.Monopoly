@@ -61,3 +61,35 @@
     cursor: pointer;
   }
 }
+
+
+
+// =========== inicjalizacja miast ===========
+.initFieldsContainer {
+  text-align: left;
+}
+
+.initFieldsList {
+  list-style-type: none;
+  margin-left: 10px;
+}
+
+.initFieldsListItems:hover {
+  cursor: pointer;
+  color: white;
+}
+
+.initFieldsListItemsHi {
+  color: white;
+  font-weight: bold;
+}
+
+.initFieldsListItemsHi:hover {
+  cursor: pointer;
+}
+
+.citiesInitSection form {
+  margin-left: 10px;
+  text-align: left;
+}
+// ===========================================

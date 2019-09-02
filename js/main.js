@@ -9,15 +9,15 @@ console.log('Monopoly is running');
 const board = new Board();
 // console.log(board);
 // board.fields.forEach(x => console.log(x.node));
-// board.fields.forEach(x => console.log(x));
 
 for (let key in colors) {
   const color = colors[key];
   board.getPropertiesByColor(color).forEach(x => (x.node.style.backgroundColor = color));
 }
 
-newGame();      // graczy
-initGeo(board.fields); // zainicjowanie miast
+newGame();              // zainicjowanie graczy
+initGeo(board.fields);  // zainicjowanie miast
+// initGeo();              // zainicjowanie miast
 
 const startingPoint = 0;
 const starters = [['krzysiu', '🧑'], ['misiu', '👱‍']];
