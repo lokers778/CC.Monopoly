@@ -7,15 +7,26 @@
   <meta name="keywords" content="Monopoly, board game, es6, codersCamp" />
   <meta name="description" content="Monopoly game in vanilla JS" />
   <link rel="stylesheet" type="text/css" href="app.css" />
+  <link href="./static/css/all.css" rel="stylesheet">
 </head>
 
 <body>
   <section class="game">
     <section class="controlPanel">
       <h2>Panel Kontrolny</h2>
-      <button id="throwDice" type="button"> Rzuć kostkami </button>
-      <div class="dice1">pierwsza kostka</div>
-      <div class="dice2">druga kostka</div>
+      <div class="diceBoard">
+        <p class="player">Gracz</p>
+        <button id="throwDice" type="button"> Rzuć kostkami </button>
+        <div class="dices">
+          <div class="dice1">
+              <i class="fas fa-dice-one"></i>
+          </div>
+          <div class="dice2">
+              <i class="fas fa-dice-one"></i>
+          </div>
+          <button id="endRound" type="button"> Koniec Tury </button>
+      </div>
+      </div>
     </section>
     <section class="board">
       <div class="firstRow">

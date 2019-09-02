@@ -20,26 +20,17 @@ for (let key in colors) {
 
 
 const starters = [['krzysiu', '🧑'], ['misiu', '👱‍']];
-// const starters = returnNewPlayers();
 const players = initializePlayers(starters, board);
-
 const orderControl = new OrderControl(players);
-
-// instantiate Dices
+orderControl.showPlayerName();
 const dices = new Dices;
-// listen for clicking "throw dice" button
-const makeAMove = () => {
+
+document.getElementById('endRound').style.visibility = 'hidden';
+document.querySelector('#throwDice').addEventListener('click', () => {
   const moved = orderControl.currentPlayer().updatePosition(dices.throwDices());
   board.fields[moved[0]].playerOutMe(orderControl.currentPlayer());
   board.fields[moved[1]].playerOnMe(orderControl.currentPlayer());
-  document.querySelector("#throwDice").removeEventListener('click', makeAMove);
-  // następny gracz - do przeniesienia w miejsce, gdzie skończą się operacje gracza w danej turze.
-  
-  
-  orderControl.nextPlayer(dices.getDouble())
-  document.querySelector("#throwDice").addEventListener('click', makeAMove);
-}
-
-document.querySelector("#throwDice").addEventListener('click', makeAMove);
+});
+document.querySelector('#endRound').addEventListener('click', () => orderControl.nextPlayer(dices.getDouble()));
 
 export default players;
