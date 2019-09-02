@@ -13,13 +13,14 @@ class Dices {
         this.isDouble = this.firstDice === this.secondDice ? true : false; 
         document.querySelector(".dice1").innerHTML = `${this.firstDice}`;
         document.querySelector(".dice2").innerHTML = `${this.secondDice}`;
+        return this.move;
     }
 
     getMove() {
         return this.move;
     }
 
-    isDouble() {
+    getDouble() {
         return this.isDouble;
     }
 }
