@@ -61,6 +61,7 @@ function setRegion() {
     el.innerHTML = html;
     parentElement.insertBefore(el, parentElement.childNodes[0]);
     document.querySelector('#chosenRegion').innerText = gameRegion
+    document.getElementById('regionsList').addEventListener('click', regionChanged);
     document.getElementById('regionsList').addEventListener('change', regionChanged);
 }
 
@@ -178,6 +179,12 @@ function searchChangedCountry() { // reaguje na zmiany w polu 'search' (wybór k
             el.id = 'chosenCountry';
             el.innerText = res[0].name;
             ta.insertBefore(el, document.querySelector('#search'));
+            el = document.createElement('span');
+            el.id = 'changeCountry';
+            el.classList = 'changeCountry';
+            el.innerText = ' [change] ';
+            el.addEventListener('click', changeCountry);
+            ta.insertBefore(el, document.querySelector('#search'));            
             el = document.createElement('br');
             ta.insertBefore(el, document.querySelector('#search'));
             }
@@ -231,7 +238,7 @@ function fillCitiesSuggestions() {
     cities.forEach( (val) => {  // pomija miasta wcześniej wybrane
         if (!gameCities.filter( (val1) => 
                 {
-                    return (val.name === val1.name && val1.country === document.querySelector('#chosenCountry')); 
+                    return (val.name === val1.name && val1.country === document.querySelector('#chosenCountry').innerText); 
                 } ).length) {
             el = document.createElement('li');
             el.innerHTML = `<span name='${val.name}'>${val.name}, ${val.population}</span>`;
@@ -242,29 +249,39 @@ function fillCitiesSuggestions() {
 }
 
 function suggestionClickedCity(e) { // po kliknięciu w podpowiedź wstawia wybraną wartość w 'search' i odświeża korzystając z funkcji reagującej na zmiany w 'search'
-    let country = document.querySelector('#chosenCountry').innerText;
-    if ( gameCities.filter( (val) => { return val.country === country; } ).length < 3 ) {
-        let res = cities.find( (val) => {
-            return e.target.innerText === (val.name + ', ' + val.population);
-        } );
-        let ind = cities.indexOf(res);
-        gameCities.push(
-            { 
-                name: res.name, 
-                population: res.population, 
-                country: country, 
-                region: gameRegion,
-                flag: getFlagURL(country)
+    if (gameCities.length <= 24) {
+        let country = document.querySelector('#chosenCountry').innerText;
+        if ( gameCities.filter( (val) => { return val.country === country; } ).length < 3 ) {
+            let res = cities.find( (val) => {
+                return e.target.innerText === (val.name + ', ' + val.population);
+            } );
+            let ind = cities.indexOf(res);
+            gameCities.push(
+                { 
+                    name: res.name, 
+                    population: res.population, 
+                    country: country, 
+                    region: gameRegion,
+                    flag: getFlagURL(country)
+                }
+            );
+            cities.splice(ind, 1);  // usuwa z listy miasto dodane do gry
+            document.querySelector('#search').value = e.target.innerText;
+            document.querySelector('#regionsList').disabled = true;
+            document.querySelector('#changeCountry').style.display = 'inline';
+            // tymczasowo - wypchnięcie zawartości 'gameCities' do JSON w nowym oknie
+            if (gameCities.length === 24) {
+                let myWin = window.open();
+                myWin.document.write(JSON.stringify(gameCities, null, 3));
             }
-        );
-        cities.splice(ind, 1);  // usuwa z listy miasto dodane do gry
-        document.querySelector('#search').value = e.target.innerText;
-    } else {
-        console.log('Max 3 miasta dla kraju!!!');
+            // ======================================================================
+        } else {
+            console.log('Max 3 miasta dla kraju!!!');
+        }
+        showGameCities();
+        fillCitiesSuggestions();
+        searchChangedCity();
     }
-    showGameCities();
-    fillCitiesSuggestions();
-    searchChangedCity();
 }
 
 function searchChangedCity() { // reaguje na zmiany w polu 'search' (wybór kraju)
@@ -335,5 +352,20 @@ function showGameCities() {
 }
 
 function removeGameCity(e) {
-    console.log(e);
+    let el = e.target.parentElement.parentElement.children;
+    let country = el[0].innerText;
+    let city = el[1].innerText;
+    let res = gameCities.find( (val) => { return (val.name === city && val.country === country); } )
+    let ind = gameCities.indexOf(res);
+    gameCities.splice(ind, 1);
+    showGameCities();
+    fillCitiesSuggestions();
+}
+
+function changeCountry(e) {
+    document.querySelector('#search').value = '';
+    searchChangedCountry(); // nie pominął już użytych!!!!!
+                            // nie ma '[change]', kiedy wybrało się kraj, co ma juz 3 miasta na liście!!!!
+    document.querySelector('#chosenCountry').innerText = '';
+    e.target.style.display = 'none';
 }

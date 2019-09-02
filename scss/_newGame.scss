@@ -95,4 +95,12 @@
   max-height: 250px;
   overflow-y: scroll;
 }
+
+.changeCountry {
+  display: none;
+}
+
+.changeCountry:hover {
+  cursor: pointer;
+}
 // ======================
