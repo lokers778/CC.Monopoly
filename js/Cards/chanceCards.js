@@ -4,19 +4,19 @@ class ChanceCard {
     this.name = name;
     this.description = desc;
     this.category = cat;
-    this.attribute = atr;
+    //this.attribute = atr;
   }
 
-  getMoney(atr) {
-    player.updateMoney(atr);
+  getMoney() {
+    //player.updateMoney(atr);
   }
 
-  loseMoney(atr) {
-    player.updateMoney(-atr);
+  loseMoney() {
+    //player.updateMoney(-atr);
   }
 
-  goSomewhere(atr) {
-    player.setPosition(atr);
+  goSomewhere() {
+    //player.setPosition(atr);
   }
 
   prisonBreak() {

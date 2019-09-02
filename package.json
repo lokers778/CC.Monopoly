@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "start": "webpack-dev-server --config webpack.config.js",
-    "build": "webpack --mode production"
+    "build": "webpack --mode production",
+    "lint": "eslint --ignore-path .gitignore --fix .",
+    "format": "prettier --ignore-path .gitignore --write \"./**/*.{js,json,scss,html}\""
   },
   "repository": {
     "type": "git",
