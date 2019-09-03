@@ -104,7 +104,7 @@ function regionChanged(e) {  // reakcja na zmianę/wybór 'region' (kontynent)
     const cs = document.querySelector('#search');
     if (cs) {
         cs.value = '';
-        // searchChangedCountry();
+        searchChangedCountry();
     }
     gameRegion = e.target.value;
     // document.querySelector('#chosenRegion').innerText = gameRegion
@@ -113,12 +113,12 @@ function regionChanged(e) {  // reakcja na zmianę/wybór 'region' (kontynent)
 function chooseCountry() {
   const cs = document.querySelector('#searchCitiesForm');
   if (document.querySelector('#search')) {
-      document.querySelector('#search').placeholder = 'choose the country...';
+      document.querySelector('#search').placeholder = '  search...';
   } else {
       let el = document.createElement('input');
       el.type = 'text';
       el.id = 'search';
-      el.placeholder = 'choose the country...';
+      el.placeholder = '  search...';
       el.addEventListener('change', searchChangedCountry);
       el.addEventListener('keyup', searchChangedCountry);
       cs.appendChild(el);
@@ -143,7 +143,7 @@ function getCountriesByRegion(region, search) { // dostosowuje listę krajów w 
     arr.forEach( (val) => {
         el = document.createElement('li');
         el.innerHTML = `<span name='${val.alpha3Code}'>${val.name}</span>`;
-        // el.addEventListener('click', suggestionClickedCountry);
+        el.addEventListener('click', suggestionClickedCountry);
         parentElement.appendChild(el);
     } );
     return arr;
@@ -196,6 +196,11 @@ function searchChangedCountry() { // reaguje na zmiany w polu 'search' (wybór k
             cf.parentElement.removeChild(cf);
         }
     }
+}
+
+function suggestionClickedCountry(e) { // po kliknięciu w podpowiedź wstawia wybraną wartość w 'search' i odświeża korzystając z funkcji reagującej na zmiany w 'search'
+    // document.querySelector('#search').value = e.target.innerText;
+    // searchChangedCountry();
 }
 
 function getFlagURL(country) {

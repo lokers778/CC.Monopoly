@@ -89,7 +89,26 @@
 }
 
 .citiesInitSection form {
-  margin-left: 10px;
+  margin: 0 10px;
   text-align: left;
+}
+
+.citiesInitSection ul {
+  max-height: 40vh;
+  overflow-y: scroll;
+  margin: 5px 0;
+}
+
+#suggestions span {
+  display: block;
+}
+
+#suggestions li:hover {
+  cursor: pointer;
+  background-color: lightblue;
+}
+
+#search {
+  margin-top: 5px;
 }
 // ===========================================
