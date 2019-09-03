@@ -9,6 +9,7 @@ class Player {
     this.position = 0;
     this.prisonEscapeCard = 0;
     this.isBancrupt = false;
+    this.lastMove = 0;
   }
   updateMoney(amount) {
     this.money += amount;
@@ -24,6 +25,7 @@ class Player {
 
   // przesuń pozycję o liczbę pol z losowania
   updatePosition(move) {
+    this.lastMove = move;
     const oldPosition = this.position;
     this.position = (this.position + move) % 40;
     return [oldPosition, this.position];
@@ -31,6 +33,10 @@ class Player {
 
   currentPosition() {
     return this.position;
+  }
+
+  getLastMove() {
+    return this.lastMove;
   }
 
   // ustaw pozycje na konkretnym polu (board index) np.: więzienie

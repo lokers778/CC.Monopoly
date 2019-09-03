@@ -63,8 +63,11 @@ class Railway extends Field {
           railways++;
         }
       });
-      player.updateMoney(-this.costs.rent[railways]);
-      if (player.currentMoneyAmount() < 0) {
+      if (player.currentMoneyAmount() >= this.costs.rent[railways]) {
+        player.updateMoney(-this.costs.rent[railways]);
+        this.owner.updateMoney(this.costs.rent[railways]);
+      } else {
+        this.owner.updateMoney(player.currentMoneyAmount());
         player.goBancrupt();
       }
     } else return;

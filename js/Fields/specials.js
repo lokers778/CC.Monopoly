@@ -58,8 +58,11 @@ class Special extends Field {
           specials++;
         }
       });
-      player.updateMoney(-this.costs.rent[specials] * 1 /*ZAMIAST 1 DAĆ LICZBĘ OCZEK NA KOSTCE*/);
-      if (player.currentMoneyAmount() < 0) {
+      if (player.currentMoneyAmount() >= this.costs.rent[specials] * player.getLastMove) {
+        player.updateMoney(-this.costs.rent[specials] * player.getLastMove);
+        this.owner.updateMoney(this.costs.rent[specials] * player.getLastMove);
+      } else {
+        this.owner.updateMoney(player.currentMoneyAmount());
         player.goBancrupt();
       }
     } else return;
