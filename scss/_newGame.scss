@@ -11,7 +11,7 @@
 .newGame {
   // background-color: black;
   position: fixed;
-  z-index: -1;
+  // z-index: -1;
   height: 100vh;
   width: 100vw;
   top: 0;
@@ -22,19 +22,28 @@
 
   .mainPanel {
     display: flex;
-    flex-direction: row;
-    width: 80vh;
-    height: 60vh;
+    flex-direction: column;
+    align-items: stretch;
+    width: 75vh;
+    height: 80vh;
     background-color: royalblue;
     border: 4px solid black;
     border-radius: 30px;
     .options,
     .players {
-      width: 50%;
+      // width: 100%;
       text-align: center;
       margin: 15px;
-      border: 2px solid black;
+      // border: 2px solid black;
       border-radius: 20px;
+      h2{
+        margin: 10px;
+      }
+      ul li{
+        border-bottom: 2px solid black;
+        // border-radius: 10px;
+        margin:5px;
+      }
     }
     .options {
       .addPlayer {
