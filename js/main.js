@@ -32,4 +32,14 @@ document.querySelector('#throwDice').addEventListener('click', () => {
 });
 document.querySelector('#endRound').addEventListener('click', () => orderControl.nextPlayer(dices.getDouble()));
 
+document.querySelector('#kup').addEventListener('click', () => {
+  board.fields[1].buyBuilding(orderControl.currentPlayer());
+  board.fields[11].buyBuilding(orderControl.currentPlayer());
+});
+
+document.querySelector('#sprzedaj').addEventListener('click', () => {
+  board.fields[1].sellBuilding(orderControl.currentPlayer());
+  board.fields[11].sellBuilding(orderControl.currentPlayer());
+});
+
 export default players;

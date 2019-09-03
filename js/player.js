@@ -18,6 +18,10 @@ class Player {
     return this.money;
   }
 
+  currentProperies() {
+    return this.properties;
+  }
+
   // przesuń pozycję o liczbę pol z losowania
   updatePosition(move) {
     const oldPosition = this.position;
@@ -72,7 +76,7 @@ class Player {
 }
 
 const initializePlayers = (starters, board) => {
-  const startingPoint = 20;
+  const startingPoint = 0;
   return starters.map(item => {
     const player = new Player(item[0], item[1]);
     player.setPosition(startingPoint);

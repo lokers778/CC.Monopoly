@@ -16,6 +16,12 @@
       &:last-child {
         width: 2 * $sizeFraction;
       }
+      .house {
+        width: 25%;
+      }
+      .hotel {
+        width: 100%;
+      }
     }
   }
   .secondRow {
@@ -26,6 +32,14 @@
       border: 1px solid black;
       display: flex;
       flex-direction: column;
+      .house {
+        width: 15%;
+        height: 25%;
+      }
+      .hotel {
+        width: 15%;
+        height: 100%;
+      }
     }
     .middle {
       width: 9 * $sizeFraction;
