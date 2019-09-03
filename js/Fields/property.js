@@ -1,6 +1,20 @@
 import Field from '../field';
 import { calculateCosts } from './costsOfProperty';
 
+function createHotel() {
+  const imgHotel = document.createElement('img');
+  imgHotel.src = '../../static/Hotel.png';
+  imgHotel.className = 'hotel';
+  return imgHotel;
+}
+
+function createHouse() {
+  const imgHouse = document.createElement('img');
+  imgHouse.src = '../../static/House.png';
+  imgHouse.className = 'house';
+  return imgHouse;
+}
+
 class Property extends Field {
   constructor(name, truename, color, special) {
     super(name, truename);
@@ -106,24 +120,18 @@ class Property extends Field {
   }
 
   drawBuilding(type) {
-    const me = this.nodeRef;
-    const imgHouse = document.createElement('img');
-    imgHouse.src = '../../static/House.png';
-    const imgHotel = document.createElement('img');
-    imgHotel.src = '../../static/Hotel.png';
-    imgHouse.className = 'house';
-    imgHotel.className = 'hotel';
-    if (type === 'buyHouse') me.appendChild(imgHouse);
+    const me = this.node;
+    if (type === 'buyHouse') me.appendChild(createHouse());
     else if (type === 'sellHouse') me.removeChild(me.firstChild);
     else if (type === 'buyHotel') {
       for (let i = 0; i < 4; i++) {
         me.removeChild(me.firstChild);
       }
-      me.appendChild(imgHotel);
+      me.appendChild(createHotel());
     } else if (type === 'sellHotel') {
       me.removeChild(me.firstChild);
       for (let i = 0; i < 4; i++) {
-        me.appendChild(imgHouse);
+        me.appendChild(createHouse());
       }
     }
   }
