@@ -1,6 +1,7 @@
 import Board from './board';
 import colors from './colors';
 import newGame from './newGame';
+import navigationBar from './navBar';
 import Dices from './dice';
 import { OrderControl } from './controlPanel';
 import { initializePlayers } from './player';
@@ -23,6 +24,7 @@ const players = initializePlayers(starters, board);
 const orderControl = new OrderControl(players);
 orderControl.showPlayerName();
 const dices = new Dices();
+navigationBar(players);
 
 document.getElementById('endRound').style.visibility = 'hidden';
 document.querySelector('#throwDice').addEventListener('click', () => {

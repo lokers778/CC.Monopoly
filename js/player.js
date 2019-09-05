@@ -63,6 +63,10 @@ class Player {
     this.prisonEscapeCard -= 1;
   }
 
+  prisonEscCards() {
+    return this.prisonEscapeCard;
+  }
+
   isBancrupt() {
     return this.isBancrupt;
   }
