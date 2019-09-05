@@ -48,9 +48,12 @@ export default returnNewPlayers;
 // =========== inicjalizacja miast ===========
 // initGeo(); // wywołanie inicjalizacji miast
 // import { board } from './main';
-const countries = [];   // tablica zawierająca dane krajów, fetch z https://restcountries-v1.p.rapidapi.com/all
-const regions = [];     // tablica zawierająca kontynenty, na podstawie 'countries'
-let gameRegion = '';    // kontynent ustalany globalnie przy inicjalizacji nowej gry
+const countries = [];       // tablica zawierająca dane krajów, fetch z https://restcountries-v1.p.rapidapi.com/all
+const countriesChosen = []; // pomocnicza tablica - państwa przypisane do pól
+const regions = [];         // tablica zawierająca kontynenty, na podstawie 'countries'
+let gameRegion = '';        // kontynent ustalany globalnie przy inicjalizacji nowej gry
+
+let dragged;            // na potrzeby przeciągania miast na pola
 
 export function geoInit() {
   fetch("https://restcountries-v1.p.rapidapi.com/all", {
@@ -141,10 +144,14 @@ function getCountriesByRegion(region, search) { // dostosowuje listę krajów w 
     parentElement.innerHTML = '';
     let el;
     arr.forEach( (val) => {
+      if (!countriesChosen.includes(val.name)) {
         el = document.createElement('li');
-        el.innerHTML = `<span name='${val.alpha3Code}'>${val.name}</span>`;
-        el.addEventListener('click', suggestionClickedCountry);
+        el.innerHTML = `<span name='${val.alpha3Code}' draggable='true' ondragstart='event.dataTransfer.setData("text/plain", null)'>${val.name}</span>`;
+        el.addEventListener("dragstart", function(e) {
+          dragged = e.target;
+        }, false);
         parentElement.appendChild(el);
+      }
     } );
     return arr;
 }
@@ -152,7 +159,7 @@ function getCountriesByRegion(region, search) { // dostosowuje listę krajów w 
 function searchChangedCountry() { // reaguje na zmiany w polu 'search' (wybór kraju)
     let res = getCountriesByRegion( document.querySelector('#regionsList').value, document.querySelector('#search').value );
     let el = document.querySelector('#citiesInitSection');
-    if (res.length === 1) { // kiedy na liście podpowiedzi jest tylko jedna pozycja, udaje wybór
+    if (res.length === 1 && false) { // kiedy na liście podpowiedzi jest tylko jedna pozycja, udaje wybór
         document.querySelector('#search').value = res[0].name;
         let countryCode = countries.filter( (val) => { return (val.name === res[0].name); } )[0].alpha2Code.toLowerCase();
         if (el.lastElementChild.name !== 'countryFlag') {   // jeśli dla wyboru nie ma flagi - pobiera grafikę
@@ -208,19 +215,41 @@ function getFlagURL(country) {
   return `https://www.countryflags.io/${countryCode}/shiny/64.png`;
 }
 
-
+function dropped(target, fields) {
+  // console.log(target.parentElement.fieldTrueName, dragged);
+  const color = target.parentElement.style.backgroundColor;
+  const fieldsCountry = fields.filter( (val) => { return val.color === color; } );
+  const countryCode = dragged.attributes['name'].value;
+  const countryName = countries.find( (val) => { return val.alpha3Code === countryCode; } ).name;
+  fieldsCountry.forEach( (val) => { 
+    if (val.name) {
+      countriesChosen.splice(countriesChosen.indexOf(val.name), 1);
+    }
+    val.name = { name: countryName, flag: '' }; 
+  } );
+  countriesChosen.push(countryName);
+  searchChangedCountry();
+  const qs = document.querySelector('#initFieldsList tbody');
+  while (qs.children.length > 1) {
+    qs.removeChild(qs.lastChild);
+  }
+  fillWithFields(fields);
+}
 
 export function initGeo(fields) {
 
   geoInit();
 
-  document.querySelector('.mainPanel').style.display = 'none';  // ukrywa (tymczasowo) panel dodawania playerów
+  // ===== Ukrywa (tymczasowo) panel dodawania playerów =====
+  document.querySelector('.mainPanel').style.display = 'none';
+  // ========================================================
+
   document.querySelector('#citiesPanel').style.display = 'flex';
   fields = fields.filter( (val) => { return !!val.color; } );
 
   let qs = document.querySelector('#citiesLeft');
-  let el = document.createElement('span');
-  el.innerHTML = '<h4>Fields to bind:</h4>';
+  let el = document.createElement('h4');
+  el.innerText = 'Pola do opisania:';
   qs.appendChild(el);
   
   el = document.createElement('div');
@@ -228,19 +257,41 @@ export function initGeo(fields) {
   el.classList = 'initFieldsContainer';
   qs.appendChild(el);
   
+  // tabela z `fieldami`, najpierw wiersz
   qs = document.querySelector('#initFieldsContainer');
-  el = document.createElement('ul');
+  el = document.createElement('table');
   el.id = 'initFieldsList';
   el.classList = 'initFieldsList';
+  el.innerHTML = `
+    <tr>
+      <th>Pole</th><th>Kraj</th><th>Miasto</th><th>[x]</th>
+    </tr>`;
   qs.appendChild(el);
+  el.addEventListener("dragover", (e) => { e.preventDefault(); }, false);  
+  el.addEventListener("drop", (e) => {
+    e.preventDefault();
+    dropped(e.target, fields);
+  }, false);
 
-  qs = document.querySelector('#initFieldsList');
+  // wiersze tabieli - każdy `field` ma swój
+  fillWithFields(fields);
+  
+}
+
+// dopełnienie tabeli wierszami z `fields`
+function fillWithFields(fields) {
+  let qs = document.querySelector('#initFieldsList tbody');
+  let allEmptyCountry = true;
   fields.forEach( (val) => {
-    el = document.createElement('li');
-    el.innerHTML = `<span name=${val.truename} class='initFieldsListItems' style='background-color: ${val.color};'>${val.color} (${val.truename.substr(-1,1)})</span>`;
-    el.addEventListener('click', (e) => { fieldsListItemClicked(e, fields) });
+    const el = document.createElement('tr');
+    if (val.name.name) {allEmptyCountry = false;}
+    el.name = val.truename;
+    el.style = `background-color: ${val.color};` + (((val.color === 'black') || (val.color === 'blue')) ? `color: white;` : ``);
+    el.innerHTML = `<td>${val.color} (${val.truename.substr(-1,1)})</td><td>${ (val.name.name) ? val.name.name : '' }</td><td></td><td></td>`;
+    el.fieldTrueName = val.truename;
     qs.appendChild(el);
   } );
+  document.querySelector('#regionsList').disabled = !allEmptyCountry;
 }
 
 function fieldsListItemClicked(e, fields) {

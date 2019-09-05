@@ -67,25 +67,32 @@
 // =========== inicjalizacja miast ===========
 .initFieldsContainer {
   text-align: left;
+  th {
+    text-align: center;
+  }
 }
+
+// .initFieldsList {
+//   list-style-type: none;
+//   margin-left: 10px;
+// }
+
+// .initFieldsListItems:hover {
+//   cursor: pointer;
+//   color: white;
+// }
+
+// .initFieldsListItemsHi {
+//   color: white;
+//   font-weight: bold;
+// }
+
+// .initFieldsListItemsHi:hover {
+//   cursor: pointer;
+// }
 
 .initFieldsList {
-  list-style-type: none;
-  margin-left: 10px;
-}
-
-.initFieldsListItems:hover {
-  cursor: pointer;
-  color: white;
-}
-
-.initFieldsListItemsHi {
-  color: white;
-  font-weight: bold;
-}
-
-.initFieldsListItemsHi:hover {
-  cursor: pointer;
+  width: 100%;
 }
 
 .citiesInitSection form {
@@ -111,4 +118,5 @@
 #search {
   margin-top: 5px;
 }
+
 // ===========================================
