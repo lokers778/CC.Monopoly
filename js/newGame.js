@@ -77,14 +77,13 @@ export function geoInit() {
 }
 
 function setRegion() {
-
   const parentElement = document.querySelector('#citiesRight');
   const el = document.createElement('section');
   let html = '';
   el.id = 'citiesInitSection';
   el.className = 'citiesInitSection';
   html = `
-    <h4>Locations to bind:</h4>
+    <h4>Lokalizacje do wyboru:</h4>
     <form name='searchCitiesForm' id='searchCitiesForm'>
       Select region: <select name='regionsList' id='regionsList'>`;
   regions.forEach( (val) => {
@@ -225,15 +224,16 @@ function dropped(target, fields) {
     if (val.name) {
       countriesChosen.splice(countriesChosen.indexOf(val.name), 1);
     }
-    val.name = { name: countryName, flag: '' }; 
+    val.name = { name: countryName, flag: getFlagURL(countryName) }; 
   } );
   countriesChosen.push(countryName);
   searchChangedCountry();
   const qs = document.querySelector('#initFieldsList tbody');
-  while (qs.children.length > 1) {
+  while (qs.children.length) {
     qs.removeChild(qs.lastChild);
   }
   fillWithFields(fields);
+  // console.log(fields);
 }
 
 export function initGeo(fields) {
@@ -263,15 +263,16 @@ export function initGeo(fields) {
   el.id = 'initFieldsList';
   el.classList = 'initFieldsList';
   el.innerHTML = `
-    <tr>
-      <th>Pole</th><th>Kraj</th><th>Miasto</th><th>[x]</th>
-    </tr>`;
+    <thead>
+      <tr>
+        <th>Pole</th><th>Kraj</th><th>Miasto</th><th>[x]</th>
+      </tr>
+    </thead>
+    <tbody>
+    </tbody>`;
   qs.appendChild(el);
   el.addEventListener("dragover", (e) => { e.preventDefault(); }, false);  
-  el.addEventListener("drop", (e) => {
-    e.preventDefault();
-    dropped(e.target, fields);
-  }, false);
+  el.addEventListener("drop", (e) => { e.preventDefault(); dropped(e.target, fields); }, false);
 
   // wiersze tabieli - każdy `field` ma swój
   fillWithFields(fields);
@@ -283,12 +284,21 @@ function fillWithFields(fields) {
   let qs = document.querySelector('#initFieldsList tbody');
   let allEmptyCountry = true;
   fields.forEach( (val) => {
-    const el = document.createElement('tr');
+    let el = document.createElement('tr');
     if (val.name.name) {allEmptyCountry = false;}
     el.name = val.truename;
     el.style = `background-color: ${val.color};` + (((val.color === 'black') || (val.color === 'blue')) ? `color: white;` : ``);
     el.innerHTML = `<td>${val.color} (${val.truename.substr(-1,1)})</td><td>${ (val.name.name) ? val.name.name : '' }</td><td></td><td></td>`;
     el.fieldTrueName = val.truename;
+    el.addEventListener('click', (e) => { 
+      let text = e.target.parentElement.children[1].innerText;
+      if (text) {
+        // jeśli jest już państwo, to wybierz miasto
+        console.log(text);
+      } else {
+        console.log('A państwo gdzie?');
+      }
+    } )
     qs.appendChild(el);
   } );
   document.querySelector('#regionsList').disabled = !allEmptyCountry;
