@@ -1,13 +1,8 @@
+import { clearNode } from './utils';
+
 const addPlayer = document.querySelector('.addPlayerSubmit');
 const playersList = document.querySelector('.playersList');
 const inputText = document.querySelector('.inputText');
-
-const clearNode = node => {
-  while (node.firstChild) {
-    node.removeChild(node.firstChild);
-  }
-  return node;
-};
 
 // const newPlayers = [['krzysiu', '🧑'], ['misiu', '👱‍']];
 const newPlayers = [];

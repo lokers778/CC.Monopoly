@@ -11,6 +11,7 @@ class Player {
     this.isBancrupt = false;
     this.lastMove = 0;
   }
+
   updateMoney(amount) {
     this.money += amount;
   }
@@ -90,7 +91,7 @@ const initializePlayers = (starters, board) => {
   return starters.map(item => {
     const player = new Player(item[0], item[1]);
     player.setPosition(startingPoint);
-    board.fields[startingPoint].playerOnMe(player);
+    board.getField(startingPoint).playerOnMe(player);
     return player;
   });
 };

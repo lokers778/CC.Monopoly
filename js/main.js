@@ -2,8 +2,7 @@ import Board from './board';
 import colors from './colors';
 import newGame from './newGame';
 import navigationBar from './navBar';
-import Dices from './dice';
-import { OrderControl } from './controlPanel';
+import { ControlPanel } from './controlPanel';
 import { initializePlayers } from './player';
 
 console.log('Monopoly is running');
@@ -21,27 +20,17 @@ for (let key in colors) {
 
 const starters = [['krzysiu', '🧑'], ['misiu', '👱‍']];
 const players = initializePlayers(starters, board);
-const orderControl = new OrderControl(players);
-orderControl.showPlayerName();
-const dices = new Dices();
 navigationBar(players);
-
-document.getElementById('endRound').style.visibility = 'hidden';
-document.querySelector('#throwDice').addEventListener('click', () => {
-  const moved = orderControl.currentPlayer().updatePosition(dices.throwDices());
-  board.fields[moved[0]].playerOutMe(orderControl.currentPlayer());
-  board.fields[moved[1]].playerOnMe(orderControl.currentPlayer());
-});
-document.querySelector('#endRound').addEventListener('click', () => orderControl.nextPlayer(dices.getDouble()));
+const controlPanel = new ControlPanel(board, players);
 
 document.querySelector('#kup').addEventListener('click', () => {
-  board.fields[1].buyBuilding(orderControl.currentPlayer());
-  board.fields[11].buyBuilding(orderControl.currentPlayer());
+  board.getField(1).buyBuilding(controlPanel.currentPlayer());
+  board.getField(11).buyBuilding(controlPanel.currentPlayer());
 });
 
 document.querySelector('#sprzedaj').addEventListener('click', () => {
-  board.fields[1].sellBuilding(orderControl.currentPlayer());
-  board.fields[11].sellBuilding(orderControl.currentPlayer());
+  board.getField(1).sellBuilding(controlPanel.currentPlayer());
+  board.getField(11).sellBuilding(controlPanel.currentPlayer());
 });
 
 export default players;
