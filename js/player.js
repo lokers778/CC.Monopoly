@@ -1,4 +1,5 @@
 import players from './main';
+import Start from './Fields/start';
 
 class Player {
   constructor(name, icon) {
@@ -29,7 +30,9 @@ class Player {
     this.lastMove = move;
     const oldPosition = this.position;
     this.position = (this.position + move) % 40;
-    return [oldPosition, this.position];
+    const result = [oldPosition, this.position];
+    this.tryGiveMoneyForGoingThroughStart(...result);
+    return result;
   }
 
   currentPosition() {
@@ -83,6 +86,12 @@ class Player {
 
   getIcon() {
     return this.icon;
+  }
+
+  tryGiveMoneyForGoingThroughStart(prevMove, nextMove) {
+    if (nextMove < prevMove) {
+      Start.giveReward(this);
+    }
   }
 }
 

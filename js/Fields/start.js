@@ -5,7 +5,7 @@ class Start extends Field {
     super(name, truename);
   }
 
-  giveReward(player) {
+  static giveReward(player) {
     player.updateMoney(200);
   }
 }

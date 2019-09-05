@@ -13,11 +13,18 @@ function* zip(x, y) {
   }
 }
 
-const clearNode = node => {
+function clearNode(node) {
   while (node.firstChild) {
     node.removeChild(node.firstChild);
   }
   return node;
-};
+}
 
-export { zip, clearNode };
+function createButton() {
+  const button = document.createElement('button');
+  button.classList.add('button');
+  button.type = 'button';
+  return button;
+}
+
+export { zip, clearNode, createButton };

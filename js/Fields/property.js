@@ -1,5 +1,5 @@
-import Field from '../field';
 import { calculateCosts } from './costsOfProperty';
+import FieldToBuy from './fieldToBuy';
 
 function createHotel() {
   const imgHotel = document.createElement('img');
@@ -15,7 +15,7 @@ function createHouse() {
   return imgHouse;
 }
 
-class Property extends Field {
+class Property extends FieldToBuy {
   constructor(name, truename, color, special) {
     super(name, truename);
     this.color = color;
@@ -23,33 +23,10 @@ class Property extends Field {
     this.costs = new calculateCosts(this.color, this.special);
     this.numberOfHouses = 0;
     this.numberOfHotels = 0;
-    this.owner = null;
-    this.isActive = false;
   }
 
-  playerOnMe(player) {
-    super.playerOnMe(player);
-
-    this.payRent(player);
-  }
-
-  buyProperty(player) {
-    if (!this.owner) {
-      if (player.currentMoneyAmount() >= this.costs.price) {
-        this.owner = player;
-        player.updateMoney(-this.costs.price);
-        player.addProperty(this);
-        this.isActive = true;
-      } else {
-        return alert('Masz za mało pieniędzy');
-      }
-    }
-  }
-
-  loseOwner() {
-    //używane w momencie bankructwa
-    this.owner = null;
-    this.isActive = false;
+  calculateRentToPay() {
+    return this.costs.rent[this.numberOfHouses + this.numberOfHotels * 5];
   }
 
   toggleActive(player) {
@@ -102,21 +79,6 @@ class Property extends Field {
       return;
     }
     // } else return alert('Ta posiadłość nie należy do Ciebie');
-  }
-
-  payRent(player) {
-    if (this.isActive) {
-      const rentToPay = this.costs.rent[this.numberOfHouses + this.numberOfHotels * 5];
-      if (player !== this.owner) {
-        if (player.currentMoneyAmount() >= rentToPay) {
-          player.updateMoney(-rentToPay);
-          this.owner.updateMoney(rentToPay);
-        } else {
-          this.owner.updateMoney(player.currentMoneyAmount());
-          player.goBancrupt();
-        }
-      }
-    }
   }
 
   drawBuilding(type) {

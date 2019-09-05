@@ -1,5 +1,5 @@
 import Dices from './dice';
-import { zip } from './utils';
+import { zip, clearNode } from './utils';
 
 const diceIcons = ['fa-dice-one', 'fa-dice-two', 'fa-dice-three', 'fa-dice-four', 'fa-dice-five', 'fa-dice-six'];
 const diceNodes = ['dice1', 'dice2'].map(x => document.querySelector(`.${x}`).firstElementChild);
@@ -14,6 +14,8 @@ class ControlPanel {
     this.players = players;
     this.dices = new Dices();
     this.playerIndex = 0;
+    this.throwDice_lock = false;
+    this.endRound_lock = false;
 
     this.showPlayerName();
     endRoundNode.style.visibility = 'hidden';
@@ -22,21 +24,30 @@ class ControlPanel {
   }
 
   throwDice_OnClick() {
-    const [prevMove, nextMove] = this.currentPlayer().updatePosition(this.dices.throwDices());
-    const prevField = this.board.getField(prevMove);
-    const nextField = this.board.getField(nextMove);
+    if (!this.throwDice_lock) {
+      this.throwDice_lock = true;
+      this.endRound_lock = false;
+      const [prevMove, nextMove] = this.currentPlayer().updatePosition(this.dices.throwDices());
+      const prevField = this.board.getField(prevMove);
+      const nextField = this.board.getField(nextMove);
 
-    this.updateDicesView();
-    prevField.playerOutMe(this.currentPlayer());
-    nextField.playerOnMe(this.currentPlayer());
-    nextField.renderControlPanelView(this, fieldPanelNode);
+      this.updateDicesView();
+      prevField.playerOutMe(this.currentPlayer());
+      nextField.playerOnMe(this.currentPlayer());
+      nextField.renderControlPanelView(this, fieldPanelNode);
+    }
   }
 
   endRound_OnClick() {
-    if (!this.dices.getDouble()) {
-      this.playerIndex = (this.playerIndex + 1) % this.players.length;
+    if (!this.endRound_lock) {
+      this.endRound_lock = true;
+      this.throwDice_lock = false;
+      if (!this.dices.getDouble()) {
+        this.playerIndex = (this.playerIndex + 1) % this.players.length;
+      }
+      this.nextPlayer();
+      clearNode(fieldPanelNode);
     }
-    this.nextPlayer();
   }
 
   updateDicesView() {
