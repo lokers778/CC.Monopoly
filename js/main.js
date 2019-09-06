@@ -16,9 +16,16 @@ for (let key in colors) {
   board.getPropertiesByColor(color).forEach(x => (x.node.style.backgroundColor = color));
 }
 
-newGame();              // zainicjowanie graczy
-initGeo(board.fields);  // zainicjowanie miast
-// initGeo();              // zainicjowanie miast
+document.querySelector('#btnNewCities').addEventListener('click', () => { 
+  document.querySelector('.newGame').style.display = '';
+  document.querySelector('#citiesPanel').style.display = '';
+  initGeo(board.fields);  // zainicjowanie miast
+});
+document.querySelector('#btnNewPlayers').addEventListener('click', () => { 
+  document.querySelector('.newGame').style.display = '';
+  document.querySelector('#playersPanel').style.display = '';
+  newGame();              // zainicjowanie graczy
+});
 
 const startingPoint = 0;
 const starters = [['krzysiu', '🧑'], ['misiu', '👱‍']];
