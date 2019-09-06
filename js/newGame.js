@@ -169,6 +169,28 @@ function setRegion() {
   if (localStorage.getItem('region')) { el.value = localStorage.getItem('region'); } else { localStorage.setItem('region', el.value); }
   el.addEventListener('click', regionChanged);
   el.addEventListener('change', regionChanged);
+
+  el = document.createElement('div');
+  el.id = 'localeListButtons';
+  el.classList = 'localeListButtons';
+  el.innerHTML = `
+    <input type='button' name='btnBack' id='btnBack' value='Wróć do listy krajów' style='display: none;'>
+    `;
+  parentElement.appendChild(el);
+  const qs = document.querySelector('#btnBack');
+  qs.addEventListener('click', () => {
+    qs.style.display = 'none';
+    const el = document.querySelector('#search');
+    if (el) { 
+      el.placeholder = '  wybierz kraj...';
+      el.removeEventListener('change', () => { getCitiesByCountry(cities, country, fields, document.querySelector('#search').value); });
+      el.removeEventListener('keyup', () => { getCitiesByCountry(cities, country, fields, document.querySelector('#search').value); });
+      el.addEventListener('change', searchCountry);
+      el.addEventListener('keyup', searchCountry);
+      el.value = ''; 
+      searchCountry(); }
+  } );
+
 }
 
 function regionChanged(e) {  // reakcja na zmianę/wybór 'region' (kontynent)
@@ -282,6 +304,7 @@ function fillWithFields(fields) {
       let country = e.target.parentElement.children[1].innerText;
       if (country) {
         // jeśli jest już państwo, to wybierz miasto
+        document.querySelector('#btnBack').style.display='';
         suggestCities(country, fields);
       } else {
         console.log('A państwo gdzie?');
