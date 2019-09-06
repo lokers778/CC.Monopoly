@@ -24,6 +24,18 @@ class Railway extends FieldToBuy {
     return this.costs.rent[railways];
   }
 
+  calculateSaleRevenue() {
+    return this.costs.price / 2;
+  }
+
+  renderInfoView(node) {
+    console.log(`Railway::renderInfoView ${node.className}`);
+  }
+
+  renderOwnerControlPanelActionView(node) {
+    console.log(`Railway::renderOwnerControlPanelActionView ${node.className}`);
+  }
+
   toggleActive(player) {
     //Zastawianie i odzastawianie stacji
     if (player === this.owner) {

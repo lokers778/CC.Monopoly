@@ -1,10 +1,10 @@
 let active = null;
 
-function navigationBar(players) {
+function navigationBar(players, controlPanel) {
   const burger = document.querySelector('.burger');
   const navBar = document.querySelector('.navBar');
 
-  controlPlayers(players);
+  controlPlayers(players, controlPanel);
 
   burger.addEventListener('click', () => {
     navBar.classList.toggle('navActive');
@@ -12,7 +12,19 @@ function navigationBar(players) {
   });
 }
 
-function controlPlayers(players) {
+function createPropertyParagraph(property, controlPanel) {
+  const p = document.createElement('p');
+  function onClick() {
+    controlPanel.renderFieldInActionPanel(property);
+  }
+  p.classList.add('full');
+  p.style.cursor = 'pointer';
+  p.appendChild(document.createTextNode(property.truename));
+  p.addEventListener('click', onClick);
+  return p;
+}
+
+function controlPlayers(players, controlPanel) {
   const buttony = document.querySelector('.buttony');
   const info = document.querySelector('.info');
   const game = document.body;
@@ -56,9 +68,13 @@ function controlPlayers(players) {
 
   game.addEventListener('mousemove', () => {
     if (active) {
-      info.innerHTML = `<p>Pieniądze w portfelu: </p><p class='value'>${players[active - 1].currentMoneyAmount()}</p>
-      <p>Karty wyjścia z więzienia: </p><p class='value'>${players[active - 1].prisonEscCards()}</p>
-      <p class='full'>Posiadane pola: </p><p class='full'>${players[active - 1].currentProperies()}</p>`;
+      const player = players[active - 1];
+      info.innerHTML = `<p>Pieniądze w portfelu: </p><p class='value'>${player.currentMoneyAmount()}</p>
+      <p>Karty wyjścia z więzienia: </p><p class='value'>${player.prisonEscCards()}</p>
+      <p class='full'>Posiadane pola: </p>`;
+      for (let property of player.currentProperies()) {
+        info.appendChild(createPropertyParagraph(property, controlPanel));
+      }
     }
   });
 }

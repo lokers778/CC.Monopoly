@@ -50,8 +50,8 @@ class Field {
     document.querySelector(`.${player.name}`).remove();
   }
 
-  renderControlPanelView(controlPanel, node) {
-    console.log(`${this.truename} is rendering ${node.className} of ${controlPanel.constructor.name}`);
+  renderControlPanelFieldView(currentPlayer, node) {
+    console.log(`${this.truename} is rendering ${node.className} of ${currentPlayer.name}`);
   }
 }
 

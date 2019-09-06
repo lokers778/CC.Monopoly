@@ -12,6 +12,18 @@ class FieldToBuy extends Field {
     throw Error('Abstract method call');
   }
 
+  calculateSaleRevenue() {
+    throw Error('Abstract method call');
+  }
+
+  renderInfoView() {
+    throw Error('Abstract method call');
+  }
+
+  renderOwnerControlPanelActionView() {
+    throw Error('Abstract method call');
+  }
+
   playerOnMe(player) {
     super.playerOnMe(player);
 
@@ -38,9 +50,11 @@ class FieldToBuy extends Field {
         if (player.currentMoneyAmount() >= rentToPay) {
           player.updateMoney(-rentToPay);
           this.owner.updateMoney(rentToPay);
-        } else {
+        } else if (player.allMoneyAmount() < rentToPay) {
           this.owner.updateMoney(player.currentMoneyAmount());
           player.goBancrupt();
+        } else {
+          alert('Musisz sprzedać hotele lub zastawić posiadłość aby zapłacić');
         }
       }
     }
@@ -74,8 +88,8 @@ class FieldToBuy extends Field {
     node.appendChild(button);
   }
 
-  renderControlPanelView(controlPanel, node) {
-    const currentPlayer = controlPanel.currentPlayer();
+  renderControlPanelFieldView(currentPlayer, node) {
+    this.renderInfoView(node);
     if (!this.owner) {
       this.renderToBuyView(currentPlayer, node);
     } else if (currentPlayer !== this.owner) {
@@ -86,6 +100,14 @@ class FieldToBuy extends Field {
       }
     } else {
       this.renderOwnerView(node);
+    }
+  }
+
+  renderControlPanelActionView(currentPlayer, node) {
+    this.renderInfoView(node);
+    if (this.owner === currentPlayer) {
+      this.renderOwnerControlPanelActionView(node);
+      node.appendChild(document.createTextNode(`Rendering ${this.truename}`));
     }
   }
 }

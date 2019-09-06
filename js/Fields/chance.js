@@ -29,7 +29,7 @@ class Chance extends Field {
   }
 
   /* TODO
-  renderControlPanelView(controlPanel, node) {
+  renderControlPanelFieldView(currentPlayer, node) {
     console.log(`${this.truename} is rendering ${node.className} of ${controlPanel.constructor.name}`);
   }
   */

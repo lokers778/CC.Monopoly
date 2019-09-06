@@ -24,8 +24,14 @@
 
 .fieldPanel {
   @extend %controlPanelChildPanel;
-  min-height: 40%;
-  margin-top: 5%;
+  min-height: 25%;
+  margin-top: 2%;
+}
+
+.actionPanel {
+  @extend %controlPanelChildPanel;
+  min-height: 25%;
+  margin-top: 2%;
 }
 
 i.fas {

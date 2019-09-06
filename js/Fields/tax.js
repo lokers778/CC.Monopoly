@@ -26,9 +26,10 @@ class Tax extends Field {
     }
   }
 
-  renderControlPanelView(controlPanel, node) {
-    const player = controlPanel.currentPlayer();
-    node.appendChild(document.createTextNode(`${player.name} musi zapłacić podatek w wysokości ${this.moneyToPay}`));
+  renderControlPanelFieldView(currentPlayer, node) {
+    node.appendChild(
+      document.createTextNode(`${currentPlayer.name} musi zapłacić podatek w wysokości ${this.moneyToPay}`),
+    );
   }
 }
 

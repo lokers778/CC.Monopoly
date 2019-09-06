@@ -19,6 +19,18 @@ class Special extends FieldToBuy {
     return this.costs.rent[specials] * player.getLastMove;
   }
 
+  calculateSaleRevenue() {
+    return this.costs.price / 2;
+  }
+
+  renderInfoView(node) {
+    console.log(`Special::renderInfoView ${node.className}`);
+  }
+
+  renderOwnerControlPanelActionView(node) {
+    console.log(`Special::renderOwnerControlPanelActionView ${node.className}`);
+  }
+
   toggleActive(player) {
     //Zastawianie i odzastawianie stacji
     if (player === this.owner) {

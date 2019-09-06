@@ -16,23 +16,23 @@ for (let key in colors) {
   board.getPropertiesByColor(color).forEach(x => (x.node.style.backgroundColor = color));
 }
 
-document.querySelector('#btnNewCities').addEventListener('click', () => { 
+document.querySelector('#btnNewCities').addEventListener('click', () => {
   document.querySelector('.newGame').style.display = '';
   document.querySelector('#citiesPanel').style.display = '';
-  initGeo(board.fields);  // zainicjowanie miast
+  initGeo(board.fields); // zainicjowanie miast
 });
-document.querySelector('#btnNewPlayers').addEventListener('click', () => { 
+document.querySelector('#btnNewPlayers').addEventListener('click', () => {
   document.querySelector('.newGame').style.display = '';
   document.querySelector('#playersPanel').style.display = '';
-  newGame();              // zainicjowanie graczy
+  newGame(); // zainicjowanie graczy
 });
 
-const startingPoint = 0;
 const starters = [['krzysiu', '🧑'], ['misiu', '👱‍']];
 const players = initializePlayers(starters, board);
-navigationBar(players);
 const controlPanel = new ControlPanel(board, players);
+navigationBar(players, controlPanel);
 
+/*
 document.querySelector('#kup').addEventListener('click', () => {
   board.getField(1).buyBuilding(controlPanel.currentPlayer());
   board.getField(11).buyBuilding(controlPanel.currentPlayer());
@@ -42,5 +42,6 @@ document.querySelector('#sprzedaj').addEventListener('click', () => {
   board.getField(1).sellBuilding(controlPanel.currentPlayer());
   board.getField(11).sellBuilding(controlPanel.currentPlayer());
 });
+*/
 
 export default players;

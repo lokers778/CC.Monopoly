@@ -29,6 +29,18 @@ class Property extends FieldToBuy {
     return this.costs.rent[this.numberOfHouses + this.numberOfHotels * 5];
   }
 
+  calculateSaleRevenue() {
+    return this.costs.price / 2 + (this.costs.costOfBuilding / 2) * (this.numberOfHouses + this.numberOfHotels * 5);
+  }
+
+  renderInfoView(node) {
+    console.log(`Property::renderInfoView ${node.className}`);
+  }
+
+  renderOwnerControlPanelActionView(node) {
+    console.log(`Property::renderOwnerControlPanelActionView ${node.className}`);
+  }
+
   toggleActive(player) {
     //Zastawianie i odzastawianie posiadłości
     if (player === this.owner) {

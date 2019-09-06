@@ -93,6 +93,12 @@ class Player {
       Start.giveReward(this);
     }
   }
+
+  allMoneyAmount() {
+    return this.properties.reduce((sum, property) => {
+      return sum + property.calculateSaleRevenue();
+    }, this.currentMoneyAmount());
+  }
 }
 
 const initializePlayers = (starters, board) => {
