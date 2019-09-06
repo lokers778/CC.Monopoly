@@ -1,15 +1,30 @@
 const playersList = document.querySelector('.playersList');
 const btnNumberOfPlayers = [...document.querySelectorAll('.createNewPlayers')];
 
-const clearNode = node => {
-  while (node.firstChild) {
-    node.removeChild(node.firstChild);
-  }
-  return node;
-};
+// const clearNode = node => {
+//   while (node.firstChild) {
+//     node.removeChild(node.firstChild);
+//   }
+//   return node;
+// };
 
 const newPlayers = [['krzysiu', '🧑'], ['misiu', '👱‍']];
 // const newPlayers = [];
+
+
+// const selectBtnDelete = function () {
+//   let btnDelete = [...document.querySelectorAll('.btnDelete')];
+//   return btnDelete;
+// }
+
+
+
+const createInputPlayerName = function () {
+  const newInput = document.createElement('input');
+  newInput.setAttribute('type', 'text');
+  newInput.setAttribute('placeholder', 'Wpisz nazwę gracza');
+  return newInput;
+};
 
 const newPlayersToPlayersList = function () {
   playersList.innerHTML = '';
@@ -17,7 +32,13 @@ const newPlayersToPlayersList = function () {
     // Create new li element
     const li = document.createElement('li');
     li.className = 'playersListItem';
-    li.appendChild(document.createTextNode(`${Item[1]} ${Item[0]} `));
+    li.appendChild(document.createTextNode(`${Item[1]}`));
+    if (Item[0]) {
+      li.appendChild(document.createTextNode(`${Item[0]}`));
+    }
+    else {
+      li.appendChild(createInputPlayerName());
+    };
 
     //Create delete button
     const deleteBtn = document.createElement('button');
@@ -27,8 +48,25 @@ const newPlayersToPlayersList = function () {
 
     //Add li element to list
     playersList.appendChild(li);
-  })
-}
+  });
+
+  let btnDelete = [...document.querySelectorAll('.btnDelete')];
+
+  for (let i = 0; i <= newPlayers.length; i++) {
+    btnDelete[i].addEventListener('click', function () {
+      newPlayers.splice(i, 1);
+      playersList.children[i].remove();
+    });
+  };
+
+  // let playersListItems = [...document.querySelectorAll('.playersListItem')];
+  // for (let i = 0; i < i < playersListItems.length; i++) {
+  //   playersListItems[i].addEventListener('click', function () {
+
+
+  //   })
+  // };
+};
 newPlayersToPlayersList();
 
 btnNumberOfPlayers.forEach(item => {
@@ -49,13 +87,7 @@ btnNumberOfPlayers.forEach(item => {
   });
 });
 
-// const btnDelete = [...document.querySelectorAll('.btnDelete')]
-// btnDelete.forEach(item => {
-//   item.addEventListener('click', function () {
-//     clearNode(this.parentNode);
-//     console.log(this.parentNode);
-//   })
-// });
+
 
 // function addNewPlayer() {
 //   const newPlayer = ['', ''];
@@ -106,22 +138,22 @@ let dragged;                // na potrzeby przeciągania państw/miast na pola g
 export function initGeo(fields) {
 
   // ===== Ukrywa (tymczasowo) panel dodawania playerów =====
-  document.querySelector('.mainPanel').style.display = 'none';
+  // document.querySelector('.mainPanel').style.display = 'none';
   // ========================================================
 
   document.querySelector('#citiesPanel').style.display = 'flex';
-  fields = fields.filter( (val) => { return !!val.color; } );
+  fields = fields.filter((val) => { return !!val.color; });
 
   let qs = document.querySelector('#citiesLeft');
   let el = document.createElement('h4');
   el.innerText = 'Pola do opisania:';
   qs.appendChild(el);
-  
+
   el = document.createElement('div');
   el.id = 'initFieldsContainer';
   el.classList = 'initFieldsContainer';
   qs.appendChild(el);
-  
+
   el = document.createElement('div');
   el.id = 'fieldsListButtons';
   el.classList = 'fieldsListButtons';
@@ -130,22 +162,22 @@ export function initGeo(fields) {
     <input type='button' name='fieldsRestore' id='fieldsRestore' value='Odtwórz'>
     `;
   qs.appendChild(el);
-  document.querySelector('#fieldsSave').addEventListener('click', () => { localStorage.setItem('fields', JSON.stringify(fields)); } );
-  document.querySelector('#fieldsRestore').addEventListener('click', () => { 
+  document.querySelector('#fieldsSave').addEventListener('click', () => { localStorage.setItem('fields', JSON.stringify(fields)); });
+  document.querySelector('#fieldsRestore').addEventListener('click', () => {
     const arr = JSON.parse(localStorage.getItem('fields'));
     let field;
-    arr.forEach( (val) => {
-      field = fields.find( (val1) => { return val1.truename === val.truename } );
+    arr.forEach((val) => {
+      field = fields.find((val1) => { return val1.truename === val.truename });
       field.name = JSON.parse(JSON.stringify(val.name));
-    } ); 
+    });
     const qs = document.querySelector('#initFieldsList tbody');
     while (qs.children.length) {
       qs.removeChild(qs.lastChild);
     }
     fillWithFields(fields);
-    document.querySelector('#fieldsSave').style.display = ( (chosenCountries(fields).length) ? '' : 'none' );
-  } );
-  
+    document.querySelector('#fieldsSave').style.display = ((chosenCountries(fields).length) ? '' : 'none');
+  });
+
   geoInit();
 
   // tabela z `fieldami`, najpierw wiersz
@@ -162,12 +194,12 @@ export function initGeo(fields) {
     <tbody>
     </tbody>`;
   qs.appendChild(el);
-  el.addEventListener("dragover", (e) => { e.preventDefault(); }, false);  
+  el.addEventListener("dragover", (e) => { e.preventDefault(); }, false);
   el.addEventListener("drop", (e) => { e.preventDefault(); dropped(e.target, fields); }, false);
 
   // wiersze tabieli - każdy `field` ma swój
   fillWithFields(fields);
-  
+
 }
 
 function geoInit() {
@@ -178,17 +210,17 @@ function geoInit() {
       "x-rapidapi-key": "26934c6e73msh8d4ccc9eb16682ep141879jsn4a3e7dd3dc52"
     }
   })
-  .then(res => res.json() )
-  .then(res => {
-    countries.push(...res);
-    let regs = countries.map( (data) => { return data.region; } );
-    regs = [...new Set(regs)];    // pozostawia w 'regs' tylko unikalne wartości
-    regions.push(...regs);
-    gameRegion = regions[0];
-    setRegion();
-    chooseCountry();    // !!!! wywoływane stąd tylko tymczasowo !!!!
-  })
-  .catch(err => console.log(err));
+    .then(res => res.json())
+    .then(res => {
+      countries.push(...res);
+      let regs = countries.map((data) => { return data.region; });
+      regs = [...new Set(regs)];    // pozostawia w 'regs' tylko unikalne wartości
+      regions.push(...regs);
+      gameRegion = regions[0];
+      setRegion();
+      chooseCountry();    // !!!! wywoływane stąd tylko tymczasowo !!!!
+    })
+    .catch(err => console.log(err));
 }
 
 function setRegion() {
@@ -201,9 +233,9 @@ function setRegion() {
     <h4>Lokalizacje do wyboru:</h4>
     <form name='searchCitiesForm' id='searchCitiesForm'>
       Wybierz kontynent: <select name='regionsList' id='regionsList'>`;
-  regions.forEach( (val) => {
+  regions.forEach((val) => {
     if (val) {
-        html += `
+      html += `
         <option value="${val}">${val}</option>`;
     }
   });
@@ -212,7 +244,7 @@ function setRegion() {
     </form>`;
   el.innerHTML = html;
   parentElement.insertBefore(el, parentElement.childNodes[0]);
-  el = document.querySelector('#regionsList'); 
+  el = document.querySelector('#regionsList');
   if (localStorage.getItem('region')) { el.value = localStorage.getItem('region'); } else { localStorage.setItem('region', el.value); }
   el.addEventListener('click', regionChanged);
   el.addEventListener('change', regionChanged);
@@ -228,26 +260,27 @@ function setRegion() {
   qs.addEventListener('click', () => {
     qs.style.display = 'none';
     const el = document.querySelector('#search');
-    if (el) { 
+    if (el) {
       el.placeholder = '  wybierz kraj...';
       el.removeEventListener('change', () => { getCitiesByCountry(cities, country, fields, document.querySelector('#search').value); });
       el.removeEventListener('keyup', () => { getCitiesByCountry(cities, country, fields, document.querySelector('#search').value); });
       el.addEventListener('change', searchCountry);
       el.addEventListener('keyup', searchCountry);
-      el.value = ''; 
-      searchCountry(); }
-  } );
+      el.value = '';
+      searchCountry();
+    }
+  });
 
 }
 
 function regionChanged(e) {  // reakcja na zmianę/wybór 'region' (kontynent)
-    const qs = document.querySelector('#search');
-    localStorage.setItem('region', e.target.value);
-    if (qs) {
-      qs.value = '';
-      searchCountry();
-    }
-    gameRegion = e.target.value;
+  const qs = document.querySelector('#search');
+  localStorage.setItem('region', e.target.value);
+  if (qs) {
+    qs.value = '';
+    searchCountry();
+  }
+  gameRegion = e.target.value;
 }
 
 function chooseCountry() {
@@ -268,57 +301,57 @@ function chooseCountry() {
     el.id = 'suggestions';
     cs.appendChild(el);
   }
-  getCountriesByRegion( document.querySelector('#regionsList').value, document.querySelector('#search').value );
+  getCountriesByRegion(document.querySelector('#regionsList').value, document.querySelector('#search').value);
 }
 
 function getCountriesByRegion(region, search) { // dostosowuje listę krajów w podpowiedzi do 'region' i wpisanego kryterium wyszukiwania
-  const arr = countries.filter( (val) => { 
+  const arr = countries.filter((val) => {
     const re = new RegExp(search, 'gi');
-    let ret = ( (val.region === region) && val.name.match(re) );
+    let ret = ((val.region === region) && val.name.match(re));
     return ret;
-  } );
+  });
   const qs = document.querySelector('#suggestions');
   qs.innerHTML = '';
   let el;
-  arr.forEach( (val) => {
+  arr.forEach((val) => {
     if (!countriesChosen.includes(val.name)) {
       el = document.createElement('li');
       el.innerHTML = `<span name='${val.alpha3Code}' typ='country' draggable='true' ondragstart='event.dataTransfer.setData("text/plain", null)'>${val.name}</span>`;
-      el.addEventListener("dragstart", function(e) { dragged = e.target; }, false);
+      el.addEventListener("dragstart", function (e) { dragged = e.target; }, false);
       qs.appendChild(el);
     }
-  } );
+  });
   return arr;
 }
 
 function searchCountry() { // reaguje na zmiany w polu 'search' (wybór kraju)
-  getCountriesByRegion( document.querySelector('#regionsList').value, document.querySelector('#search').value );
+  getCountriesByRegion(document.querySelector('#regionsList').value, document.querySelector('#search').value);
 }
 
 function getFlagURL(country) {
-  const countryCode = countries.filter( (val) => { return (val.name === country); } )[0].alpha2Code.toLowerCase();
+  const countryCode = countries.filter((val) => { return (val.name === country); })[0].alpha2Code.toLowerCase();
   return `https://www.countryflags.io/${countryCode}/shiny/64.png`;
 }
 
 function dropped(target, fields) {
   const color = target.parentElement.style.backgroundColor;
-  const fieldsCountry = fields.filter( (val) => { return val.color === color; } );
-  switch(dragged.attributes['typ'].value) {
+  const fieldsCountry = fields.filter((val) => { return val.color === color; });
+  switch (dragged.attributes['typ'].value) {
     case 'country': {
       const countryCode = dragged.attributes['name'].value;
-      const countryName = countries.find( (val) => { return val.alpha3Code === countryCode; } ).name;
-      fieldsCountry.forEach( (val) => { 
-        val.name = { country: countryName, region: document.querySelector('#regionsList').value, flag: getFlagURL(countryName) }; 
-      } );
+      const countryName = countries.find((val) => { return val.alpha3Code === countryCode; }).name;
+      fieldsCountry.forEach((val) => {
+        val.name = { country: countryName, region: document.querySelector('#regionsList').value, flag: getFlagURL(countryName) };
+      });
       countriesChosen.splice(0, countriesChosen.length);
       countriesChosen.push(...chosenCountries(fields));
       searchCountry();
-      document.querySelector('#fieldsSave').style.display = ( (chosenCountries(fields).length) ? '' : 'none' );
+      document.querySelector('#fieldsSave').style.display = ((chosenCountries(fields).length) ? '' : 'none');
       break;
     }
     case 'city': {
-      const field = fields.find( (val) => { return val.truename === target.parentElement.fieldTrueName; } );
-      if (field) { 
+      const field = fields.find((val) => { return val.truename === target.parentElement.fieldTrueName; });
+      if (field) {
         field.name.name = dragged.attributes.name.value;
         field.name.population = dragged.attributes.population.value;
       }
@@ -337,48 +370,48 @@ function dropped(target, fields) {
 function fillWithFields(fields) {
   let qs = document.querySelector('#initFieldsList tbody');
   let allEmptyCountry = true;
-  fields.forEach( (val) => {
+  fields.forEach((val) => {
     let el = document.createElement('tr');
-    if (val.name.country) {allEmptyCountry = false;}
+    if (val.name.country) { allEmptyCountry = false; }
     el.name = val.truename;
     el.style = `background-color: ${val.color};` + (((val.color === 'black') || (val.color === 'blue')) ? `color: white;` : ``);
-    el.innerHTML = `<td>${val.color} (${val.truename.substr(-1,1)})</td>
-      <td>${ (val.name.country) ? val.name.country : '' }</td>
-      <td>${ (val.name.name) ? val.name.name : '' }</td>
+    el.innerHTML = `<td>${val.color} (${val.truename.substr(-1, 1)})</td>
+      <td>${ (val.name.country) ? val.name.country : ''}</td>
+      <td>${ (val.name.name) ? val.name.name : ''}</td>
       <td></td>`;
     el.fieldTrueName = val.truename;
-    el.addEventListener('click', (e) => { 
+    el.addEventListener('click', (e) => {
       let country = e.target.parentElement.children[1].innerText;
       if (country) {
         // jeśli jest już państwo, to wybierz miasto
-        document.querySelector('#btnBack').style.display='';
+        document.querySelector('#btnBack').style.display = '';
         suggestCities(country, fields);
       } else {
         console.log('A państwo gdzie?');
       }
-    } )
+    })
     qs.appendChild(el);
-  } );
+  });
   document.querySelector('#regionsList').disabled = !allEmptyCountry;
   // console.log(fields);
 }
 
 function chosenCountries(fields) {
   let ret = [];
-  fields.forEach( (val) => {
+  fields.forEach((val) => {
     if (val.name.country) { ret.push(val.name.country); }
-  } )
+  })
   ret = [...new Set(ret)];
   return ret;
 }
 
 function chosenCities(fields) {
   let ret = [];
-  fields.forEach( (val) => {
-    if (val.name.name) { 
+  fields.forEach((val) => {
+    if (val.name.name) {
       ret.push(val.name.name);
     }
-  } )
+  })
   ret = [...new Set(ret)];
   return ret;
 }
@@ -387,7 +420,7 @@ function suggestCities(country, fields) {
   // console.log(country);
   let qs = document.querySelector('#suggestions');
   while (qs.children.length) { qs.removeChild(qs.lastChild); }
-  const countryCode = countries.filter( (val) => { return (val.name === country); } )[0].alpha2Code;
+  const countryCode = countries.filter((val) => { return (val.name === country); })[0].alpha2Code;
   chooseCity(countryCode, country, fields);
 }
 
@@ -395,37 +428,37 @@ function chooseCity(code, country, fields) { // pobiera obiekty miast dla podane
   const url = `http://api.geonames.org/search?country=${code.toUpperCase()}&type=json&username=MarKust71`;
   cities.splice(0, cities.length);
   fetch(url, { "method": "GET", })
-  .then(res => res.json() )
-  .then(res => {
-    res.geonames.map( (val) => { 
-      if (val.fcl === 'P') {
-          cities.push( { name: val.name, population: val.population } );
-      }
-    });
-    cities.sort( (a, b) => { return b.population - a.population; } );
-    const qs = document.querySelector('#search');
-    qs.placeholder = '  wybierz miasto...';
-    qs.removeEventListener('change', searchCountry);
-    qs.removeEventListener('keyup', searchCountry);
-    qs.addEventListener('change', () => { getCitiesByCountry(cities, country, fields, document.querySelector('#search').value); });
-    qs.addEventListener('keyup', () => { getCitiesByCountry(cities, country, fields, document.querySelector('#search').value); });
-    getCitiesByCountry(cities, country, fields, qs.value);
-  })
-  .catch(err => console.log(err));
+    .then(res => res.json())
+    .then(res => {
+      res.geonames.map((val) => {
+        if (val.fcl === 'P') {
+          cities.push({ name: val.name, population: val.population });
+        }
+      });
+      cities.sort((a, b) => { return b.population - a.population; });
+      const qs = document.querySelector('#search');
+      qs.placeholder = '  wybierz miasto...';
+      qs.removeEventListener('change', searchCountry);
+      qs.removeEventListener('keyup', searchCountry);
+      qs.addEventListener('change', () => { getCitiesByCountry(cities, country, fields, document.querySelector('#search').value); });
+      qs.addEventListener('keyup', () => { getCitiesByCountry(cities, country, fields, document.querySelector('#search').value); });
+      getCitiesByCountry(cities, country, fields, qs.value);
+    })
+    .catch(err => console.log(err));
 }
 
 function getCitiesByCountry(cities, country, fields, search) {
-  const arr = cities.filter( (val) => { 
+  const arr = cities.filter((val) => {
     const re = new RegExp(search, 'gi');
-    let ret = ( val.name.match(re) );
+    let ret = (val.name.match(re));
     return ret;
-  } );
+  });
   const qs = document.querySelector('#suggestions');
   qs.innerHTML = '';  // usunięcie poprzednich podpowiedzi
   const citiesChosen = chosenCities(fields);
   let el;
-  arr.forEach( (val) => {  // pomija miasta wcześniej wybrane
-    if (!citiesChosen.filter( (val1) => { return (val.name === val1); } ).length) {
+  arr.forEach((val) => {  // pomija miasta wcześniej wybrane
+    if (!citiesChosen.filter((val1) => { return (val.name === val1); }).length) {
       el = document.createElement('li');
       el.innerHTML = `<span 
         name='${val.name}' 
@@ -435,10 +468,10 @@ function getCitiesByCountry(cities, country, fields, search) {
         draggable='true' 
         ondragstart='event.dataTransfer.setData("text/plain", null)'>${val.name}, ${val.population}
         </span>`;
-      el.addEventListener("dragstart", function(e) { dragged = e.target; }, false);
+      el.addEventListener("dragstart", function (e) { dragged = e.target; }, false);
       qs.appendChild(el);
     }
-  } );
+  });
 }
 
 // ===========================================
