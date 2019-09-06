@@ -70,3 +70,62 @@
     cursor: pointer;
   }
 }
+
+
+
+// =========== inicjalizacja miast ===========
+
+.initFieldsContainer {
+  margin-top: 5px;
+  text-align: left;
+  th {
+    text-align: center;
+  }
+}
+
+.initFieldsList {
+  width: 100%;
+  tbody tr {
+    :hover {
+      cursor: pointer;
+    }
+  }
+}
+
+#searchCitiesForm {
+  margin-top: 5px;
+}
+
+.citiesInitSection form {
+  margin: 0 10px;
+  text-align: left;
+}
+
+.citiesInitSection ul {
+  max-height: 40vh;
+  overflow-y: scroll;
+  margin: 5px 0;
+}
+
+#suggestions span {
+  display: block;
+}
+
+#suggestions li:hover {
+  cursor: pointer;
+  background-color: lightblue;
+}
+
+#search {
+  margin-top: 5px;
+}
+
+.fieldsListButtons {
+  margin-top: 15px;
+}
+
+.localeListButtons {
+  margin-top: 15px;
+}
+
+// ===========================================
