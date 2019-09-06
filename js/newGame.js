@@ -51,10 +51,10 @@ export default returnNewPlayers;
 const countries = [];       // tablica zawierająca dane krajów, fetch z https://restcountries-v1.p.rapidapi.com/all
 const countriesChosen = []; // pomocnicza tablica - państwa przypisane do pól
 const regions = [];         // tablica zawierająca kontynenty, na podstawie 'countries'
-const cities = [];        // zmienna pomocnicza: miasta dla wskazanego kraju
-let gameRegion = '';      // kontynent ustalany globalnie przy inicjalizacji nowej gry
+const cities = [];          // zmienna pomocnicza: miasta dla wskazanego kraju
+let gameRegion = '';        // kontynent ustalany globalnie przy inicjalizacji nowej gry
 
-let dragged;            // na potrzeby przeciągania miast na pola
+let dragged;                // na potrzeby przeciągania państw/miast na pola gry
 
 export function initGeo(fields) {
 
@@ -141,7 +141,7 @@ function setRegion() {
     </form>`;
   el.innerHTML = html;
   parentElement.insertBefore(el, parentElement.childNodes[0]);
-  el = document.getElementById('regionsList'); 
+  el = document.querySelector('#regionsList'); 
   if (localStorage.getItem('region')) { el.value = localStorage.getItem('region'); } else { localStorage.setItem('region', el.value); }
   el.addEventListener('click', regionChanged);
   el.addEventListener('change', regionChanged);
@@ -151,8 +151,8 @@ function regionChanged(e) {  // reakcja na zmianę/wybór 'region' (kontynent)
     const qs = document.querySelector('#search');
     localStorage.setItem('region', e.target.value);
     if (qs) {
-        qs.value = '';
-        searchCountry();
+      qs.value = '';
+      searchCountry();
     }
     gameRegion = e.target.value;
 }
@@ -160,52 +160,46 @@ function regionChanged(e) {  // reakcja na zmianę/wybór 'region' (kontynent)
 function chooseCountry() {
   const cs = document.querySelector('#searchCitiesForm');
   if (document.querySelector('#search')) {
-      document.querySelector('#search').placeholder = '  wyszukaj kraj...';
+    document.querySelector('#search').placeholder = '  wyszukaj kraj...';
   } else {
-      let el = document.createElement('input');
-      el.type = 'text';
-      el.id = 'search';
-      el.placeholder = '  wyszukaj kraj...';
-      el.addEventListener('change', searchCountry);
-      el.addEventListener('keyup', searchCountry);
-      cs.appendChild(el);
-      el = document.createElement('br');
-      cs.appendChild(el);
-      el = document.createElement('ul');
-      el.id = 'suggestions';
-      cs.appendChild(el);
+    let el = document.createElement('input');
+    el.type = 'text';
+    el.id = 'search';
+    el.placeholder = '  wyszukaj kraj...';
+    el.addEventListener('change', searchCountry);
+    el.addEventListener('keyup', searchCountry);
+    cs.appendChild(el);
+    el = document.createElement('br');
+    cs.appendChild(el);
+    el = document.createElement('ul');
+    el.id = 'suggestions';
+    cs.appendChild(el);
   }
   getCountriesByRegion( document.querySelector('#regionsList').value, document.querySelector('#search').value );
 }
 
 function getCountriesByRegion(region, search) { // dostosowuje listę krajów w podpowiedzi do 'region' i wpisanego kryterium wyszukiwania
-    const arr = countries.filter( (val) => { 
-        const re = new RegExp(search, 'gi');
-        let ret = ( (val.region === region) && val.name.match(re) );
-        return ret;
-    } );
-    const qs = document.querySelector('#suggestions');
-    qs.innerHTML = '';
-    let el;
-    arr.forEach( (val) => {
-      if (!countriesChosen.includes(val.name)) {
-        el = document.createElement('li');
-        el.innerHTML = `<span name='${val.alpha3Code}' draggable='true' ondragstart='event.dataTransfer.setData("text/plain", null)'>${val.name}</span>`;
-        el.addEventListener("dragstart", function(e) {
-          dragged = e.target;
-        }, false);
-        qs.appendChild(el);
-      }
-    } );
-    return arr;
+  const arr = countries.filter( (val) => { 
+    const re = new RegExp(search, 'gi');
+    let ret = ( (val.region === region) && val.name.match(re) );
+    return ret;
+  } );
+  const qs = document.querySelector('#suggestions');
+  qs.innerHTML = '';
+  let el;
+  arr.forEach( (val) => {
+    if (!countriesChosen.includes(val.name)) {
+      el = document.createElement('li');
+      el.innerHTML = `<span name='${val.alpha3Code}' typ='country' draggable='true' ondragstart='event.dataTransfer.setData("text/plain", null)'>${val.name}</span>`;
+      el.addEventListener("dragstart", function(e) { dragged = e.target; }, false);
+      qs.appendChild(el);
+    }
+  } );
+  return arr;
 }
 
 function searchCountry() { // reaguje na zmiany w polu 'search' (wybór kraju)
-    getCountriesByRegion( document.querySelector('#regionsList').value, document.querySelector('#search').value );
-    let cf = document.querySelector('#countryFlag');
-    if (cf) {
-        cf.parentElement.removeChild(cf);
-    }
+  getCountriesByRegion( document.querySelector('#regionsList').value, document.querySelector('#search').value );
 }
 
 function getFlagURL(country) {
@@ -214,23 +208,35 @@ function getFlagURL(country) {
 }
 
 function dropped(target, fields) {
-  // console.log(target.parentElement.fieldTrueName, dragged);
   const color = target.parentElement.style.backgroundColor;
   const fieldsCountry = fields.filter( (val) => { return val.color === color; } );
-  const countryCode = dragged.attributes['name'].value;
-  const countryName = countries.find( (val) => { return val.alpha3Code === countryCode; } ).name;
-  fieldsCountry.forEach( (val) => { 
-    val.name = { country: countryName, region: document.querySelector('#regionsList').value, flag: getFlagURL(countryName) }; 
-  } );
-  countriesChosen.splice(0, countriesChosen.length);
-  countriesChosen.push(...chosenCountries(fields));
-  searchCountry();
+  switch(dragged.attributes['typ'].value) {
+    case 'country': {
+      const countryCode = dragged.attributes['name'].value;
+      const countryName = countries.find( (val) => { return val.alpha3Code === countryCode; } ).name;
+      fieldsCountry.forEach( (val) => { 
+        val.name = { country: countryName, region: document.querySelector('#regionsList').value, flag: getFlagURL(countryName) }; 
+      } );
+      countriesChosen.splice(0, countriesChosen.length);
+      countriesChosen.push(...chosenCountries(fields));
+      searchCountry();
+      break;
+    }
+    case 'city': {
+      const field = fields.find( (val) => { return val.truename === target.parentElement.fieldTrueName; } );
+      if (field) { 
+        field.name.name = dragged.attributes.name.value;
+        field.name.population = dragged.attributes.population.value;
+      }
+      getCitiesByCountry(cities, field.name.country, fields, document.querySelector('#search').value);
+      break;
+    }
+  }
   const qs = document.querySelector('#initFieldsList tbody');
   while (qs.children.length) {
     qs.removeChild(qs.lastChild);
   }
   fillWithFields(fields);
-  // console.log(fields);
 }
 
 // dopełnienie tabeli wierszami z `fields`
@@ -242,7 +248,10 @@ function fillWithFields(fields) {
     if (val.name.country) {allEmptyCountry = false;}
     el.name = val.truename;
     el.style = `background-color: ${val.color};` + (((val.color === 'black') || (val.color === 'blue')) ? `color: white;` : ``);
-    el.innerHTML = `<td>${val.color} (${val.truename.substr(-1,1)})</td><td>${ (val.name.country) ? val.name.country : '' }</td><td></td><td></td>`;
+    el.innerHTML = `<td>${val.color} (${val.truename.substr(-1,1)})</td>
+      <td>${ (val.name.country) ? val.name.country : '' }</td>
+      <td>${ (val.name.name) ? val.name.name : '' }</td>
+      <td></td>`;
     el.fieldTrueName = val.truename;
     el.addEventListener('click', (e) => { 
       let country = e.target.parentElement.children[1].innerText;
@@ -271,7 +280,9 @@ function chosenCountries(fields) {
 function chosenCities(fields) {
   let ret = [];
   fields.forEach( (val) => {
-    if (val.name.name) { ret.push(val.name.name); }
+    if (val.name.name) { 
+      ret.push(val.name.name);
+    }
   } )
   ret = [...new Set(ret)];
   return ret;
@@ -291,44 +302,45 @@ function chooseCity(code, country, fields) { // pobiera obiekty miast dla podane
   fetch(url, { "method": "GET", })
   .then(res => res.json() )
   .then(res => {
-      res.geonames.map( (val) => { 
-          if (val.fcl === 'P') {
-              cities.push( { name: val.name, population: val.population } );
-          }
-      });
-      cities.sort( (a, b) => { return b.population - a.population; } );
-      const qs = document.querySelector('#search');
-      qs.placeholder = '  wybierz miasto...';
-      qs.removeEventListener('change', searchCountry);
-      qs.removeEventListener('keyup', searchCountry);
-      qs.addEventListener('change', (e) => { getCitiesByCountry(cities, country, fields, document.getElementById('search').value); });
-      qs.addEventListener('keyup', (e) => { getCitiesByCountry(cities, country, fields, document.getElementById('search').value); });
-      getCitiesByCountry(cities, country, fields, qs.value);
+    res.geonames.map( (val) => { 
+      if (val.fcl === 'P') {
+          cities.push( { name: val.name, population: val.population } );
+      }
+    });
+    cities.sort( (a, b) => { return b.population - a.population; } );
+    const qs = document.querySelector('#search');
+    qs.placeholder = '  wybierz miasto...';
+    qs.removeEventListener('change', searchCountry);
+    qs.removeEventListener('keyup', searchCountry);
+    qs.addEventListener('change', () => { getCitiesByCountry(cities, country, fields, document.querySelector('#search').value); });
+    qs.addEventListener('keyup', () => { getCitiesByCountry(cities, country, fields, document.querySelector('#search').value); });
+    getCitiesByCountry(cities, country, fields, qs.value);
   })
   .catch(err => console.log(err));
 }
 
 function getCitiesByCountry(cities, country, fields, search) {
-  // console.log(cities);
-  // console.log(country);
   const arr = cities.filter( (val) => { 
     const re = new RegExp(search, 'gi');
     let ret = ( val.name.match(re) );
     return ret;
   } );
-const qs = document.querySelector('#suggestions');
+  const qs = document.querySelector('#suggestions');
   qs.innerHTML = '';  // usunięcie poprzednich podpowiedzi
   const citiesChosen = chosenCities(fields);
   let el;
   arr.forEach( (val) => {  // pomija miasta wcześniej wybrane
-    if (!citiesChosen.filter( (val1) => 
-        {
-          // return ( (val.name === val1.name) && (val.country === val1.country) ); 
-          return (val.name === val1.name); 
-        } ).length) {
+    if (!citiesChosen.filter( (val1) => { return (val.name === val1); } ).length) {
       el = document.createElement('li');
-      el.innerHTML = `<span name='${val.name}'>${val.name}, ${val.population}</span>`;
-      // el.addEventListener('dblclick', suggestionClickedCity);      // albo też DRAG&DROP
+      el.innerHTML = `<span 
+        name='${val.name}' 
+        country='${country}' 
+        typ='city' 
+        population='${val.population}'
+        draggable='true' 
+        ondragstart='event.dataTransfer.setData("text/plain", null)'>${val.name}, ${val.population}
+        </span>`;
+      el.addEventListener("dragstart", function(e) { dragged = e.target; }, false);
       qs.appendChild(el);
     }
   } );
