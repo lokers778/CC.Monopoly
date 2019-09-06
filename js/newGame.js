@@ -52,12 +52,22 @@ const newPlayersToPlayersList = function () {
 
   let btnDelete = [...document.querySelectorAll('.btnDelete')];
 
-  for (let i = 0; i <= newPlayers.length; i++) {
+  for (let i = 0; i < newPlayers.length; i++) {
     btnDelete[i].addEventListener('click', function () {
       newPlayers.splice(i, 1);
       playersList.children[i].remove();
+      newPlayersToPlayersList();
     });
   };
+
+  // btnDelete.forEach(item => {
+  //   item.addEventListener('click', function () {
+  //     console.log(this);
+
+  //   });
+
+
+  // });
 
   // let playersListItems = [...document.querySelectorAll('.playersListItem')];
   // for (let i = 0; i < i < playersListItems.length; i++) {
@@ -67,7 +77,7 @@ const newPlayersToPlayersList = function () {
   //   })
   // };
 };
-newPlayersToPlayersList();
+// newPlayersToPlayersList();
 
 btnNumberOfPlayers.forEach(item => {
   item.addEventListener('click', function () {
