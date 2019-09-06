@@ -75,6 +75,30 @@ export function initGeo(fields) {
   el.classList = 'initFieldsContainer';
   qs.appendChild(el);
   
+  el = document.createElement('div');
+  el.id = 'fieldsListButtons';
+  el.classList = 'fieldsListButtons';
+  el.innerHTML = `
+    <input type='button' name='fieldsSave' id='fieldsSave' value='Zapisz' style='display: none;'>
+    <input type='button' name='fieldsRestore' id='fieldsRestore' value='Odtwórz'>
+    `;
+  qs.appendChild(el);
+  document.querySelector('#fieldsSave').addEventListener('click', () => { localStorage.setItem('fields', JSON.stringify(fields)); } );
+  document.querySelector('#fieldsRestore').addEventListener('click', () => { 
+    const arr = JSON.parse(localStorage.getItem('fields'));
+    let field;
+    arr.forEach( (val) => {
+      field = fields.find( (val1) => { return val1.truename === val.truename } );
+      field.name = JSON.parse(JSON.stringify(val.name));
+    } ); 
+    const qs = document.querySelector('#initFieldsList tbody');
+    while (qs.children.length) {
+      qs.removeChild(qs.lastChild);
+    }
+    fillWithFields(fields);
+    document.querySelector('#fieldsSave').style.display = ( (chosenCountries(fields).length) ? '' : 'none' );
+  } );
+  
   geoInit();
 
   // tabela z `fieldami`, najpierw wiersz
@@ -220,6 +244,7 @@ function dropped(target, fields) {
       countriesChosen.splice(0, countriesChosen.length);
       countriesChosen.push(...chosenCountries(fields));
       searchCountry();
+      document.querySelector('#fieldsSave').style.display = ( (chosenCountries(fields).length) ? '' : 'none' );
       break;
     }
     case 'city': {
