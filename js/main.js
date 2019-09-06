@@ -1,23 +1,26 @@
 import Board from './board';
 import colors from './colors';
-import newGame from './newGame';
 import navigationBar from './navBar';
 import { ControlPanel } from './controlPanel';
 import { initializePlayers } from './player';
+import newGame, { initGeo } from './newGame';
 
 console.log('Monopoly is running');
 
-newGame();
-
 const board = new Board();
-console.log(board);
-board.fields.forEach(x => console.log(x.node));
+// console.log(board);
+// board.fields.forEach(x => console.log(x.node));
 
 for (let key in colors) {
   const color = colors[key];
   board.getPropertiesByColor(color).forEach(x => (x.node.style.backgroundColor = color));
 }
 
+newGame();              // zainicjowanie graczy
+initGeo(board.fields);  // zainicjowanie miast
+// initGeo();              // zainicjowanie miast
+
+const startingPoint = 0;
 const starters = [['krzysiu', '🧑'], ['misiu', '👱‍']];
 const players = initializePlayers(starters, board);
 navigationBar(players);
