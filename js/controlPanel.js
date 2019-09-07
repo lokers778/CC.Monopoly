@@ -7,6 +7,8 @@ const diceNodes = ['dice1', 'dice2'].map(x => document.querySelector(`.${x}`).fi
 const endRoundNode = document.getElementById('endRound');
 const throwDiceNode = document.getElementById('throwDice');
 const pplayerNode = document.querySelector('p.player');
+const fieldPanelNode = document.querySelector('.fieldPanelBody');
+const actionPanelNode = document.querySelector('.actionPanelBody');
 
 class ControlPanel {
   constructor(board, players) {
@@ -16,10 +18,8 @@ class ControlPanel {
     this.playerIndex = 0;
     this.throwDice_lock = false;
     this.endRound_lock = false;
-    this.fieldPanelNode = document.querySelector('.fieldPanelBody');
-    this.actionPanelNode = document.querySelector('.actionPanelBody');
     this.renderedActionField = null;
-    this.endRound_Guard = null;
+    this.endRoundGuard = () => true;
 
     this.showPlayerName();
     endRoundNode.style.visibility = 'hidden';
@@ -39,20 +39,20 @@ class ControlPanel {
 
       this.updateDicesView();
       prevField.playerOutMe(currentPlayer);
-      this.endRound_Guard = nextField.playerOnMe(currentPlayer) || (() => true);
-      nextField.renderControlPanelFieldView(currentPlayer, this.fieldPanelNode);
+      this.endRoundGuard = nextField.playerOnMe(currentPlayer) || (() => true);
+      nextField.renderControlPanelFieldView(currentPlayer, fieldPanelNode);
     }
   }
 
   endRound_OnClick() {
-    if (!this.endRound_lock && this.endRound_Guard()) {
+    if (!this.endRound_lock && this.endRoundGuard()) {
       this.endRound_lock = true;
       this.throwDice_lock = false;
 
       this.checkWinner();
       this.nextPlayer();
-      clearNode(this.fieldPanelNode);
-      clearNode(this.actionPanelNode);
+      clearNode(fieldPanelNode);
+      clearNode(actionPanelNode);
       const player = document.querySelector(`#player${this.playerIndex + 1}`);
       new toggleActive(player, this.playerIndex + 1);
     }
@@ -88,19 +88,23 @@ class ControlPanel {
     }
   }
 
+  selectNextPlayer() {
+    this.playerIndex = (this.playerIndex + 1) % this.players.length;
+    let c = 0;
+    while (++c < this.players.length) {
+      if (!this.currentPlayer().isBancrupt) {
+        break;
+      }
+      this.playerIndex = (this.playerIndex + 1) % this.players.length;
+    }
+    if (c >= this.players.length) {
+      throw Error('Unexpected flow');
+    }
+  }
+
   nextPlayer() {
     if (!this.dices.getDouble()) {
-      this.playerIndex = (this.playerIndex + 1) % this.players.length;
-      let c = 0;
-      while (++c < this.players.length) {
-        if (!this.currentPlayer().isBancrupt) {
-          break;
-        }
-        this.playerIndex = (this.playerIndex + 1) % this.players.length;
-      }
-      if (c >= this.players.length) {
-        throw Error('Unexpected flow');
-      }
+      this.selectNextPlayer();
     }
     this.showPlayerName();
     throwDiceNode.style.visibility = 'visible';
@@ -113,9 +117,9 @@ class ControlPanel {
 
   renderFieldInActionPanel(fieldToBuy) {
     if (this.renderedActionField !== fieldToBuy) {
-      clearNode(this.actionPanelNode);
+      clearNode(actionPanelNode);
       this.renderedActionField = fieldToBuy;
-      this.renderedActionField.renderControlPanelActionView(this.currentPlayer(), this.actionPanelNode);
+      this.renderedActionField.renderControlPanelActionView(this.currentPlayer(), actionPanelNode);
     }
   }
 }
