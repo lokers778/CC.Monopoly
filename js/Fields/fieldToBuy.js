@@ -1,4 +1,4 @@
-import { clearNode, createButton } from '../utils';
+import { clearNode, createActionButton } from '../utils';
 import Field from '../field';
 
 class FieldToBuy extends Field {
@@ -6,6 +6,7 @@ class FieldToBuy extends Field {
     super(name, truename);
     this.owner = null;
     this.isActive = false;
+    this.cssOwnerViewName = `${this.truename}-OwnerViewDiv`;
   }
 
   calculateRentToPay() {
@@ -20,7 +21,7 @@ class FieldToBuy extends Field {
     throw Error('Abstract method call');
   }
 
-  renderOwnerControlPanelActionView() {
+  renderOwnerViewImpl() {
     throw Error('Abstract method call');
   }
 
@@ -66,25 +67,22 @@ class FieldToBuy extends Field {
   }
 
   renderPayView(player, node) {
-    node.appendChild(document.createTextNode(`Płacisz ${this.calculateRentToPay(player.name)} graczowi ${this.owner.name}!`));
-  }
-
-  renderOwnerView(node) {
-    node.appendChild(document.createTextNode('To pole należy do ciebie'));
+    node.appendChild(
+      document.createTextNode(`Płacisz ${this.calculateRentToPay(player)} graczowi ${this.owner.name} !`),
+    );
   }
 
   renderInactiveView(node) {
-    node.appendChild(document.createTextNode('To pole jest nieaktywne'));
+    node.appendChild(document.createTextNode('To pole jest zastawione'));
   }
 
   renderToBuyView(player, node) {
-    const button = createButton();
-    button.addEventListener('click', () => {
+    const button = createActionButton('Kup pole', () => {
       this.buyField(player);
       clearNode(node);
+      this.renderInfoView(node);
       this.renderOwnerView(node);
     });
-    button.appendChild(document.createTextNode('Kup pole'));
     node.appendChild(button);
   }
 
@@ -106,9 +104,32 @@ class FieldToBuy extends Field {
   renderControlPanelActionView(currentPlayer, node) {
     this.renderInfoView(node);
     if (this.owner === currentPlayer) {
-      this.renderOwnerControlPanelActionView(node);
-      node.appendChild(document.createTextNode(`Rendering ${this.truename}`));
+      this.renderOwnerView(node);
     }
+  }
+
+  createToggleActiveButton() {
+    const text = this.isActive ? `Zastaw +${this.costs.price / 2}` : `Zdejmij zastaw -${this.costs.price / 2}`;
+    function onClick() {
+      this.toggleActive(this.owner);
+      this.renderOwnerViews();
+    }
+    return createActionButton(text, onClick.bind(this));
+  }
+
+  renderOwnerViews() {
+    document.querySelectorAll(`div.${this.cssOwnerViewName}`).forEach(x => {
+      const node = x.parentElement;
+      node.removeChild(x);
+      this.renderOwnerView(node);
+    });
+  }
+
+  renderOwnerView(node) {
+    const ownerViewWrapper = document.createElement('div');
+    ownerViewWrapper.classList.add(this.cssOwnerViewName);
+    this.renderOwnerViewImpl(ownerViewWrapper);
+    node.appendChild(ownerViewWrapper);
   }
 }
 

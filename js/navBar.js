@@ -1,3 +1,5 @@
+import { createParagraph } from './utils';
+
 let active = 0;
 
 function navigationBar(players, controlPanel) {
@@ -13,13 +15,12 @@ function navigationBar(players, controlPanel) {
 }
 
 function createPropertyParagraph(property, controlPanel) {
-  const p = document.createElement('p');
   function onClick() {
     controlPanel.renderFieldInActionPanel(property);
   }
+  const p = createParagraph(property.truename);
   p.classList.add('full');
   p.style.cursor = 'pointer';
-  p.appendChild(document.createTextNode(property.truename));
   p.addEventListener('click', onClick);
   return p;
 }
@@ -83,7 +84,7 @@ export function toggleActive(player, num) {
     if (buttony.children[i].className === 'button active') buttony.children[i].classList.toggle('active');
   }
   player.classList.toggle('active');
-  active = num
+  active = num;
 }
 
 export default navigationBar;

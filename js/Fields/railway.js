@@ -1,4 +1,5 @@
 import FieldToBuy from './fieldToBuy';
+import { createParagraph } from '../utils';
 
 class Railway extends FieldToBuy {
   constructor(name, truename) {
@@ -25,22 +26,24 @@ class Railway extends FieldToBuy {
   }
 
   calculateSaleRevenue() {
-    return this.costs.price / 2;
+    return this.isActive ? this.costs.price / 2 : 0;
   }
 
   renderInfoView(node) {
-    console.log(`Railway::renderInfoView ${node.className}`);
+    [`${this.name}`, ...this.costs.rent.map((x, i) => `Czynsz z ${i + 1} 🚂: ${x}`), `Koszt kupna: ${this.costs.price}`]
+      .map(createParagraph)
+      .forEach(p => node.appendChild(p));
   }
 
-  renderOwnerControlPanelActionView(node) {
-    console.log(`Railway::renderOwnerControlPanelActionView ${node.className}`);
+  renderOwnerViewImpl(node) {
+    node.appendChild(this.createToggleActiveButton());
   }
 
   toggleActive(player) {
     //Zastawianie i odzastawianie stacji
     if (player === this.owner) {
       if (!this.isActive && player.currentMoneyAmount() >= this.costs.price) {
-        player.updateMoney(-this.costs.price);
+        player.updateMoney(-this.costs.price / 2);
       } else {
         player.updateMoney(this.costs.price / 2);
       }

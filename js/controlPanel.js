@@ -16,8 +16,8 @@ class ControlPanel {
     this.playerIndex = 0;
     this.throwDice_lock = false;
     this.endRound_lock = false;
-    this.fieldPanelNode = document.querySelector('.fieldPanel');
-    this.actionPanelNode = document.querySelector('.actionPanel');
+    this.fieldPanelNode = document.querySelector('.fieldPanelBody');
+    this.actionPanelNode = document.querySelector('.actionPanelBody');
     this.renderedActionField = null;
 
     this.showPlayerName();

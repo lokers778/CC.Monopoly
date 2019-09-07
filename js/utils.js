@@ -20,11 +20,24 @@ function clearNode(node) {
   return node;
 }
 
-function createButton() {
+function createButton(text) {
   const button = document.createElement('button');
   button.classList.add('button');
   button.type = 'button';
+  text && button.appendChild(document.createTextNode(text));
   return button;
 }
 
-export { zip, clearNode, createButton };
+function createActionButton(text, onClick) {
+  const button = createButton(text);
+  button.addEventListener('click', onClick);
+  return button;
+}
+
+function createParagraph(text) {
+  const p = document.createElement('p');
+  p.appendChild(document.createTextNode(text));
+  return p;
+}
+
+export { zip, clearNode, createButton, createActionButton, createParagraph };
