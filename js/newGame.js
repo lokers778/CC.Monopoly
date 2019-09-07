@@ -95,7 +95,7 @@ export function initGeo(fields) {
     document.querySelector('#fieldsSave').style.display = ( (chosenCountries(fields).length) ? '' : 'none' );
   } );
   
-  geoInit();
+  geoInit(fields);
 
   // tabela z `fieldami`, najpierw wiersz
   qs = document.querySelector('#initFieldsContainer');
@@ -116,10 +116,10 @@ export function initGeo(fields) {
 
   // wiersze tabieli - każdy `field` ma swój
   fillWithFields(fields);
-  
+  return fields;
 }
 
-function geoInit() {
+function geoInit(fields) {
   fetch("https://restcountries-v1.p.rapidapi.com/all", {
     "method": "GET",
     "headers": {
@@ -134,13 +134,13 @@ function geoInit() {
     regs = [...new Set(regs)];    // pozostawia w 'regs' tylko unikalne wartości
     regions.push(...regs);
     gameRegion = regions[0];
-    setRegion();
+    setRegion(fields);
     chooseCountry();    // !!!! wywoływane stąd tylko tymczasowo !!!!
   })
   .catch(err => console.log(err));
 }
 
-function setRegion() {
+function setRegion(fields) {
   const parentElement = document.querySelector('#citiesRight');
   let el = document.createElement('section');
   let html = '';
@@ -189,13 +189,18 @@ function setRegion() {
       searchCountry(); }
   } );
 
-  qs = document.querySelector('#btnReady');
+  qs = document.querySelector('#btnReady'); // mamy już 22 miasta i naciśnięto `GOTOWE`
   qs.addEventListener('click', (e) => {
     e.preventDefault();
     document.querySelector('#citiesPanel').style.display = 'none';
     document.querySelector('.newGame').style.display = 'none';
     document.querySelector('#btnNewCities').style.display = 'none';
-    });
+    fields.forEach( (val) => { 
+      // console.log(val);
+      if (val.color === 'black' || val.color === 'blue') { val._node.style.color = 'white'; }
+      val._node.innerHTML = val.name.name; 
+    } );
+  });
 }
 
 function regionChanged(e) {  // reakcja na zmianę/wybór 'region' (kontynent)
@@ -322,7 +327,6 @@ function fillWithFields(fields) {
     qs.appendChild(el);
   } );
   document.querySelector('#regionsList').disabled = !allEmptyCountry;
-  // console.log(fields);
 }
 
 function chosenCountries(fields) {
