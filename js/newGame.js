@@ -1,30 +1,16 @@
 const playersList = document.querySelector('.playersList');
 const btnNumberOfPlayers = [...document.querySelectorAll('.createNewPlayers')];
 
-// const clearNode = node => {
-//   while (node.firstChild) {
-//     node.removeChild(node.firstChild);
-//   }
-//   return node;
-// };
-
-const newPlayers = [['krzysiu', '🧑'], ['misiu', '👱‍']];
-// const newPlayers = [];
-
-
-// const selectBtnDelete = function () {
-//   let btnDelete = [...document.querySelectorAll('.btnDelete')];
-//   return btnDelete;
-// }
-
-
+// const newPlayers = [['krzysiu', '🧑'], ['misiu', '👱‍']];
+const newPlayers = [];
 
 const createInputPlayerName = function () {
   const newInput = document.createElement('input');
   newInput.setAttribute('type', 'text');
   newInput.setAttribute('placeholder', 'Wpisz nazwę gracza');
+  newInput.className = 'playersListInput';
   return newInput;
-};
+}
 
 const newPlayersToPlayersList = function () {
   playersList.innerHTML = '';
@@ -38,7 +24,7 @@ const newPlayersToPlayersList = function () {
     }
     else {
       li.appendChild(createInputPlayerName());
-    };
+    }
 
     //Create delete button
     const deleteBtn = document.createElement('button');
@@ -48,7 +34,7 @@ const newPlayersToPlayersList = function () {
 
     //Add li element to list
     playersList.appendChild(li);
-  });
+  })
 
   let btnDelete = [...document.querySelectorAll('.btnDelete')];
 
@@ -57,26 +43,32 @@ const newPlayersToPlayersList = function () {
       newPlayers.splice(i, 1);
       playersList.children[i].remove();
       newPlayersToPlayersList();
-    });
-  };
+    })
+  }
 
-  // btnDelete.forEach(item => {
-  //   item.addEventListener('click', function () {
-  //     console.log(this);
+  let playersListItems = [...document.querySelectorAll('.playersListItem')];
 
-  //   });
-
-
-  // });
-
-  // let playersListItems = [...document.querySelectorAll('.playersListItem')];
-  // for (let i = 0; i < i < playersListItems.length; i++) {
-  //   playersListItems[i].addEventListener('click', function () {
-
-
-  //   })
-  // };
-};
+  for (let i = 0; i < playersListItems.length; i++) {
+    playersListItems[i].addEventListener('click', function () {
+      const items = this.children;
+      for (const item of items) {
+        if (item.className == 'playersListInput') {
+          item.addEventListener("keyup", function (e) {
+            if (e.keyCode === 13) {
+              if (Boolean(this.value) == true) {
+                newPlayers[i][0] = this.value
+                this.remove();
+              }
+              else console.log('Nic tu nie ma :(');
+              newPlayersToPlayersList();
+            }
+          })
+        }
+      }
+    })
+  }
+  console.log(newPlayers);
+}
 // newPlayersToPlayersList();
 
 btnNumberOfPlayers.forEach(item => {
@@ -94,36 +86,8 @@ btnNumberOfPlayers.forEach(item => {
       }
     }
     newPlayersToPlayersList();
-  });
-});
-
-
-
-// function addNewPlayer() {
-//   const newPlayer = ['', ''];
-//   console.log(btnNumberOfPlayers);
-//   newPlayer[0] = inputText.value;
-//   inputText.value = '';
-//   newPlayers[newPlayers.length] = newPlayer;
-//   clearNode(playersList);
-//   newPlayers.forEach(Item => {
-//     // Create new li element
-//     const li = document.createElement('li');
-//     li.className = 'playersListItem';
-//     li.appendChild(document.createTextNode(`${Item[0]}${Item[1]}`));
-
-//     //Create delete button
-//     const deleteBtn = document.createElement('button');
-//     deleteBtn.className = 'btnDelete';
-//     deleteBtn.appendChild(document.createTextNode('Usuń'));
-//     li.appendChild(deleteBtn);
-
-//     //Add li element to list
-//     playersList.appendChild(li);
-//   });
-// }
-
-// addPlayer.addEventListener('click', addNewPlayer);
+  })
+})
 
 function returnNewPlayers() {
   return newPlayers;
