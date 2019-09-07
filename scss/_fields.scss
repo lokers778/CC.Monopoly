@@ -2,3 +2,34 @@
   background-image: url('/static/StartField.png');
   background-size: contain;
 }
+.train {
+  background-image: url('/static/Train.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+.waterworks {
+  background-image: url('/static/Waterworks.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+.powerhouse {
+  background-image: url('/static/Powerhouse.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+.parking {
+  background-image: url('/static/Parking.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+.specialPayOne,
+.specialPayTwo {
+  background-image: url('/static/Tax.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+}

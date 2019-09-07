@@ -19,15 +19,10 @@ const Board = (function() {
     }
   }
 
-  function registerListeners() {
-    this.fields.forEach(x => x.registerListeners());
-  }
-
   class Board {
     constructor(schema = createDefaultSchema()) {
       setupFields(schema);
       groupProperties.bind(this)();
-      registerListeners.bind(this)();
     }
 
     get fields() {
@@ -40,6 +35,10 @@ const Board = (function() {
 
     getPropertiesByColor(color) {
       return [..._groupedProperties.get(color)];
+    }
+
+    getField(idx) {
+      return _fields[idx];
     }
   }
 

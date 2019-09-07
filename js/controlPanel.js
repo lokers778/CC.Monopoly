@@ -1,33 +1,86 @@
+import Dices from './dice';
+import { zip, clearNode } from './utils';
 
-class OrderControl {
-    constructor(players) {
-        this.players = players,
-        this.playerIndex = 0    
-    }
-    currentPlayer() {
-        return this.players[this.playerIndex];
-    }
+const diceIcons = ['fa-dice-one', 'fa-dice-two', 'fa-dice-three', 'fa-dice-four', 'fa-dice-five', 'fa-dice-six'];
+const diceNodes = ['dice1', 'dice2'].map(x => document.querySelector(`.${x}`).firstElementChild);
+const endRoundNode = document.getElementById('endRound');
+const throwDiceNode = document.getElementById('throwDice');
+const pplayerNode = document.querySelector('p.player');
+const fieldPanelNode = document.querySelector('.fieldPanel');
 
-    currentPlayerIndex() {
-        return this.playerIndex;
-    }
+class ControlPanel {
+  constructor(board, players) {
+    this.board = board;
+    this.players = players;
+    this.dices = new Dices();
+    this.playerIndex = 0;
+    this.throwDice_lock = false;
+    this.endRound_lock = false;
 
-    currentPlayerName() {
-        return this.players[this.playerIndex].name;
-    }
+    this.showPlayerName();
+    endRoundNode.style.visibility = 'hidden';
+    throwDiceNode.addEventListener('click', this.throwDice_OnClick.bind(this));
+    endRoundNode.addEventListener('click', this.endRound_OnClick.bind(this));
+  }
 
-    nextPlayer(Double) {
-        if (!Double) {
-            this.playerIndex = this.playerIndex + 1 < this.players.length ? this.playerIndex + 1 : 0;
-          }
-        this.showPlayerName();
-        document.getElementById("throwDice").style.visibility = "visible";
-        document.getElementById("endRound").style.visibility = "hidden";
-    }
+  throwDice_OnClick() {
+    if (!this.throwDice_lock) {
+      this.throwDice_lock = true;
+      this.endRound_lock = false;
+      const [prevMove, nextMove] = this.currentPlayer().updatePosition(this.dices.throwDices());
+      const prevField = this.board.getField(prevMove);
+      const nextField = this.board.getField(nextMove);
 
-    showPlayerName() {
-        document.querySelector('p.player').innerHTML = `Aktualnie gra: ${this.currentPlayerName()}` ;
+      this.updateDicesView();
+      prevField.playerOutMe(this.currentPlayer());
+      nextField.playerOnMe(this.currentPlayer());
+      nextField.renderControlPanelView(this, fieldPanelNode);
     }
+  }
+
+  endRound_OnClick() {
+    if (!this.endRound_lock) {
+      this.endRound_lock = true;
+      this.throwDice_lock = false;
+      if (!this.dices.getDouble()) {
+        this.playerIndex = (this.playerIndex + 1) % this.players.length;
+      }
+      this.nextPlayer();
+      clearNode(fieldPanelNode);
+    }
+  }
+
+  updateDicesView() {
+    const diceValues = [this.dices.firstDice, this.dices.secondDice];
+    for (let [value, node] of zip(diceValues, diceNodes)) {
+      node.classList.remove(node.classList.item(1));
+      node.classList.add(diceIcons[value - 1]);
+    }
+    throwDiceNode.style.visibility = 'hidden';
+    endRoundNode.style.visibility = 'visible';
+  }
+
+  currentPlayer() {
+    return this.players[this.playerIndex];
+  }
+
+  currentPlayerIndex() {
+    return this.playerIndex;
+  }
+
+  currentPlayerName() {
+    return this.players[this.playerIndex].name;
+  }
+
+  nextPlayer() {
+    this.showPlayerName();
+    throwDiceNode.style.visibility = 'visible';
+    endRoundNode.style.visibility = 'hidden';
+  }
+
+  showPlayerName() {
+    pplayerNode.innerHTML = `Aktualnie gra: ${this.currentPlayerName()}`;
+  }
 }
 
-export  { OrderControl };
+export { ControlPanel };

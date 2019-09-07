@@ -9,16 +9,28 @@
     margin: 20px 0;
   }
 }
-.diceBoard {
-  width: 98%;
+
+%controlPanelChildPanel {
+  width: $controlPanelChildPanelsWidth;
   border: 2px solid black;
   border-radius: 10px;
   margin-left: auto;
   margin-right: auto;
 }
 
+.diceBoard {
+  @extend %controlPanelChildPanel;
+}
+
+.fieldPanel {
+  @extend %controlPanelChildPanel;
+  min-height: 40%;
+  margin-top: 5%;
+}
+
 i.fas {
   font-size: 3em;
+  color: #404040;
 }
 
 .dice1,
@@ -34,19 +46,32 @@ p.player {
   line-height: 2em;
 }
 
-.dices {
-  margin-top: 0.5em;
-  margin-bottom: 0.5em;
-}
-
 #endRound {
-  border-radius: 3px;
   display: block;
   margin-left: auto;
   margin-right: auto;
-  margin-top: 0.5em;
 }
 
-#throwDice {
-  border-radius: 3px;
+.button {
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+  border: none;
+  background: #404040;
+  color: #ffffff;
+  text-transform: uppercase;
+  padding: 0.5em;
+  border-radius: 6px;
+  display: inline-block;
+  transition: all 0.3s ease 0s;
+  cursor: pointer;
+}
+
+.button:hover {
+  color: #404040;
+  // letter-spacing: 1px;
+  background: none;
+  -webkit-box-shadow: 0px 5px 40px -10px rgba(0, 0, 0, 1);
+  -moz-box-shadow: 0px 5px 40px -10px rgba(0, 0, 0, 1);
+  box-shadow: 0px 5px 40px -10px rgba(0, 0, 0, 1);
+  transition: all 0.3s ease 0s;
 }

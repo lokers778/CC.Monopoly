@@ -21,11 +21,18 @@ class Chance extends Field {
     }
     chanceDeck.pop();
   }
+
   playerOnMe(player) {
     super.playerOnMe(player);
 
     this.drawCard();
   }
+
+  /* TODO
+  renderControlPanelView(controlPanel, node) {
+    console.log(`${this.truename} is rendering ${node.className} of ${controlPanel.constructor.name}`);
+  }
+  */
 }
 
 export default Chance;

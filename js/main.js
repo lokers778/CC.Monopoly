@@ -1,9 +1,9 @@
 import Board from './board';
 import colors from './colors';
-import newGame, { initGeo } from './newGame';
-import Dices from './dice';
-import { OrderControl } from './controlPanel';
+import navigationBar from './navBar';
+import { ControlPanel } from './controlPanel';
 import { initializePlayers } from './player';
+import newGame, { initGeo } from './newGame';
 
 console.log('Monopoly is running');
 
@@ -16,23 +16,31 @@ for (let key in colors) {
   board.getPropertiesByColor(color).forEach(x => (x.node.style.backgroundColor = color));
 }
 
-newGame();              // zainicjowanie graczy
-initGeo(board.fields);  // zainicjowanie miast
-// initGeo();              // zainicjowanie miast
+document.querySelector('#btnNewCities').addEventListener('click', () => { 
+  document.querySelector('.newGame').style.display = '';
+  document.querySelector('#citiesPanel').style.display = '';
+  initGeo(board.fields);  // zainicjowanie miast
+});
+document.querySelector('#btnNewPlayers').addEventListener('click', () => { 
+  document.querySelector('.newGame').style.display = '';
+  document.querySelector('#playersPanel').style.display = '';
+  newGame();              // zainicjowanie graczy
+});
 
 const startingPoint = 0;
 const starters = [['krzysiu', '🧑'], ['misiu', '👱‍']];
 const players = initializePlayers(starters, board);
-const orderControl = new OrderControl(players);
-orderControl.showPlayerName();
-const dices = new Dices();
+navigationBar(players);
+const controlPanel = new ControlPanel(board, players);
 
-document.getElementById('endRound').style.visibility = 'hidden';
-document.querySelector('#throwDice').addEventListener('click', () => {
-  const moved = orderControl.currentPlayer().updatePosition(dices.throwDices());
-  board.fields[moved[0]].playerOutMe(orderControl.currentPlayer());
-  board.fields[moved[1]].playerOnMe(orderControl.currentPlayer());
+document.querySelector('#kup').addEventListener('click', () => {
+  board.getField(1).buyBuilding(controlPanel.currentPlayer());
+  board.getField(11).buyBuilding(controlPanel.currentPlayer());
 });
-document.querySelector('#endRound').addEventListener('click', () => orderControl.nextPlayer(dices.getDouble()));
+
+document.querySelector('#sprzedaj').addEventListener('click', () => {
+  board.getField(1).sellBuilding(controlPanel.currentPlayer());
+  board.getField(11).sellBuilding(controlPanel.currentPlayer());
+});
 
 export default players;
