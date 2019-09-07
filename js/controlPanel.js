@@ -30,6 +30,7 @@ class ControlPanel {
     if (!this.throwDice_lock) {
       this.throwDice_lock = true;
       this.endRound_lock = false;
+
       const currentPlayer = this.currentPlayer();
       const [prevMove, nextMove] = currentPlayer.updatePosition(this.dices.throwDices());
       const prevField = this.board.getField(prevMove);
@@ -46,9 +47,8 @@ class ControlPanel {
     if (!this.endRound_lock) {
       this.endRound_lock = true;
       this.throwDice_lock = false;
-      if (!this.dices.getDouble()) {
-        this.playerIndex = (this.playerIndex + 1) % this.players.length;
-      }
+
+      this.checkWinner();
       this.nextPlayer();
       clearNode(this.fieldPanelNode);
       clearNode(this.actionPanelNode);
@@ -79,7 +79,28 @@ class ControlPanel {
     return this.players[this.playerIndex].name;
   }
 
+  checkWinner() {
+    const notBancrupts = this.players.filter(x => !x.isBancrupt);
+    if (notBancrupts.length === 1) {
+      alert(`${notBancrupts[0].name} wygrał !`);
+      location.reload();
+    }
+  }
+
   nextPlayer() {
+    if (!this.dices.getDouble()) {
+      this.playerIndex = (this.playerIndex + 1) % this.players.length;
+      let c = 0;
+      while (++c < this.players.length) {
+        if (!this.currentPlayer().isBancrupt) {
+          break;
+        }
+        this.playerIndex = (this.playerIndex + 1) % this.players.length;
+      }
+      if (c >= this.players.length) {
+        throw Error('Unexpected flow');
+      }
+    }
     this.showPlayerName();
     throwDiceNode.style.visibility = 'visible';
     endRoundNode.style.visibility = 'hidden';

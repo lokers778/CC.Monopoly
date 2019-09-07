@@ -71,6 +71,11 @@ function controlPlayers(players, controlPanel) {
       info.innerHTML = `<p>Pieniądze w portfelu: </p><p class='value'>${player.currentMoneyAmount()}</p>
       <p>Karty wyjścia z więzienia: </p><p class='value'>${player.prisonEscCards()}</p>
       <p class='full'>Posiadane pola: </p>`;
+      if (player.isBancrupt) {
+        const p = createParagraph('BANKRUT !!!!');
+        p.classList.add('full');
+        info.insertBefore(p, info.children[0]);
+      }
       for (let property of player.currentProperies()) {
         info.appendChild(createPropertyParagraph(property, controlPanel));
       }

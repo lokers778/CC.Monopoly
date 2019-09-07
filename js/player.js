@@ -1,8 +1,7 @@
-import players from './main';
 import Start from './Fields/start';
 
 class Player {
-  constructor(name, icon) {
+  constructor(name, icon, board) {
     this.name = name;
     this.money = 1500;
     this.icon = icon;
@@ -11,6 +10,7 @@ class Player {
     this.prisonEscapeCard = 0;
     this.isBancrupt = false;
     this.lastMove = 0;
+    this.board = board;
   }
 
   updateMoney(amount) {
@@ -78,9 +78,9 @@ class Player {
   goBancrupt() {
     this.isBancrupt = true;
     this.properties.map(field => field.loseOwner());
+    this.board.getField(this.position).playerOutMe(this);
     this.properties = [];
     this.money = 0;
-    players.splice(players.indexOf(this), 1);
     return alert(`Gracz ${this.name} zbankrutował!`);
   }
 
@@ -104,7 +104,7 @@ class Player {
 const initializePlayers = (starters, board) => {
   const startingPoint = 0;
   return starters.map(item => {
-    const player = new Player(item[0], item[1]);
+    const player = new Player(item[0], item[1], board);
     player.setPosition(startingPoint);
     board.getField(startingPoint).playerOnMe(player);
     return player;

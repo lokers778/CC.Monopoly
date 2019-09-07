@@ -38,10 +38,13 @@ class FieldToBuy extends Field {
         player.updateMoney(-this.costs.price);
         player.addProperty(this);
         this.isActive = true;
+        return true;
       } else {
-        return alert('Masz za mało pieniędzy');
+        alert('Masz za mało pieniędzy');
+        return false;
       }
     }
+    return false;
   }
 
   payRent(player) {
@@ -78,10 +81,11 @@ class FieldToBuy extends Field {
 
   renderToBuyView(player, node) {
     const button = createActionButton('Kup pole', () => {
-      this.buyField(player);
-      clearNode(node);
-      this.renderInfoView(node);
-      this.renderOwnerView(node);
+      if (this.buyField(player)) {
+        clearNode(node);
+        this.renderInfoView(node);
+        this.renderOwnerView(node);
+      }
     });
     node.appendChild(button);
   }

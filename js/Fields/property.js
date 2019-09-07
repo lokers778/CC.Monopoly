@@ -32,6 +32,13 @@ class Property extends FieldToBuy {
     this.numberOfHotels = 0;
   }
 
+  loseOwner() {
+    super.loseOwner();
+    this.drawBuildings('clear');
+    this.numberOfHouses = 0;
+    this.numberOfHotels = 0;
+  }
+
   calculateRentToPay() {
     return this.costs.rent[this.buildingsLevel];
   }
@@ -156,6 +163,15 @@ class Property extends FieldToBuy {
       me.removeChild(me.querySelector('.hotel'));
       for (let i = 0; i < 4; i++) {
         me.appendChild(createHouse());
+      }
+    } else if (type === 'clear') {
+      if (this.numberOfHotels !== 0) {
+        me.removeChild(me.querySelector('.hotel'));
+      }
+      if (this.numberOfHouses !== 0) {
+        for (let i of me.querySelectorAll('.house')) {
+          me.removeChild(i);
+        }
       }
     }
   }
