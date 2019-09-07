@@ -66,7 +66,7 @@ class FieldToBuy extends Field {
   }
 
   renderPayView(player, node) {
-    node.appendChild(document.createTextNode(`Płacisz ${this.calculateRentToPay(player)} graczowi ${this.owner} !`));
+    node.appendChild(document.createTextNode(`Płacisz ${this.calculateRentToPay(player.name)} graczowi ${this.owner.name}!`));
   }
 
   renderOwnerView(node) {

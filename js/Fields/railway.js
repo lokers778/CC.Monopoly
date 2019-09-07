@@ -21,7 +21,7 @@ class Railway extends FieldToBuy {
         railways++;
       }
     });
-    return this.costs.rent[railways];
+    return this.costs.rent[railways - 1];
   }
 
   calculateSaleRevenue() {

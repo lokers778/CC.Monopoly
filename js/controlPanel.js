@@ -1,5 +1,6 @@
 import Dices from './dice';
 import { zip, clearNode } from './utils';
+import { toggleActive } from './navBar';
 
 const diceIcons = ['fa-dice-one', 'fa-dice-two', 'fa-dice-three', 'fa-dice-four', 'fa-dice-five', 'fa-dice-six'];
 const diceNodes = ['dice1', 'dice2'].map(x => document.querySelector(`.${x}`).firstElementChild);
@@ -51,6 +52,8 @@ class ControlPanel {
       this.nextPlayer();
       clearNode(this.fieldPanelNode);
       clearNode(this.actionPanelNode);
+      const player = document.querySelector(`#player${this.playerIndex + 1}`);
+      new toggleActive(player, this.playerIndex + 1);
     }
   }
 

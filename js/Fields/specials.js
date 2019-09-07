@@ -16,7 +16,7 @@ class Special extends FieldToBuy {
         specials++;
       }
     });
-    return this.costs.rent[specials] * player.getLastMove;
+    return this.costs.rent[specials] * player.getLastMove();
   }
 
   calculateSaleRevenue() {

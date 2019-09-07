@@ -1,4 +1,4 @@
-let active = null;
+let active = 0;
 
 function navigationBar(players, controlPanel) {
   const burger = document.querySelector('.burger');
@@ -37,32 +37,30 @@ function controlPlayers(players, controlPanel) {
     button.innerHTML = `${players[i].name} ${players[i].icon}`;
     buttony.appendChild(button);
   }
+
   const player1 = document.querySelector('#player1');
   const player2 = document.querySelector('#player2');
   const player3 = document.querySelector('#player3');
   const player4 = document.querySelector('#player4');
+  toggleActive(player1, 1);
 
   player1.addEventListener('click', () => {
-    toggleActive(player1);
-    active = 1;
+    toggleActive(player1, 1);
   });
 
   player2.addEventListener('click', () => {
-    toggleActive(player2);
-    active = 2;
+    toggleActive(player2, 2);
   });
 
   if (player3) {
     player3.addEventListener('click', () => {
-      toggleActive(player3);
-      active = 3;
+      toggleActive(player3, 3);
     });
   }
 
   if (player4) {
     player4.addEventListener('click', () => {
-      toggleActive(player4);
-      active = 4;
+      toggleActive(player4, 4);
     });
   }
 
@@ -79,12 +77,13 @@ function controlPlayers(players, controlPanel) {
   });
 }
 
-function toggleActive(player) {
+export function toggleActive(player, num) {
   const buttony = document.querySelector('.buttony');
   for (let i = 0; i < buttony.children.length; i++) {
     if (buttony.children[i].className === 'button active') buttony.children[i].classList.toggle('active');
   }
   player.classList.toggle('active');
+  active = num
 }
 
 export default navigationBar;

@@ -56,7 +56,7 @@ class Property extends FieldToBuy {
   }
 
   buyBuilding(player) {
-    // if (player === this.owner) {
+    if (player === this.owner) {
     if (this.numberOfHotels === 1) {
       return alert('Posiadłość jest już maksymalnie rozwinięta');
     } else if (this.numberOfHouses < 4 && player.currentMoneyAmount() >= this.costs.costOfBuilding) {
@@ -71,11 +71,11 @@ class Property extends FieldToBuy {
       this.drawBuilding('buyHotel');
       return;
     }
-    // } else return alert('Ta posiadłość nie należy do Ciebie');
+    } else return alert('Ta posiadłość nie należy do Ciebie');
   }
 
   sellBuilding(player) {
-    // if (player === this.owner) {
+    if (player === this.owner) {
     if (this.numberOfHotels === 0 && this.numberOfHouses === 0) {
       return alert('Na posiadłości nie ma żadnych bydunków do sprzedania');
     } else if (this.numberOfHotels === 1) {
@@ -90,7 +90,7 @@ class Property extends FieldToBuy {
       this.drawBuilding('sellHouse');
       return;
     }
-    // } else return alert('Ta posiadłość nie należy do Ciebie');
+    } else return alert('Ta posiadłość nie należy do Ciebie');
   }
 
   drawBuilding(type) {
