@@ -105,46 +105,44 @@ class Property extends FieldToBuy {
           player.updateMoney(this.costs.price / 2);
         }
         this.isActive = !this.isActive;
-      } else return alert('Aby zastawić posiadłość, należy najpierw sprzedać budynki');
-    } else return alert('Ta posiadłość nie należy do Ciebie');
+      } else alert('Aby zastawić posiadłość, należy najpierw sprzedać budynki');
+    } else alert('Ta posiadłość nie należy do Ciebie');
   }
 
   buyBuilding(player) {
     if (player === this.owner) {
       if (this.numberOfHotels === 1) {
-        return alert('Posiadłość jest już maksymalnie rozwinięta');
+        alert('Posiadłość jest już maksymalnie rozwinięta');
       } else if (this.numberOfHouses < 4 && player.currentMoneyAmount() >= this.costs.costOfBuilding) {
         player.updateMoney(-this.costs.costOfBuilding);
         this.numberOfHouses++;
         this.drawBuildings('buyHouse');
-        return;
       } else if (this.numberOfHouses === 4 && player.currentMoneyAmount() >= this.costs.costOfBuilding) {
         player.updateMoney(-this.costs.costOfBuilding);
         this.numberOfHouses = 0;
         this.numberOfHotels = 1;
         this.drawBuildings('buyHotel');
-        return;
+      } else {
+        alert('Masz za mało pieniędzy');
       }
-    } else return alert('Ta posiadłość nie należy do Ciebie');
+    } else alert('Ta posiadłość nie należy do Ciebie');
   }
 
   sellBuilding(player) {
     if (player === this.owner) {
       if (this.numberOfHotels === 0 && this.numberOfHouses === 0) {
-        return alert('Na posiadłości nie ma żadnych bydunków do sprzedania');
+        alert('Na posiadłości nie ma żadnych bydunków do sprzedania');
       } else if (this.numberOfHotels === 1) {
         player.updateMoney(this.costs.costOfBuilding / 2);
         this.numberOfHouses = 4;
         this.numberOfHotels = 0;
         this.drawBuildings('sellHotel');
-        return;
       } else if (this.numberOfHouses > 0) {
         player.updateMoney(this.costs.costOfBuilding / 2);
         this.numberOfHouses--;
         this.drawBuildings('sellHouse');
-        return;
       }
-    } else return alert('Ta posiadłość nie należy do Ciebie');
+    } else alert('Ta posiadłość nie należy do Ciebie');
   }
 
   drawBuildings(type) {

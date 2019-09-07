@@ -19,6 +19,7 @@ class ControlPanel {
     this.fieldPanelNode = document.querySelector('.fieldPanelBody');
     this.actionPanelNode = document.querySelector('.actionPanelBody');
     this.renderedActionField = null;
+    this.endRound_Guard = null;
 
     this.showPlayerName();
     endRoundNode.style.visibility = 'hidden';
@@ -38,13 +39,13 @@ class ControlPanel {
 
       this.updateDicesView();
       prevField.playerOutMe(currentPlayer);
-      nextField.playerOnMe(currentPlayer);
+      this.endRound_Guard = nextField.playerOnMe(currentPlayer) || (() => true);
       nextField.renderControlPanelFieldView(currentPlayer, this.fieldPanelNode);
     }
   }
 
   endRound_OnClick() {
-    if (!this.endRound_lock) {
+    if (!this.endRound_lock && this.endRound_Guard()) {
       this.endRound_lock = true;
       this.throwDice_lock = false;
 

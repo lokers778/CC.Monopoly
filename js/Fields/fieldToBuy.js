@@ -1,4 +1,4 @@
-import { clearNode, createActionButton } from '../utils';
+import { clearNode, createActionButton, createEndRoundGuard } from '../utils';
 import Field from '../field';
 
 class FieldToBuy extends Field {
@@ -28,7 +28,7 @@ class FieldToBuy extends Field {
   playerOnMe(player) {
     super.playerOnMe(player);
 
-    this.payRent(player);
+    return this.payRent(player);
   }
 
   buyField(player) {
@@ -49,17 +49,21 @@ class FieldToBuy extends Field {
 
   payRent(player) {
     if (this.isActive) {
+      const owner = this.owner;
       const rentToPay = this.calculateRentToPay(player);
-      if (player !== this.owner) {
-        if (player.currentMoneyAmount() >= rentToPay) {
-          player.updateMoney(-rentToPay);
-          this.owner.updateMoney(rentToPay);
-        } else if (player.allMoneyAmount() < rentToPay) {
-          this.owner.updateMoney(player.currentMoneyAmount());
-          player.goBancrupt();
-        } else {
-          alert('Musisz sprzedać hotele lub zastawić posiadłość aby zapłacić');
-        }
+      if (player !== owner) {
+        return createEndRoundGuard(
+          player,
+          rentToPay,
+          () => {
+            player.updateMoney(-rentToPay);
+            owner.updateMoney(rentToPay);
+          },
+          () => {
+            owner.updateMoney(player.currentMoneyAmount());
+            player.goBancrupt();
+          },
+        );
       }
     }
   }

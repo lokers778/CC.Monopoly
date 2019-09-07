@@ -40,4 +40,19 @@ function createParagraph(text) {
   return p;
 }
 
-export { zip, clearNode, createButton, createActionButton, createParagraph };
+function createEndRoundGuard(player, rentToPay, moneyTransferCb, bancruptCb) {
+  return () => {
+    if (player.currentMoneyAmount() >= rentToPay) {
+      moneyTransferCb();
+      return true;
+    } else if (player.allMoneyAmount() < rentToPay) {
+      bancruptCb();
+      return true;
+    } else {
+      alert('Musisz sprzedać hotele lub zastawić posiadłość aby zapłacić');
+      return false;
+    }
+  };
+}
+
+export { zip, clearNode, createButton, createActionButton, createParagraph, createEndRoundGuard };

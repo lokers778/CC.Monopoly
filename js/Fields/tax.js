@@ -1,4 +1,5 @@
 import Field from '../field';
+import { createEndRoundGuard } from '../utils';
 
 function getMoneyToPay(truename) {
   if (truename === 'specialPayOne') return 200;
@@ -15,15 +16,21 @@ class Tax extends Field {
   playerOnMe(player) {
     super.playerOnMe(player);
 
-    this.payTax(player);
+    return this.payTax(player);
   }
 
   payTax(player) {
-    player.updateMoney(-1 * this.moneyToPay);
-
-    if (player.currentMoneyAmount() < 0) {
-      player.goBancrupt();
-    }
+    const moneyToPay = this.moneyToPay;
+    return createEndRoundGuard(
+      player,
+      moneyToPay,
+      () => {
+        player.updateMoney(-1 * moneyToPay);
+      },
+      () => {
+        player.goBancrupt();
+      },
+    );
   }
 
   renderControlPanelFieldView(currentPlayer, node) {
