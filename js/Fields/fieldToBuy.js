@@ -38,6 +38,7 @@ class FieldToBuy extends Field {
         player.updateMoney(-this.costs.price);
         player.addProperty(this);
         this.isActive = true;
+        this.showOwner();
         return true;
       } else {
         alert('Masz za mało pieniędzy');
@@ -66,6 +67,15 @@ class FieldToBuy extends Field {
         );
       }
     }
+  }
+
+  showOwner() {
+    const me = this.node;
+    const text = this.owner.name;
+    const p = document.createElement('p');
+    p.className = `owner`;
+    p.appendChild(document.createTextNode(text));
+    me.appendChild(p);
   }
 
   loseOwner() {

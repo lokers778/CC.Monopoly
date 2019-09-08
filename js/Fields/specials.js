@@ -6,7 +6,7 @@ class Special extends FieldToBuy {
     super(name, truename);
     this.costs = {
       price: 150,
-      rent: [4, 8, 16],
+      rent: [4, 10],
     };
   }
 
@@ -17,7 +17,7 @@ class Special extends FieldToBuy {
         specials++;
       }
     });
-    return this.costs.rent[specials] * player.getLastMove();
+    return this.costs.rent[specials - 1] * player.getLastMove();
   }
 
   calculateSaleRevenue() {
