@@ -104,7 +104,8 @@
     </section>
   </section>
   <section class="newGame" style="display: none;">
-    <section class="mainPanel">
+    <!-- <section class="newGame"> -->
+    <section class="mainPanel" id="playersPanel">
       <div class="options">
         <h2>Wybierz ilość graczy:</h2>
         <div class="options_btnWrapper">
@@ -118,8 +119,12 @@
         <ul class="playersList">
         </ul>
       </div>
+      <div class="next">
+        <button>Przejdź do wyboru miast</button>
+      </div>
     </section>
-    <section class='mainPanel' id='citiesPanel' style='display: none;'>
+    <!-- <section class='mainPanel hidden' id='citiesPanel' style='display: none;'> -->
+    <section class='mainPanel hidden' id='citiesPanel'>
       <div class="options" id='citiesLeft'></div>
       <div class="players" id='citiesRight'></div>
     </section>

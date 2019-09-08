@@ -3,6 +3,14 @@ import { clearNode } from './utils';
 const addPlayer = document.querySelector('.addPlayerSubmit');
 const playersList = document.querySelector('.playersList');
 const btnNumberOfPlayers = [...document.querySelectorAll('.createNewPlayers')];
+const playersPanel = document.getElementById('playersPanel');
+const citiesPanel = document.getElementById('citiesPanel');
+const btnNext = document.querySelector('.next');
+
+btnNext.addEventListener('click', function () {
+  playersPanel.classList.add('hidden');
+  citiesPanel.classList.remove('hidden');
+});
 
 // const newPlayers = [['krzysiu', '🧑'], ['misiu', '👱‍']];
 const newPlayers = [];
@@ -139,8 +147,8 @@ export function initGeo(fields) {
     <input type='button' class='button' name='fieldsRestore' id='fieldsRestore' value='Odtwórz'>
     `;
   qs.appendChild(el);
-  document.querySelector('#fieldsSave').addEventListener('click', (e) => { e.preventDefault(); localStorage.setItem('fields', JSON.stringify(fields)); } );
-  document.querySelector('#fieldsRestore').addEventListener('click', (e) => { 
+  document.querySelector('#fieldsSave').addEventListener('click', (e) => { e.preventDefault(); localStorage.setItem('fields', JSON.stringify(fields)); });
+  document.querySelector('#fieldsRestore').addEventListener('click', (e) => {
     e.preventDefault();
     const arr = JSON.parse(localStorage.getItem('fields'));
     let field;
@@ -153,9 +161,9 @@ export function initGeo(fields) {
       qs.removeChild(qs.lastChild);
     }
     fillWithFields(fields);
-    document.querySelector('#fieldsSave').style.display = ( (chosenCountries(fields).length) ? '' : 'none' );
-  } );
-  
+    document.querySelector('#fieldsSave').style.display = ((chosenCountries(fields).length) ? '' : 'none');
+  });
+
   geoInit(fields);
 
   // tabela z `fieldami`, najpierw wiersz
@@ -188,17 +196,17 @@ function geoInit(fields) {
       "x-rapidapi-key": "26934c6e73msh8d4ccc9eb16682ep141879jsn4a3e7dd3dc52"
     }
   })
-  .then(res => res.json() )
-  .then(res => {
-    countries.push(...res);
-    let regs = countries.map( (data) => { return data.region; } );
-    regs = [...new Set(regs)];    // pozostawia w 'regs' tylko unikalne wartości
-    regions.push(...regs);
-    gameRegion = regions[0];
-    setRegion(fields);
-    chooseCountry();    // !!!! wywoływane stąd tylko tymczasowo !!!!
-  })
-  .catch(err => console.log(err));
+    .then(res => res.json())
+    .then(res => {
+      countries.push(...res);
+      let regs = countries.map((data) => { return data.region; });
+      regs = [...new Set(regs)];    // pozostawia w 'regs' tylko unikalne wartości
+      regions.push(...regs);
+      gameRegion = regions[0];
+      setRegion(fields);
+      chooseCountry();    // !!!! wywoływane stąd tylko tymczasowo !!!!
+    })
+    .catch(err => console.log(err));
 }
 
 function setRegion(fields) {
@@ -257,11 +265,11 @@ function setRegion(fields) {
     document.querySelector('#citiesPanel').style.display = 'none';
     document.querySelector('.newGame').style.display = 'none';
     document.querySelector('#btnNewCities').style.display = 'none';
-    fields.forEach( (val) => { 
+    fields.forEach((val) => {
       // console.log(val);
       if (val.color === 'black' || val.color === 'blue') { val._node.style.color = 'white'; }
-      val._node.innerHTML = val.name.name; 
-    } );
+      val._node.innerHTML = val.name.name;
+    });
   });
 }
 
@@ -318,8 +326,8 @@ function getCountriesByRegion(region, search) { // dostosowuje listę krajów w 
 }
 
 function searchCountry(e) { // reaguje na zmiany w polu 'search' (wybór kraju)
-  e.preventDefault();  
-  getCountriesByRegion( document.querySelector('#regionsList').value, document.querySelector('#search').value );
+  e.preventDefault();
+  getCountriesByRegion(document.querySelector('#regionsList').value, document.querySelector('#search').value);
 }
 
 function getFlagURL(country) {
@@ -350,7 +358,7 @@ function dropped(target, fields) {
         field.name.population = dragged.attributes.population.value;
       }
       getCitiesByCountry(cities, field.name.country, fields, document.querySelector('#search').value);
-      if (chosenCities(fields).length === 22) { document.querySelector('#btnReady').style.display=''; }
+      if (chosenCities(fields).length === 22) { document.querySelector('#btnReady').style.display = ''; }
       break;
     }
   }
@@ -375,7 +383,7 @@ function fillWithFields(fields) {
       <td>${ (val.name.name) ? val.name.name : ''}</td>
       <td></td>`;
     el.fieldTrueName = val.truename;
-    el.addEventListener('click', (e) => { 
+    el.addEventListener('click', (e) => {
       e.preventDefault();
       let country = e.target.parentElement.children[1].innerText;
       if (country) {
@@ -423,23 +431,23 @@ function chooseCity(code, country, fields) { // pobiera obiekty miast dla podane
   const url = `http://api.geonames.org/search?country=${code.toUpperCase()}&type=json&username=MarKust71`;
   cities.splice(0, cities.length);
   fetch(url, { "method": "GET", })
-  .then(res => res.json() )
-  .then(res => {
-    res.geonames.map( (val) => { 
-      if (val.fcl === 'P') {
-          cities.push( { name: val.name, population: val.population } );
-      }
-    });
-    cities.sort( (a, b) => { return b.population - a.population; } );
-    const qs = document.querySelector('#search');
-    qs.placeholder = '  wybierz miasto...';
-    qs.removeEventListener('change', searchCountry);
-    qs.removeEventListener('keyup', searchCountry);
-    qs.addEventListener('change', (e) => { e.preventDefault(); getCitiesByCountry(cities, country, fields, document.querySelector('#search').value); });
-    qs.addEventListener('keyup', (e) => { e.preventDefault(); getCitiesByCountry(cities, country, fields, document.querySelector('#search').value); });
-    getCitiesByCountry(cities, country, fields, qs.value);
-  })
-  .catch(err => console.log(err));
+    .then(res => res.json())
+    .then(res => {
+      res.geonames.map((val) => {
+        if (val.fcl === 'P') {
+          cities.push({ name: val.name, population: val.population });
+        }
+      });
+      cities.sort((a, b) => { return b.population - a.population; });
+      const qs = document.querySelector('#search');
+      qs.placeholder = '  wybierz miasto...';
+      qs.removeEventListener('change', searchCountry);
+      qs.removeEventListener('keyup', searchCountry);
+      qs.addEventListener('change', (e) => { e.preventDefault(); getCitiesByCountry(cities, country, fields, document.querySelector('#search').value); });
+      qs.addEventListener('keyup', (e) => { e.preventDefault(); getCitiesByCountry(cities, country, fields, document.querySelector('#search').value); });
+      getCitiesByCountry(cities, country, fields, qs.value);
+    })
+    .catch(err => console.log(err));
 }
 
 function getCitiesByCountry(cities, country, fields, search) {

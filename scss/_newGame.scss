@@ -19,6 +19,9 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  #cietiesPanel{
+    flex-direction: row;
+  }
 
   .mainPanel {
     display: flex;
@@ -30,18 +33,16 @@
     border: 4px solid black;
     border-radius: 30px;
     .options,
-    .players {
-      // width: 100%;
+    .players,
+    .next {
       text-align: center;
       margin: 15px;
-      // border: 2px solid black;
       border-radius: 20px;
       h2{
         margin: 10px;
       }
       ul li{
         border-bottom: 2px solid black;
-        // border-radius: 10px;
         margin:5px;
       }
     }
@@ -59,13 +60,21 @@
         font-size: 20px;
       }
     }
+    .next{
+      justify-items: flex-start;
+
+    }
+  }
+  .mainPanel.hidden{
+    display: none;
   }
   button {
     background-color: black;
     color: white;
-    border: none;
-    padding: 5px 10px;
+    font-size: 20px;
+    padding: 5px 25px;
     border-radius: 10px;
+    border: none;
     margin: 5px;
     cursor: pointer;
   }
