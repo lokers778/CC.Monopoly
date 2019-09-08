@@ -11,6 +11,7 @@ class Player {
     this.isBancrupt = false;
     this.lastMove = 0;
     this.board = board;
+    this.status = 'wolny';
   }
 
   updateMoney(amount) {
