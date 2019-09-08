@@ -12,8 +12,10 @@ btnNext.addEventListener('click', function () {
   citiesPanel.classList.remove('hidden');
 });
 
-// const newPlayers = [['krzysiu', '🧑'], ['misiu', '👱‍']];
-const newPlayers = [];
+const newPlayers = [['', '🖱️ '], ['', '🖥️ '], ['', '⌨️ '], ['', '☕ ']];
+
+const icons = ['🖱️ ', '🖥️ ', '⌨️ ', '☕ ']
+// const newPlayers = [];
 
 const createInputPlayerName = function () {
   const newInput = document.createElement('input');
@@ -25,6 +27,9 @@ const createInputPlayerName = function () {
 
 const newPlayersToPlayersList = function () {
   playersList.innerHTML = '';
+  for (let i = 0; i < newPlayers.length; i++) {
+    newPlayers[i][1] = icons[i];
+  }
   newPlayers.forEach(Item => {
     // Create new li element
     const li = document.createElement('li');
@@ -70,7 +75,7 @@ const newPlayersToPlayersList = function () {
                 newPlayers[i][0] = this.value
                 this.remove();
               }
-              else console.log('Nic tu nie ma :(');
+              else alert('Najpierw wpisz nazwę gracza');
               newPlayersToPlayersList();
             }
           })
