@@ -1,27 +1,11 @@
 class CommunityChestCard {
-  constructor(id, name, desc, cat) {
+  constructor(id, desc, cat, atr) {
     this.id = id;
-    this.name = name;
     this.description = desc;
     this.category = cat;
-    //this.attribute = atr;
-  }
-
-  getMoney() {
-    //player.updateMoney(atr);
-  }
-
-  loseMoney() {
-    //player.updateMoney(-atr);
-  }
-
-  goSomewhere() {
-    //player.setPosition(atr);
-  }
-
-  prisonBreak() {
-    //comming soon
+    this.attribute = atr;
   }
 }
 
 export default CommunityChestCard;
+

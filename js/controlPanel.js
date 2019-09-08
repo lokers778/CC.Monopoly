@@ -36,11 +36,18 @@ class ControlPanel {
       const [prevMove, nextMove] = currentPlayer.updatePosition(this.dices.throwDices());
       const prevField = this.board.getField(prevMove);
       const nextField = this.board.getField(nextMove);
-
+      const dicePosition = currentPlayer.position;
       this.updateDicesView();
       prevField.playerOutMe(currentPlayer);
-      this.endRoundGuard = nextField.playerOnMe(currentPlayer) || (() => true);
-      nextField.renderControlPanelFieldView(currentPlayer, fieldPanelNode);
+      nextField.playerOnMe(currentPlayer);
+      
+      if(dicePosition===currentPlayer.currentPosition()){
+        nextField.renderControlPanelFieldView(currentPlayer, fieldPanelNode);
+      }
+      else{
+        this.movePlayer(currentPlayer,dicePosition);
+      }
+      
     }
   }
 
@@ -122,6 +129,16 @@ class ControlPanel {
       this.renderedActionField.renderControlPanelActionView(this.currentPlayer(), actionPanelNode);
     }
   }
+
+  movePlayer(currentPlayer,dicePosition){
+      const [newprevMove, newnextMove] = currentPlayer.updatePosition(Math.abs(dicePosition-currentPlayer.currentPosition()));
+            const newnextField = this.board.getField(newnextMove);
+            const newprevField = this.board.getField(newprevMove);
+            newprevField.playerOutMe(currentPlayer);
+            newnextField.playerOnMe(currentPlayer);
+            newnextField.renderControlPanelFieldView(currentPlayer, fieldPanelNode);
+            
+          }
 }
 
 export { ControlPanel };

@@ -2,6 +2,10 @@
   background-image: url('/static/StartField.png');
   background-size: contain;
 }
+
+.trains,.waterworks,.powerhouse,.train,.parking,.specialOne,.specialTwo,.specialPayOne,.specialPayTwo,.goToJail,.jail{
+  background-color: white;
+}
 .train {
   background-image: url('/static/Train.png');
   background-size: contain;
@@ -33,3 +37,32 @@
   background-repeat: no-repeat;
   background-position: center;
 }
+
+.specialOne{
+  background-image: url('/static/horseshoe.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.specialTwo{
+  background-image: url('/static/banknote-1.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.jail {
+  background-image: url('/static/prisoner-1.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.goToJail {
+  background-image: url('/static/wanted-reward-1.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+

@@ -1,38 +1,63 @@
 import Field from '../field';
-import communityChestDeck from '../decks';
+import {communityChestDeck} from '../decks';
 
 class CommunityChest extends Field {
-  constructor(truename) {
-    super(truename);
+  constructor(name,truename) {
+    super(name,truename);
   }
 
   drawCard() {
     let card = communityChestDeck[communityChestDeck.length - 1];
     let cat = card.category;
     let atr = card.attribute;
-    if (cat === 1) {
-      card.getMoney(atr);
-    } else if (cat === 2) {
-      card.loseMoney(atr);
-    } else if (cat === 3) {
-      card.goSomewhere(atr);
-    } else {
-      card.prisonBreak();
-    }
+    let dsc = card.description;
     communityChestDeck.pop();
+    return [card, cat, atr, dsc];
+    
+  }
+
+  getMoney(player,atr) {
+    player.updateMoney(atr);
+  }
+
+  loseMoney(player,atr) {
+    player.updateMoney(-1*atr);
+
+    if (player.currentMoneyAmount() < 0) {
+      player.goBancrupt();
+  }
+}
+  goSomewhere(player,atr) {
+    player.setPosition(atr);
+  }
+  prisonBreak(player) {
+    player.prisonEscapeCard = player.prisonEscapeCard+1;
   }
 
   playerOnMe(player) {
     super.playerOnMe(player);
-
-    this.drawCard();
+    let lista = this.drawCard();
+    alert(`Karta kasy społecznej: 
+    ${lista[3]}`);
+    if(lista[1]===1){
+      this.getMoney(player,lista[2]);
   }
-
-  /* TODO
+    else if(lista[1]===2){
+      this.loseMoney(player,lista[2]);
+    }
+    else if(lista[1]===3){
+      this.goSomewhere(player,lista[2]);
+    }
+    else if(lista[1]===4){
+      this.prisonBreak(player);
+    }
+  }
+  
   renderControlPanelFieldView(currentPlayer, node) {
-    console.log(`${this.truename} is rendering ${node.className} of ${controlPanel.constructor.name}`);
-  }
-  */
-}
+    node.appendChild(
+      document.createTextNode(`Gracz ${currentPlayer.name} wylosował kartę.`),
+    );
+}}
+
 
 export default CommunityChest;

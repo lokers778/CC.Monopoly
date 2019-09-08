@@ -62,3 +62,31 @@ li.player {
   font-size: 0.5em;
   text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
 }
+
+.chanceDeck,.communityDeck{
+  display: block;
+  position: relative;
+  width: 250px !important;
+  height: 170px !important;
+  border-radius: 9px;
+  border: 10px solid black !important; 
+  background-color: grey;
+}
+
+.chanceDeck{
+  margin-top: 30px !important;
+  margin-left:50% !important;
+}
+.communityDeck{
+  margin-top: 170px !important;
+  margin-left: 5% !important;
+}
+
+.logo{
+  position: relative;
+  width: 100%;
+  margin: 0 auto;
+  margin-top:10px;
+  border: 2px solid black;
+  
+}
