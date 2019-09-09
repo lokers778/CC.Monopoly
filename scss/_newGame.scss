@@ -89,6 +89,50 @@
 
 // =========== inicjalizacja miast ===========
 
+.citiesPanel {
+  display: flex;
+  flex-direction: row;
+  width: 80vh;
+  height: 60vh;
+  background-color: royalblue;
+  border: 4px solid black;
+  border-radius: 30px;
+  // .options,
+  // .players {
+  //   width: 50%;
+  //   text-align: center;
+  //   margin: 15px;
+  //   border: 2px solid black;
+  //   border-radius: 20px;
+  // }
+  // .options {
+  //   .addPlayer {
+  //     margin: 10px 0;
+  //   }
+  // }
+  // .players {
+  //   h2 {
+  //     margin: 10px 0;
+  //   }
+  //   ul {
+  //     list-style: none;
+  //     font-size: 20px;
+  //   }
+  // }
+  h4 {
+    text-align: center;
+  }
+  #citiesLeft {
+    width: 60%;
+  }
+  #citiesRight {
+    width: 40%;
+  }
+  #fieldsListButtons, #localeListButtons {
+    text-align: center;
+  }
+}
+
 .initFieldsContainer {
   margin-top: 5px;
   text-align: left;
