@@ -1,6 +1,5 @@
 import { clearNode } from './utils';
 
-const addPlayer = document.querySelector('.addPlayerSubmit');
 const playersList = document.querySelector('.playersList');
 const btnNumberOfPlayers = [...document.querySelectorAll('.createNewPlayers')];
 const playersPanel = document.getElementById('playersPanel');
@@ -111,7 +110,7 @@ function returnNewPlayers() {
   return newPlayers;
 }
 
-export default returnNewPlayers;
+export { returnNewPlayers };
 
 // =========== inicjalizacja miast ===========
 // initGeo(); // wywołanie inicjalizacji miast
@@ -191,7 +190,7 @@ export function initGeo(fields) {
     qs.appendChild(el);
     el.addEventListener("dragover", (e) => { e.preventDefault(); }, false);
     el.addEventListener("drop", (e) => { e.preventDefault(); dropped(e.target, fields); }, false);
-  };
+  }
 
   // wiersze tabieli - każdy `field` ma swój
   fillWithFields(fields);

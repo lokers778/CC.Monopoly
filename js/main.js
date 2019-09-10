@@ -3,7 +3,7 @@ import colors from './colors';
 import navigationBar from './navBar';
 import { ControlPanel } from './controlPanel';
 import { initializePlayers } from './player';
-import newGame, { initGeo } from './newGame';
+import { initGeo, returnNewPlayers } from './newGame';
 
 console.log('Monopoly is running');
 
@@ -24,7 +24,7 @@ document.querySelector('#btnNewPlayers').addEventListener('click', () => {
   newGame(); // zainicjowanie graczy
 });
 
-const starters = [['krzysiu', '🧑'], ['misiu', '👱‍']];
+const starters = returnNewPlayers();
 const players = initializePlayers(starters, board);
 const controlPanel = new ControlPanel(board, players);
 navigationBar(players, controlPanel);
