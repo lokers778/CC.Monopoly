@@ -2,16 +2,21 @@ import { clearNode } from './utils';
 
 const playersList = document.querySelector('.playersList');
 const btnNumberOfPlayers = [...document.querySelectorAll('.createNewPlayers')];
-const playersPanel = document.getElementById('playersPanel');
+// const playersPanel = document.getElementById('playersPanel');
 // const citiesPanel = document.getElementById('citiesPanel');
-const btnNext = document.querySelector('.next');
+// const btnNext = document.querySelector('.next');
 
-btnNext.addEventListener('click', function () {
-  playersPanel.classList.add('hidden');
-  // citiesPanel.classList.remove('hidden');
-  document.querySelector('.newGame').style.display = 'none';
-  // document.querySelector('#btnNewPlayers').style.display = 'none';
-});
+// btnNext.addEventListener('click', function () {
+//   // playersPanel.classList.add('hidden');
+//   // citiesPanel.classList.remove('hidden');
+//   // document.querySelector('.newGame').style.display = 'none';
+//   // document.querySelector('#btnNewPlayers').style.display = 'none';
+
+//   // document.querySelector('.newGame').style.display = '';
+//   document.querySelector('#playersPanel').style.display = 'none';
+//   document.querySelector('#citiesPanel').style.display = '';
+//   initGeo(board.fields); // zainicjowanie miast
+// });
 
 const newPlayers = [['', '🖱️ '], ['', '🖥️ '], ['', '⌨️ '], ['', '☕ ']];
 
@@ -268,6 +273,7 @@ function setRegion(fields) {
   qs = document.querySelector('#btnReady'); // mamy już 22 miasta i naciśnięto `GOTOWE`
   qs.addEventListener('click', (e) => {
     e.preventDefault();
+    document.querySelector('#controlPanelNewGame').style.display = 'none';
     document.querySelector('#citiesPanel').style.display = 'none';
     document.querySelector('.newGame').style.display = 'none';
     // document.querySelector('#btnNewCities').style.display = 'none';

@@ -14,12 +14,13 @@
   <section class="game">
     <section class="controlPanel">
       <h2>Panel Kontrolny</h2>
-      <div class='diceBoard' style='margin-bottom: 5%;'>
-        <p>Nowa gra</p>
+      <div class="diceBoard" id="controlPanelNewGame" style="margin-bottom: 5%;"">
+        <!-- <p>Nowa gra</p>
         <button id="btnNewCities" class="button" type="button">Miasta</button>
-        <button id="btnNewPlayers" class="button" type="button">Gracze</button>
+        <button id="btnNewPlayers" class="button" type="button">Gracze</button> -->
+          <p><button id="btnNewPlayers" class="button" type="button">Nowa gra</button></p>
       </div>
-      <div class="diceBoard">
+      <div class="diceBoard" id="controlPanelDice">
         <p class="player">Gracz</p>
         <button id="throwDice" class="button" type="button">Rzuć kostkami</button>
         <div class="dices">
@@ -32,7 +33,7 @@
           <button id="endRound" class="button" type="button">Koniec Tury</button>
         </div>
       </div>
-      <div class="fieldPanel"></div>
+      <div class="fieldPanel"  id="controlPanelField"></div>
       <!-- Dwa poniższe przyciski w ramach testów -->
       <button id="kup" class="button" type="button">Kup dom</button>
       <button id="sprzedaj" class="button" type="button">Sprzedaj dom</button>
@@ -119,7 +120,7 @@
         </ul>
       </div>
       <div class="next">
-        <button class="button">Gotowe</button>
+        <button class="button" id="btnNewCities">Zakończ i przejdź do definicji planszy</button>
       </div>
     </section>
     <section class='citiesPanel' id='citiesPanel' style='display: none;'>
