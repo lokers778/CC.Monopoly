@@ -113,23 +113,18 @@ function returnNewPlayers() {
 export { returnNewPlayers };
 
 // =========== inicjalizacja miast ===========
-// initGeo(); // wywołanie inicjalizacji miast
-// import { board } from './main';
 const countries = []; // tablica zawierająca dane krajów, fetch z https://restcountries-v1.p.rapidapi.com/all
 const countriesChosen = []; // pomocnicza tablica - państwa przypisane do pól
 const regions = []; // tablica zawierająca kontynenty, na podstawie 'countries'
 const cities = []; // zmienna pomocnicza: miasta dla wskazanego kraju
-//let gameRegion = ''; // kontynent ustalany globalnie przy inicjalizacji nowej gry
 
 let dragged; // na potrzeby przeciągania państw/miast na pola gry
 
 export function initGeo(fields) {
-  // ===== Ukrywa (tymczasowo) panel dodawania playerów =====
-  // document.querySelector('.mainPanel').style.display = 'none';
-  // ========================================================
-
+  // console.log('initGeo: START', fields);
   document.querySelector('#citiesPanel').style.display = 'flex';
   fields = fields.filter((val) => { return !!val.color; });
+  // console.log('initGeo: TYLKO COLOURS', fields);
 
   let qs = document.querySelector('#citiesLeft');
   let el = document.createElement('h4');
@@ -149,24 +144,22 @@ export function initGeo(fields) {
     <input type='button' class='button' name='fieldsRestore' id='fieldsRestore' value='Odtwórz'>
     `;
   qs.appendChild(el);
-  document.querySelector('#fieldsSave').addEventListener('click', (e) => { e.preventDefault(); localStorage.setItem('fields', JSON.stringify(fields)); });
-  // document.querySelector('#fieldsRestore').addEventListener('click', (e) => {
-  //   e.preventDefault();
-  //   localStorage.setItem('fields', JSON.stringify(fields));
-  // });
+  document.querySelector('#fieldsSave').addEventListener('click', (e) => { 
+    e.preventDefault(); 
+// console.log('initGeo: PRZED SAVE', fields);
+  localStorage.setItem('fields', JSON.stringify(fields)); 
+  });
   document.querySelector('#fieldsRestore').addEventListener('click', (e) => {
     e.preventDefault();
-    const arr = JSON.parse(localStorage.getItem('fields'));
-    console.log(arr);
+// console.log('initGeo: PRZED RESTORE', fields);
+  const arr = JSON.parse(localStorage.getItem('fields'));
+// console.log('#fieldsRestore', arr);
     let field;
     arr.forEach((val) => {
       field = fields.find((val1) => { return val1.truename === val.truename });
+// console.log(field);
       field.name = JSON.parse(JSON.stringify(val.name));
     });
-    // const qs = document.querySelector('#initFieldsList tbody');
-    // while (qs.children.length) {
-    //   qs.removeChild(qs.lastChild);
-    // }
     fillWithFields(fields);
     document.querySelector('#fieldsSave').style.display = ((chosenCountries(fields).length) ? '' : 'none');
   });
@@ -280,7 +273,15 @@ function setRegion(fields) {
     // document.querySelector('#btnNewCities').style.display = 'none';
     fields.forEach((val) => {
       if (val.color === 'black' || val.color === 'blue') { val._node.style.color = 'white'; }
-      val._node.innerHTML = val.name.name;
+      val._node.innerHTML = `${val.name.country}<br>${val.name.name}`;
+      // === tymczasowo - tylko jedno pole ===
+      // if (val.truename === 'brown-property--1') {
+        val._node.style.backgroundImage = `url("${val.name.flag}")`;
+        val._node.style.backgroundSize = `contain`;
+        val._node.style.backgroundRepeat = `no-repeat`;
+        val._node.style.backgroundPosition = `center`;
+      // }
+      // =====================================
     });
   });
 }
@@ -294,7 +295,6 @@ function regionChanged(e) {
     qs.value = '';
     searchCountry();
   }
-  //gameRegion = e.target.value;
 }
 
 function chooseCountry() {
