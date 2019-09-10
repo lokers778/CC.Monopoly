@@ -19,22 +19,32 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  #cietiesPanel{
+    flex-direction: row;
+  }
 
   .mainPanel {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
+    align-items: stretch;
     width: 80vh;
-    height: 60vh;
+    height: 90vh;
     background-color: royalblue;
     border: 4px solid black;
     border-radius: 30px;
     .options,
-    .players {
-      width: 50%;
+    .players,
+    .next {
       text-align: center;
       margin: 15px;
-      border: 2px solid black;
       border-radius: 20px;
+      h2{
+        margin: 10px;
+      }
+      ul li{
+        border-bottom: 2px solid black;
+        margin:5px;
+      }
     }
     .options {
       .addPlayer {
@@ -47,16 +57,26 @@
       }
       ul {
         list-style: none;
-        font-size: 20px;
+        li {
+            font-size: 30px;          
+        }
       }
     }
+    .next{
+      justify-items: flex-start;
+
+    }
+  }
+  .mainPanel.hidden{
+    display: none;
   }
   button {
     background-color: black;
     color: white;
-    border: none;
-    padding: 5px 10px;
+    font-size: 20px;
+    padding: 5px 25px;
     border-radius: 10px;
+    border: none;
     margin: 5px;
     cursor: pointer;
   }
@@ -67,6 +87,50 @@
 }
 
 // =========== inicjalizacja miast ===========
+
+.citiesPanel {
+  display: flex;
+  flex-direction: row;
+  width: 80vh;
+  height: 60vh;
+  background-color: royalblue;
+  border: 4px solid black;
+  border-radius: 30px;
+  // .options,
+  // .players {
+  //   width: 50%;
+  //   text-align: center;
+  //   margin: 15px;
+  //   border: 2px solid black;
+  //   border-radius: 20px;
+  // }
+  // .options {
+  //   .addPlayer {
+  //     margin: 10px 0;
+  //   }
+  // }
+  // .players {
+  //   h2 {
+  //     margin: 10px 0;
+  //   }
+  //   ul {
+  //     list-style: none;
+  //     font-size: 20px;
+  //   }
+  // }
+  h4 {
+    text-align: center;
+  }
+  #citiesLeft {
+    width: 60%;
+  }
+  #citiesRight {
+    width: 40%;
+  }
+  #fieldsListButtons, #localeListButtons {
+    text-align: center;
+  }
+}
 
 .initFieldsContainer {
   margin-top: 5px;

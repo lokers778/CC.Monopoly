@@ -1,136 +1,132 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <title>Codopoly</title>
-    <meta name="keywords" content="Monopoly, board game, es6, codersCamp" />
-    <meta name="description" content="Monopoly game in vanilla JS" />
-    <link rel="stylesheet" type="text/css" href="app.css" />
-    <link rel="stylesheet" type="text/css" href="./static/css/all.min.css" />
-  </head>
 
-  <body>
-    <section class="game">
-      <section class="controlPanel">
-        <h2>Panel Kontrolny</h2>
-        <div class="diceBoard" style="margin-bottom: 2%;">
-          <p>Nowa gra</p>
-          <button id="btnNewCities" class="button" type="button">Miasta</button>
-          <button id="btnNewPlayers" class="button" type="button">Gracze</button>
-        </div>
-        <div class="diceBoard">
-          <p class="player">Gracz</p>
-          <button id="throwDice" class="button" type="button">Rzuć kostkami</button>
-          <div class="dices">
-            <div class="dice1">
-              <i class="fas fa-dice-one"></i>
-            </div>
-            <div class="dice2">
-              <i class="fas fa-dice-one"></i>
-            </div>
-            <button id="endRound" class="button" type="button">Koniec Tury</button>
-          </div>
-        </div>
-        <div class="fieldPanel">
-          <p>Aktualne pole</p>
-          <div class="fieldPanelBody"></div>
-        </div>
-        <div class="actionPanel">
-          <p>Wybrane pole</p>
-          <div class="actionPanelBody"></div>
-        </div>
-        <!-- Dwa poniższe przyciski w ramach testów
-        <button id="kup" class="button" type="button">Kup dom</button>
-        <button id="sprzedaj" class="button" type="button">Sprzedaj dom</button>
-        -->
-      </section>
-      <section class="board">
-        <div class="firstRow">
-          <div class="parking"></div>
-          <div class="red property"></div>
-          <div class="specialOne"></div>
-          <div class="red property"></div>
-          <div class="red property"></div>
-          <div class="north train"></div>
-          <div class="yellow property"></div>
-          <div class="yellow property"></div>
-          <div class="waterworks specialThird"></div>
-          <div class="yellow property"></div>
-          <div class="goToJail"></div>
-        </div>
-        <div class="secondRow">
-          <div class="leftRow">
-            <div class="orange property"></div>
-            <div class="orange property"></div>
-            <div class="specialTwo"></div>
-            <div class="orange property"></div>
-            <div class="west train"></div>
-            <div class="pink property"></div>
-            <div class="pink property"></div>
-            <div class="powerhouse specialThird"></div>
-            <div class="pink property"></div>
-          </div>
-          <div class="middle"></div>
-          <div class="rightRow">
-            <div class="green property"></div>
-            <div class="green property"></div>
-            <div class="specialTwo"></div>
-            <div class="green property"></div>
-            <div class="east train"></div>
-            <div class="specialOne"></div>
-            <div class="black property"></div>
-            <div class="specialPayTwo"></div>
-            <div class="black property"></div>
-          </div>
-        </div>
-        <div class="thirdRow">
-          <div class="jail"></div>
-          <div class="blue property"></div>
-          <div class="blue property"></div>
-          <div class="specialOne"></div>
-          <div class="blue property"></div>
-          <div class="south train"></div>
-          <div class="specialPayOne"></div>
-          <div class="brown property"></div>
-          <div class="specialTwo"></div>
-          <div class="brown property"></div>
-          <div class="go"></div>
-        </div>
-      </section>
-      <div class="burger">
-        <div class="line1"></div>
-        <div class="line2"></div>
-        <div class="line3"></div>
+<head>
+  <meta charset="UTF-8" />
+  <title>Codopoly</title>
+  <meta name="keywords" content="Monopoly, board game, es6, codersCamp" />
+  <meta name="description" content="Monopoly game in vanilla JS" />
+  <link rel="stylesheet" type="text/css" href="app.css" />
+  <link rel="stylesheet" type="text/css" href="./static/css/all.min.css" />
+</head>
+
+<body>
+  <section class="game">
+    <section class="controlPanel">
+      <h2>Panel Kontrolny</h2>
+      <div class='diceBoard' style='margin-bottom: 5%;'>
+        <p>Nowa gra</p>
+        <button id="btnNewCities" class="button" type="button">Miasta</button>
+        <button id="btnNewPlayers" class="button" type="button">Gracze</button>
       </div>
-      <section class="navBar">
-        <div class="intro">
-          <h2>Informacje o graczach</h2>
-        </div>
-        <div class="buttony"></div>
-        <div class="info"></div>
-      </section>
-    </section>
-    <section class="newGame" style="display: none;">
-      <section class="mainPanel" id="playersPanel" style="display: none;">
-        <div class="options">
-          <div class="addPlayer">
-            <input type="text" name="playerName" placeholder="Player Name" class="inputText" required />
-            <button class="addPlayerSubmit">Dodaj Gracza</button>
+      <div class="diceBoard">
+        <p class="player">Gracz</p>
+        <button id="throwDice" class="button" type="button">Rzuć kostkami</button>
+        <div class="dices">
+          <div class="dice1">
+            <i class="fas fa-dice-one"></i>
           </div>
+          <div class="dice2">
+            <i class="fas fa-dice-one"></i>
+          </div>
+          <button id="endRound" class="button" type="button">Koniec Tury</button>
         </div>
-        <div class="players">
-          <h2>Lista graczy:</h2>
-          <ul class="playersList">
-            <!-- <li class="playersListItem">Gracz 1<button class="btnDelete">X</button></li>
-          <li class="playersListItem">Gracz 2<button class="btnDelete">X</button></li> -->
-          </ul>
-        </div>
-      </section>
-      <section class="mainPanel" id="citiesPanel" style="display: none;">
-        <div class="options" id="citiesLeft"></div>
-        <div class="players" id="citiesRight"></div>
-      </section>
+      </div>
+      <div class="fieldPanel"></div>
+      <!-- Dwa poniższe przyciski w ramach testów -->
+      <button id="kup" class="button" type="button">Kup dom</button>
+      <button id="sprzedaj" class="button" type="button">Sprzedaj dom</button>
     </section>
-    <script src="index.js"></script>
-  </body>
-</html>
+    <section class="board">
+      <div class="firstRow">
+        <div class="parking"></div>
+        <div class="red property"></div>
+        <div class="specialOne"></div>
+        <div class="red property"></div>
+        <div class="red property"></div>
+        <div class="north train"></div>
+        <div class="yellow property"></div>
+        <div class="yellow property"></div>
+        <div class="waterworks specialThird"></div>
+        <div class="yellow property"></div>
+        <div class="goToJail"></div>
+      </div>
+      <div class="secondRow">
+        <div class="leftRow">
+          <div class="orange property"></div>
+          <div class="orange property"></div>
+          <div class="specialTwo"></div>
+          <div class="orange property"></div>
+          <div class="west train"></div>
+          <div class="pink property"></div>
+          <div class="pink property"></div>
+          <div class="powerhouse specialThird"></div>
+          <div class="pink property"></div>
+        </div>
+        <div class="middle"></div>
+        <div class="rightRow">
+          <div class="green property"></div>
+          <div class="green property"></div>
+          <div class="specialTwo"></div>
+          <div class="green property"></div>
+          <div class="east train"></div>
+          <div class="specialOne"></div>
+          <div class="black property"></div>
+          <div class="specialPayTwo"></div>
+          <div class="black property"></div>
+        </div>
+      </div>
+      <div class="thirdRow">
+        <div class="jail"></div>
+        <div class="blue property"></div>
+        <div class="blue property"></div>
+        <div class="specialOne"></div>
+        <div class="blue property"></div>
+        <div class="south train"></div>
+        <div class="specialPayOne"></div>
+        <div class="brown property"></div>
+        <div class="specialTwo"></div>
+        <div class="brown property"></div>
+        <div class="go"></div>
+      </div>
+    </section>
+    <div class="burger">
+      <div class="line1"></div>
+      <div class="line2"></div>
+      <div class="line3"></div>
+    </div>
+    <section class="navBar">
+      <div class="intro">
+        <h2>Informacje o graczach</h2>
+      </div>
+      <div class="buttony"></div>
+      <div class="info"></div>
+    </section>
+  </section>
+  <section class="newGame" style="display: none;">
+    <section class="mainPanel" id="playersPanel"  style='display: none;'>
+      <div class="options">
+        <h2>Wybierz ilość graczy:</h2>
+        <div class="options_btnWrapper">
+          <button class="createNewPlayers">2</button>
+          <button class="createNewPlayers">3</button>
+          <button class="createNewPlayers">4</button>
+        </div>
+      </div>
+      <div class="players">
+        <h2>Lista graczy:</h2>
+        <ul class="playersList">
+        </ul>
+      </div>
+      <div class="next">
+        <button class="button">Gotowe</button>
+      </div>
+    </section>
+    <section class='citiesPanel' id='citiesPanel' style='display: none;'>
+      <div id='citiesLeft'></div>
+      <div id='citiesRight'></div>
+    </section>
+  </section>
+  </section>
+  <script src="index.js" defer></script>
+</body>
