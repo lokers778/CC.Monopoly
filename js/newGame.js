@@ -151,13 +151,14 @@ export function initGeo(fields) {
     `;
   qs.appendChild(el);
   document.querySelector('#fieldsSave').addEventListener('click', (e) => { e.preventDefault(); localStorage.setItem('fields', JSON.stringify(fields)); });
+  // document.querySelector('#fieldsRestore').addEventListener('click', (e) => {
+  //   e.preventDefault();
+  //   localStorage.setItem('fields', JSON.stringify(fields));
+  // });
   document.querySelector('#fieldsRestore').addEventListener('click', (e) => {
     e.preventDefault();
-    localStorage.setItem('fields', JSON.stringify(fields));
-  });
-  document.querySelector('#fieldsRestore').addEventListener('click', e => {
-    e.preventDefault();
     const arr = JSON.parse(localStorage.getItem('fields'));
+    console.log(arr);
     let field;
     arr.forEach((val) => {
       field = fields.find((val1) => { return val1.truename === val.truename });
@@ -211,7 +212,7 @@ function geoInit(fields) {
       let regs = countries.map((data) => { return data.region; });
       regs = [...new Set(regs)];    // pozostawia w 'regs' tylko unikalne wartości
       regions.push(...regs);
-      gameRegion = regions[0];
+      // gameRegion = regions[0];
       setRegion(fields);
       chooseCountry();    // !!!! wywoływane stąd tylko tymczasowo !!!!
     })
