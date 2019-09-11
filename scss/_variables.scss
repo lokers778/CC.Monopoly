@@ -4,7 +4,9 @@
   box-sizing: border-box;
   font-family: Arial, 'Helvetica Neue', Helvetica, sans-serif;
 }
-$sizeFraction: 90vh/13;
+$sizeFraction: 80vh/13;
 $backgroundColor: lightblue;
 $controlPanelColour: gold;
+$boardBorderColor: black;
+$boardBorderSize: 3px;
 $controlPanelChildPanelsWidth: 98%;

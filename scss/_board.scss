@@ -1,17 +1,19 @@
 .board {
-  width: 80%;
-  height: 100%;
+  // width: 80%;
+  // height: 90%;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  border: $boardBorderSize solid $boardBorderColor;
   .firstRow,
   .thirdRow {
     display: flex;
     div {
       width: $sizeFraction;
       height: 2 * $sizeFraction;
-      border: 1px solid black;
+      border: $boardBorderSize solid $boardBorderColor;
+      background-color: rgba(206, 206, 206, 0.596) ;
       &:nth-child(1),
       &:last-child {
         width: 2 * $sizeFraction;
@@ -26,10 +28,16 @@
   }
   .secondRow {
     display: flex;
+    .leftRow,
+    .rightRow{
+      div{
+        border: $boardBorderSize solid $boardBorderColor;
+        background-color: rgba(206, 206, 206, 0.596) ;
+      }
+    }
     div {
       width: 2 * $sizeFraction;
       height: 9 * $sizeFraction;
-      border: 1px solid black;
       display: flex;
       flex-direction: column;
       .house {
@@ -44,6 +52,8 @@
     .middle {
       width: 9 * $sizeFraction;
       height: 9 * $sizeFraction;
+      border: $boardBorderSize solid $boardBorderColor;
+      background-color: rgba(206, 206, 206, 0.596) ;
     }
   }
 }

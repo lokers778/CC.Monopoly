@@ -4,8 +4,10 @@
   height: 100vh;
   display: flex;
   align-items: center;
-  justify-content: center;
-  background-color: $backgroundColor;
+  justify-content: space-between;
+  background-image: url('/static/Background_2.png');
+  background-size: cover;
+  background-repeat: no-repeat;
 }
 
 .newGame {
