@@ -69,7 +69,6 @@ const newPlayersToPlayersList = function () {
   }
 
   let playersListItems = [...document.querySelectorAll('.playersListItem')];
-
   for (let i = 0; i < playersListItems.length; i++) {
     playersListItems[i].addEventListener('click', function () {
       const items = this.children;
@@ -89,7 +88,7 @@ const newPlayersToPlayersList = function () {
       }
     })
   }
-  console.log(newPlayers);
+  // console.log(newPlayers);
 }
 // newPlayersToPlayersList();
 
