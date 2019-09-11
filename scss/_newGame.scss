@@ -9,9 +9,10 @@
 }
 
 .newGame {
-  background-color: rgba(0, 0, 0, 50%);
+  background-image: url('/static/Background_1.png');
+  background-size: cover;
+  background-repeat: no-repeat;
   position: fixed;
-  // z-index: -1;
   height: 100vh;
   width: 100vw;
   top: 0;
@@ -22,16 +23,27 @@
   #cietiesPanel{
     flex-direction: row;
   }
-
-  .mainPanel {
+  .mainPanel,
+  .citiesPanel{
     display: flex;
-    flex-direction: column;
     align-items: stretch;
-    width: 80vh;
-    height: 90vh;
-    background-color: royalblue;
+    min-height: 80%;
+    min-width: 700px;
+    background-color: rgba(206, 206, 206, 0.596) ;
     border: 4px solid black;
     border-radius: 30px;
+    padding: 10px 20px;
+    input{
+      border: 2px solid black;
+      margin: 0 10px;
+      font-size: 20px;
+      padding: 5px 20px;
+      border-radius: 10px;
+    }
+  }
+
+  .mainPanel {
+    flex-direction: column;
     .options,
     .players,
     .next {
@@ -42,41 +54,25 @@
         margin: 10px;
       }
       ul li{
+        list-style: none;
         border-bottom: 2px solid black;
         margin:5px;
-      }
-    }
-    .options {
-      .addPlayer {
-        margin: 10px 0;
-      }
-    }
-    .players {
-      h2 {
-        margin: 10px 0;
-      }
-      ul {
-        list-style: none;
-        li {
-            font-size: 30px;          
-        }
+        font-size: 30px;
       }
     }
     .next{
-      justify-items: flex-start;
-
+      position: relative;
+      bottom: 0;
     }
   }
-  .mainPanel.hidden{
-    display: none;
-  }
   button {
-    background-color: black;
-    color: white;
+    background-color: transparent;
+    color: black;
     font-size: 20px;
+    font-weight: bold;
     padding: 5px 25px;
     border-radius: 10px;
-    border: none;
+    border: 3px solid black;
     margin: 5px;
     cursor: pointer;
   }
@@ -89,43 +85,19 @@
 // =========== inicjalizacja miast ===========
 
 .citiesPanel {
-  display: flex;
   flex-direction: row;
-  width: 80vh;
-  height: 60vh;
-  background-color: royalblue;
-  border: 4px solid black;
-  border-radius: 30px;
-  // .options,
-  // .players {
-  //   width: 50%;
-  //   text-align: center;
-  //   margin: 15px;
-  //   border: 2px solid black;
-  //   border-radius: 20px;
-  // }
-  // .options {
-  //   .addPlayer {
-  //     margin: 10px 0;
-  //   }
-  // }
-  // .players {
-  //   h2 {
-  //     margin: 10px 0;
-  //   }
-  //   ul {
-  //     list-style: none;
-  //     font-size: 20px;
-  //   }
-  // }
   h4 {
     text-align: center;
   }
   #citiesLeft {
     width: 60%;
+    margin: 10px 20px;
+    font-size: 20px;
   }
   #citiesRight {
     width: 40%;
+    margin: 10px 20px;
+    font-size: 20px;
   }
   #fieldsListButtons, #localeListButtons {
     text-align: center;
