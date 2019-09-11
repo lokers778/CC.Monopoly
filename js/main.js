@@ -6,6 +6,7 @@ import { initializePlayers } from './player';
 import { initGeo, returnNewPlayers } from './newGame';
 
 console.log('Monopoly is running');
+let players;
 
 const board = new Board();
 for (let key in colors) {
@@ -14,6 +15,10 @@ for (let key in colors) {
 }
 
 document.querySelector('#btnNewCities').addEventListener('click', () => {
+  const starters = returnNewPlayers();
+  players = initializePlayers(starters, board);
+  const controlPanel = new ControlPanel(board, players);
+  navigationBar(players, controlPanel);
   document.querySelector('.newGame').style.display = '';
   document.querySelector('#playersPanel').style.display = 'none';
   document.querySelector('#citiesPanel').style.display = '';
@@ -26,9 +31,6 @@ document.querySelector('#btnNewPlayers').addEventListener('click', () => {
   newGame(); // zainicjowanie graczy
 });
 
-const starters = returnNewPlayers();
-const players = initializePlayers(starters, board);
-const controlPanel = new ControlPanel(board, players);
-navigationBar(players, controlPanel);
+
 
 export default players;
