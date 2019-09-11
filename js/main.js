@@ -25,12 +25,12 @@ document.querySelector('#btnNewCities').addEventListener('click', () => {
   initGeo(board.fields); // zainicjowanie miast
   console.log('Klik!');
 });
-// document.querySelector('#btnNewPlayers').addEventListener('click', () => {
-document.querySelector('.newGame').style.display = '';
-document.querySelector('#playersPanel').style.display = '';
-document.querySelector('#citiesPanel').style.display = 'none';
-// newGame(); // zainicjowanie graczy
-// });
+document.querySelector('#btnNewPlayers').addEventListener('click', () => {
+  document.querySelector('.newGame').style.display = '';
+  document.querySelector('#playersPanel').style.display = '';
+  document.querySelector('#citiesPanel').style.display = 'none';
+
+});
 
 
 
