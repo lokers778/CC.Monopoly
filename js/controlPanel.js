@@ -36,18 +36,13 @@ class ControlPanel {
       const [prevMove, nextMove] = currentPlayer.updatePosition(this.dices.throwDices());
       const prevField = this.board.getField(prevMove);
       const nextField = this.board.getField(nextMove);
-      const dicePosition = currentPlayer.position;
       this.updateDicesView();
       prevField.playerOutMe(currentPlayer);
       nextField.playerOnMe(currentPlayer);
-      
-      if(dicePosition===currentPlayer.currentPosition()){
-        nextField.renderControlPanelFieldView(currentPlayer, fieldPanelNode);
+      nextField.renderControlPanelFieldView(currentPlayer, fieldPanelNode);
+      if(nextField!=currentPlayer.currentPosition()){
+        movePlayer(currentPlayer,nextField);
       }
-      else{
-        this.movePlayer(currentPlayer,dicePosition);
-      }
-      
     }
   }
 
@@ -131,12 +126,22 @@ class ControlPanel {
   }
 
   movePlayer(currentPlayer,dicePosition){
+      if(dicePosition<currentPlayer.currentPosition()){
       const [newprevMove, newnextMove] = currentPlayer.updatePosition(Math.abs(dicePosition-currentPlayer.currentPosition()));
-            const newnextField = this.board.getField(newnextMove);
+      const newnextField = this.board.getField(newnextMove);
             const newprevField = this.board.getField(newprevMove);
             newprevField.playerOutMe(currentPlayer);
             newnextField.playerOnMe(currentPlayer);
             newnextField.renderControlPanelFieldView(currentPlayer, fieldPanelNode);
+      }
+      else{
+      const [newprevMove, newnextMove] = currentPlayer.updatePosition(Math.abs(39-dicePosition+currentPlayer.currentPosition()));
+      const newnextField = this.board.getField(newnextMove);
+          const newprevField = this.board.getField(newprevMove);
+          newprevField.playerOutMe(currentPlayer);
+          newnextField.playerOnMe(currentPlayer);
+          newnextField.renderControlPanelFieldView(currentPlayer, fieldPanelNode);
+      } 
             
           }
 }

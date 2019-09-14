@@ -22,6 +22,7 @@ class Jail extends Field{
                     player.goBancrupt();
                 }
                 else{
+                    alert('Wpłacasz kaucję - wychodzisz z więzienia')
                     player.status = 'wolny';
                 }
                 

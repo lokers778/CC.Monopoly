@@ -28,12 +28,20 @@ class Chance extends Field {
       player.goBancrupt();
   }
 }
+loseMoneyProp(player,atr) {
+  player.updateMoney(-1*(atr*(player.properties.length()-1)));
+
+  if (player.currentMoneyAmount() < 0) {
+    player.goBancrupt();
+}
+
+}
   goSomewhere(player,atr) {
     player.setPosition(atr);
   }
 
   prisonBreak(player){
-    player.prisonEscapeCard++;
+    player.prisonEscapeCard=player.prisonEscapeCard+1;
   }
 
   playerOnMe(player) {
@@ -53,6 +61,9 @@ class Chance extends Field {
     else if(lista[1]===4){
       this.prisonBreak(player);
   }
+    else if(lista[1]===5){
+      this.loseMoneyProp(player,lista[2]);
+    }
 }
 
   
